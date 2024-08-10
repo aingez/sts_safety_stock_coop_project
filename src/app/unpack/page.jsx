@@ -1,9 +1,38 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 
 function UnpackPage() {
+  const [formData, setFormData] = useState({
+    date: '',
+    employeeId: '',
+    employeeName: '',
+    palletNo: '',
+    serial: ''
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleClear = () => {
+    setFormData({
+      date: '',
+      employeeId: '',
+      employeeName: '',
+      palletNo: '',
+      serial: ''
+    });
+  };
+
+// function UnpackPage() {
   return (
     <div>
-      <h1 className='text-5xl pb-5 '>
+      <h1 className='text-5xl pb-5 font-bold'>
         Un-Packing
       </h1>
 
@@ -38,8 +67,12 @@ function UnpackPage() {
           </li>
         </ul>
 
-        <button className='mx-1 bg-rose-600 hover:bg-rose-400 text-white font-bold py-1 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded'>Clear</button>
-        <button className='mx-1 bg-lime-500 hover:bg-lime-400 text-white font-bold py-1 px-4 border-b-4 border-lime-700 hover:border-lime-500 rounded' type="submit">Submit</button>
+        <button type="button" onClick={handleClear} className='mx-1 bg-rose-600 hover:bg-rose-400 text-white font-bold py-1 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded'>
+          Clear
+        </button>
+        <button className='mx-1 bg-lime-500 hover:bg-lime-400 text-white font-bold py-1 px-4 border-b-4 border-lime-700 hover:border-lime-500 rounded' type="submit">
+          Submit
+        </button>
 
       </form>
     </div>

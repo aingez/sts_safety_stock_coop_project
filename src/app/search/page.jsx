@@ -3,7 +3,7 @@ import React from 'react'
 function SearchPage() {
   return (
     <div>
-      <h1 className='text-5xl pb-5 '>
+      <h1 className='text-5xl pb-5 font-bold'>
         Search Part
       </h1>
 
