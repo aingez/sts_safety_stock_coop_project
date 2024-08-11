@@ -9,6 +9,7 @@ function Nav() {
         <li className='mx-2 font-bold text-white active:opacity-50'><Link href="/">M-Stock</Link></li>
         <li className='mx-2 text-white active:opacity-50'><Link href="/pack">Pack</Link></li>
         <li className='mx-2 text-white active:opacity-50'><Link href="/unpack">Unpack</Link></li>
+        <li className='mx-2 text-white active:opacity-50'><Link href="/alert">Alert</Link></li>
         <li className='mx-2 text-white active:opacity-50'><Link href="/search">Search</Link></li>
     </ul>
   )
