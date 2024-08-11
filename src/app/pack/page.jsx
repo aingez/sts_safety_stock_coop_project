@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState } from 'react';
 
 const today = new Date().toISOString().split('T')[0]; // Format date as YYYY-MM-DD
@@ -57,6 +58,7 @@ export default function PackPage() {
       <h1 className='text-5xl pb-5 font-bold'>
         Packing
       </h1>
+
       <form method="post" onSubmit={handleSubmit}>
         {/* part type input */}
         <p>
@@ -78,29 +80,30 @@ export default function PackPage() {
         </p>
 
         {/* date input (auto/editable) */}
-        <label>
-          Date: <input name="date" defaultValue={today} />
+        <label className='font-semibold'>
+          Date: <input name="date" defaultValue={today} className='font-light bg-gray-200'/>
         </label>
         <br />
         {/* employee id input */}
-        <label>
-          Employee ID: <input name="employeeId" />
+        <label className='font-semibold'>
+          Employee ID: <input name="employeeId" className='font-light bg-gray-200'/>
         </label>
-        <label>
-          Employee Name: <input name="employeeName" />
+        <label className='font-semibold'>
+          Employee Name: <input name="employeeName" className='font-light bg-gray-200'/>
         </label>
         <br />
         {/* pallet id input */}
-        <label>
-          Pallet ID: <input name="palletId" />
+        <label className='font-semibold'>
+          Pallet ID: <input name="palletId" className='font-light bg-gray-200'/>
         </label>
         <br />
 
         {/* serial number inputs */}
         {formData.serialNumbers.map((serialNumber, index) => (
-          <label key={index}>
+          <label key={index} className='font-semibold'>
             Serial Number {index + 1}:
             <input
+              className='font-light bg-gray-200'
               name={`serialNumber${index}`}
               value={serialNumber}
               onChange={(e) => handleSerialNumberChange(e, index)}
