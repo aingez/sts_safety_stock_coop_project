@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.0.1",
     "@nextui-org/button": "^2.0.37",
+    "@prisma/client": "^5.18.0",
     "antd": "^5.20.1",
     "framer-motion": "^11.3.24",
     "next": "14.2.5",
