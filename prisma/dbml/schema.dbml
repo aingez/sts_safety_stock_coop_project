@@ -1,0 +1,54 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table staff {
+  id Int [pk]
+  name String [not null]
+  pack pallet_status [not null]
+}
+
+Table pallet_status {
+  id String [pk]
+  row_location Int [not null]
+  column_location Int [not null]
+  is_packing Boolean [not null]
+  packer staff [not null]
+  packer_id Int [not null]
+  current_stock_part current_stock_part [not null]
+}
+
+Table current_stock_part {
+  serial String [pk]
+  part_type part_quantity [not null]
+  type String [not null]
+  model String [not null]
+  pack_date DateTime [not null]
+  pallet pallet_status [not null]
+  pallet_name String [not null]
+}
+
+Table part_quantity {
+  type String [pk]
+  model String [not null]
+  quantity Int [not null]
+  current_stock_part current_stock_part [not null]
+}
+
+Table history {
+  id Int [pk, increment]
+  type String [not null]
+  model String [not null]
+  serial String [unique, not null]
+  pallet_name String [not null]
+  pack_date DateTime [not null]
+  packer_id Int [not null]
+  unpack_date DateTime [not null]
+  unpacker_id Int [not null]
+}
+
+Ref: pallet_status.packer_id > staff.id
+
+Ref: current_stock_part.type > part_quantity.type
+
+Ref: current_stock_part.pallet_name > pallet_status.id

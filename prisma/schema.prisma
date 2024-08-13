@@ -4,63 +4,71 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// Schema visualizer : https://notiz.dev/blog/prisma-dbml-generator
+// npm prisma generate
+
 generator client {
   provider = "prisma-client-js"
 }
+// generator dbml {
+//   provider = "prisma-dbml-generator"
+// }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-model Staff {
-  id       Int        @id @default(autoincrement())
-  name     String
-  PalletStatus PalletStatus[]
-  PackPartHistory PartHistory[] @relation("PackPartHistory")
-  UnpackPartHistory PartHistory[] @relation("UnpackPartHistory")
+// 1 : staff table
+model staff {
+  id        Int   @id @unique
+  name      String
+
+  pack     pallet_status[]
 }
 
-model PalletStatus {
-  id          String     @id
-  rowLocation Int
-  packDate    DateTime?
-  status      String
-  staffId     Int?
-  staff       Staff?      @relation(fields: [staffId], references: [id])
-  currentStock CurrentStock?
+// 2 : pallet status table
+model pallet_status {
+  id       String @id @unique
+  row_location      Int
+  column_location   Int
+  is_packing        Boolean // true if packed, false if unpacked
+  packer            staff @relation(fields: [packer_id], references: [id])
+  packer_id         Int
+
+  current_stock_part current_stock_part[]
 }
 
-model CurrentStock {
-  serial   String @id
-  type     String
-  model    String
-  palletId String @unique
-  palletStatus PalletStatus? @relation(fields: [palletId], references: [id])
-  partQuantity PartQuantity? @relation(fields: [type], references: [type])
-  partHistory PartHistory[]
+// 3 : current stock part table
+model current_stock_part {
+  serial            String @id @unique
+  // FK
+  part_type         part_quantity @relation(fields: [type], references: [type])
+  type              String
+  model             String
+  pack_date         DateTime @default(now()) @db.Date
+  // FK
+  pallet            pallet_status @relation(fields: [pallet_name], references: [id])
+  pallet_name       String
 }
 
-model PartQuantity {
-  type     String @id
-  model    String
-  quantity Int
-  currentStock CurrentStock[]
+// 4 : part quantity table
+model part_quantity {
+  type              String @id
+  model             String
+  quantity          Int
+  current_stock_part current_stock_part[]
 }
 
-model PartHistory {
-  id           Int        @id @default(autoincrement())
-  serial       String
-  type         String
-  model        String
-  palletId     String
-  packDate     DateTime
-  unpackDate   DateTime
-  packStaffId  Int
-  unpackStaffId Int
-  packStaff   Staff @relation("PackPartHistory", fields: [packStaffId], references: [id])
-  unpackStaff Staff @relation("UnpackPartHistory", fields: [unpackStaffId], references: [id])
-  currentStock CurrentStock @relation(fields: [serial], references: [serial])
-
-  @@unique([serial, palletId, packDate])
+// 5 : history table
+model history {
+  id                Int @id @default(autoincrement())
+  type              String
+  model             String
+  serial            String @unique
+  pallet_name       String
+  pack_date         DateTime @default(now()) @db.Date
+  packer_id         Int
+  unpack_date       DateTime @default(now()) @db.Date
+  unpacker_id       Int
 }
