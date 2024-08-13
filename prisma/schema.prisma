@@ -12,3 +12,55 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Staff {
+  id       Int        @id @default(autoincrement())
+  name     String
+  PalletStatus PalletStatus[]
+  PackPartHistory PartHistory[] @relation("PackPartHistory")
+  UnpackPartHistory PartHistory[] @relation("UnpackPartHistory")
+}
+
+model PalletStatus {
+  id          String     @id
+  rowLocation Int
+  packDate    DateTime?
+  status      String
+  staffId     Int?
+  staff       Staff?      @relation(fields: [staffId], references: [id])
+  currentStock CurrentStock?
+}
+
+model CurrentStock {
+  serial   String @id
+  type     String
+  model    String
+  palletId String @unique
+  palletStatus PalletStatus? @relation(fields: [palletId], references: [id])
+  partQuantity PartQuantity? @relation(fields: [type], references: [type])
+  partHistory PartHistory[]
+}
+
+model PartQuantity {
+  type     String @id
+  model    String
+  quantity Int
+  currentStock CurrentStock[]
+}
+
+model PartHistory {
+  id           Int        @id @default(autoincrement())
+  serial       String
+  type         String
+  model        String
+  palletId     String
+  packDate     DateTime
+  unpackDate   DateTime
+  packStaffId  Int
+  unpackStaffId Int
+  packStaff   Staff @relation("PackPartHistory", fields: [packStaffId], references: [id])
+  unpackStaff Staff @relation("UnpackPartHistory", fields: [unpackStaffId], references: [id])
+  currentStock CurrentStock @relation(fields: [serial], references: [serial])
+
+  @@unique([serial, palletId, packDate])
+}
