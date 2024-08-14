@@ -46,7 +46,7 @@ model current_stock_part {
   // part_type         part_quantity @relation(fields: [type], references: [type])
   type              partType
   model             String
-  pack_date         DateTime @db.Date
+  pack_date         DateTime
   // FK
   pallet            pallet_status @relation(fields: [pallet_name], references: [pallet_id])
   pallet_name       String
@@ -67,9 +67,9 @@ model history {
   model             String
   serial            String @unique
   pallet_name       String
-  pack_date         DateTime @db.Date
+  pack_date         DateTime
   packer_id         Int
-  unpack_date       DateTime @db.Date
+  unpack_date       DateTime
   unpacker_id       Int
 }
 
