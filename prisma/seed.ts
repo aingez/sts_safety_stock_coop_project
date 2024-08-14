@@ -47,24 +47,25 @@ async function main() {
         }
     })
 
-   const part1 = await prisma.current_stock_part.create({
-        data: {
-            serial: "235478",
-            model: "A",
-            type: "Head",
-            row_location: 1,
-            column_location: 1,
+//    const part1 = await prisma.current_stock_part.create({
+//         data: {
+//             serial: "235478",
+//             model: "A",
+//             type: "Head",
+//             row_location: 1,
+//             column_location: 1,
 
-        }
-   })
+//         }
+//    })
 
 // Run the `main` function
 // catch any errors and log them
 // finally, close the database connection
-main ()
-    .catch((e) => {
-        console.error(e);
-    })
-    .finally(async () => {
-        await prisma.$disconnect();
-    }
+// main ()
+//     .catch((e) => {
+//         console.error(e);
+//     })
+//     .finally(async () => {
+//         await prisma.$disconnect();
+//     }
+// )
