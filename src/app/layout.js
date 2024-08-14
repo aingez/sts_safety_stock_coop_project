@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Nav />
-          <div className="mx-10">
+          <div className="mx-20">
             <AntdRegistry>
               {children}
             </AntdRegistry>
