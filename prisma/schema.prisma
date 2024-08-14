@@ -21,7 +21,7 @@ datasource db {
 
 // 1 : staff table
 model staff {
-  id        Int   @id @unique
+  staff_id        Int   @id @unique
   name      String
 
   pack     pallet_status[]
@@ -29,11 +29,11 @@ model staff {
 
 // 2 : pallet status table
 model pallet_status {
-  id       String @id @unique
+  pallet_id         String @id @unique
   row_location      Int
   column_location   Int
   is_packing        Boolean // true if packed, false if unpacked
-  packer            staff @relation(fields: [packer_id], references: [id])
+  packer            staff @relation(fields: [packer_id], references: [staff_id])
   packer_id         Int
 
   current_stock_part current_stock_part[]
@@ -43,32 +43,38 @@ model pallet_status {
 model current_stock_part {
   serial            String @id @unique
   // FK
-  part_type         part_quantity @relation(fields: [type], references: [type])
-  type              String
+  // part_type         part_quantity @relation(fields: [type], references: [type])
+  type              partType
   model             String
-  pack_date         DateTime @default(now()) @db.Date
+  pack_date         DateTime @db.Date
   // FK
-  pallet            pallet_status @relation(fields: [pallet_name], references: [id])
+  pallet            pallet_status @relation(fields: [pallet_name], references: [pallet_id])
   pallet_name       String
 }
 
 // 4 : part quantity table
-model part_quantity {
-  type              String @id
-  model             String
-  quantity          Int
-  current_stock_part current_stock_part[]
-}
+// model part_quantity {
+//   type              partType @id
+//   model             String
+//   quantity          Int
+//   current_stock_part current_stock_part[]
+// }
 
 // 5 : history table
 model history {
-  id                Int @id @default(autoincrement())
-  type              String
+  history_id                Int @id @default(autoincrement())
+  type              partType
   model             String
   serial            String @unique
   pallet_name       String
-  pack_date         DateTime @default(now()) @db.Date
+  pack_date         DateTime @db.Date
   packer_id         Int
-  unpack_date       DateTime @default(now()) @db.Date
+  unpack_date       DateTime @db.Date
   unpacker_id       Int
+}
+
+enum partType {
+  Block
+  Head
+  Crankshaft
 }
