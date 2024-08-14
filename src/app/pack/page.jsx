@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState } from 'react';
-import { DatePicker } from "antd";
-import dayjs from 'dayjs';
 
 export default function PackPage() {
   const partTypeSerialCount = {
@@ -11,98 +9,107 @@ export default function PackPage() {
     'Crankshaft': 12,
   };
 
-  const [date, setDate] = useState(dayjs());
-
-  const defaultFormData = {
+  const [formData, setFormData] = useState({
     employeeId: '',
     employeeName: '',
     palletId: '',
-    partType: 'Block',
-    serialNumbers: Array(partTypeSerialCount['Block']).fill('')
-  };
+    partType: '',
+    serialNumbers: [],
+  });
 
-  const [formData, setFormData] = useState(defaultFormData);
-
-  const handleDateChange = (newDate) => {
-    setDate(newDate);
-  };
-
-  const handleReset = () => {
-    setDate(dayjs());
-    setFormData(defaultFormData);
-  };
-
-  const handlePartTypeChange = (partType) => {
+  const handlePalletIdChange = (e) => {
+  const palletId = e.target.value;
+  if (palletId.length === 5) {
+    // check first 2 characters
+    const partType = palletId.substring(0, 2);
+    switch (partType) {
+      case 'BL':
+        setFormData({
+          ...formData,
+          palletId,
+          partType: 'Block',
+          serialNumbers: Array(partTypeSerialCount['Block']).fill(''),
+        });
+        break;
+      case 'HD':
+        setFormData({
+          ...formData,
+          palletId,
+          partType: 'Head',
+          serialNumbers: Array(partTypeSerialCount['Head']).fill(''),
+        });
+        break;
+      case 'CR':
+        setFormData({
+          ...formData,
+          palletId,
+          partType: 'Crankshaft',
+          serialNumbers: Array(partTypeSerialCount['Crankshaft']).fill(''),
+        });
+        break;
+      default:
+        setFormData({
+          ...formData,
+          palletId,
+          partType: '',
+          serialNumbers: [],
+        });
+        break;
+    }
+    // else show no serial input
+  }
+  else {
     setFormData({
       ...formData,
-      partType,
-      serialNumbers: Array(partTypeSerialCount[partType]).fill('')
+      palletId,
+      partType: '',
+      serialNumbers: [],
     });
-  };
+  }
+}
 
-  const handleInputChange = (e, field) => {
-    setFormData({ ...formData, [field]: e.target.value });
-  };
-
-  const handleSerialNumberChange = (e, index) => {
-    const newSerialNumbers = [...formData.serialNumbers];
-    newSerialNumbers[index] = e.target.value;
-    setFormData({ ...formData, serialNumbers: newSerialNumbers });
-  };
-
-  const handleSave = () => {
-    console.log({ ...formData, date: date.format('YYYY-MM-DD') });
-    handleReset();
-  };
 
   return (
     <div>
-      <h1>Un-Packing</h1>
+      <h1>Packing</h1>
 
       <form>
         <div>
-          <div>
-            Date:
-            <DatePicker value={date} onChange={handleDateChange} />
-          </div>
-          {['employeeId', 'employeeName', 'palletId'].map((field) => (
-            <div key={field}>
-              {field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}:
-              <input
-                type='text'
-                value={formData[field]}
-                onChange={(e) => handleInputChange(e, field)}
-              />
-            </div>
-          ))}
+          {/* input employee id */}
+          <label>Employee ID:</label>
+          <input
+            type='int'
+          />
+          {/* input employee name */}
+          <label>Employee Name:</label>
+          <input
+            type='text'
+          />
         </div>
-
         <div>
-          {Object.keys(partTypeSerialCount).map((partType) => (
-            <button
-              key={partType}
-              type="button"
-              onClick={() => handlePartTypeChange(partType)}
-            >
-              {partType}
-            </button>
-          ))}
+          {/* input pallet id */}
+          <label>Pallet ID:</label>
+          <input
+            type='text'
+            onInput={(e) => handlePalletIdChange(e)}
+
+          />
         </div>
 
         <div>
           {formData.serialNumbers.map((serialNumber, index) => (
-            <label key={index}>
-              S. No. {index + 1}:
+            <li key={index}>
+              Serial {index + 1}:
               <input
                 type='text'
                 value={serialNumber}
                 onChange={(e) => handleSerialNumberChange(e, index)}
               />
-            </label>
+            </li>
           ))}
         </div>
 
-        <div>
+        {/* <div>
           <button
             type='button'
             onClick={handleReset}
@@ -115,7 +122,7 @@ export default function PackPage() {
           >
             Save
           </button>
-        </div>
+        </div> */}
       </form>
     </div>
   );
