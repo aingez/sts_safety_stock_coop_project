@@ -1,65 +1,129 @@
-'use client'
+// import React from 'react';
+// import { Doughnut } from 'react-chartjs-2';
+// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+// import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-import React from 'react'
-import { Doughnut } from 'react-chartjs-2'
-import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend
-} from 'chart.js';
+// ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+// function DoughnutChart({ data, options }) {
+//     const chartOptions = {
+//         ...options,
+//         plugins: {
+//             ...options.plugins,
+//             datalabels: {
+//                 color: '#fff',
+//                 formatter: (value, ctx) => {
+//                     const label = ctx.chart.data.labels[ctx.dataIndex];
+//                     return `${label} : ${value}`;
+//                 }
+//             }
+//         }
+//     };
 
-import blockStats from './testing_data/blockStatusMock.json'
-import crankStatus from './testing_data/crankStatusMock.json'
-import headStatus from './testing_data/headStatusMock.json'
+//     return <Doughnut data={data} options={chartOptions} />;
+// }
 
-function DashPage() {
-    // Function to prepare data for chart
-    // input: data - array of objects
-    // output: object with labels and datasets
-    const prepareChartData = (data) => {
-        return {
-            labels: data.map(item => item.model),
-            datasets: [{
-                data: data.map(item => item.qty),
-                backgroundColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(153, 102, 255)',
-                    'rgb(255, 159, 64)'
-                ],
-                hoverOffset: 4
-            }]
-        };
-    };
+// export default DoughnutChart;
 
-    const blockChartData = prepareChartData(blockStats);
-    const crankChartData = prepareChartData(crankStatus);
-    const headChartData = prepareChartData(headStatus);
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-    return (
-        <div class='flex flex-row'>
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-            <div style={{ width: '20%', height: '20%' }}>
-                <h2>Block Status</h2>
-                <Doughnut data={blockChartData} />
-            </div>
+function DoughnutChart({ data, options, chartName }) {
+  const defaultOptions = {
+    plugins: {
+      legend: {
+        display: false,
+        position: 'bottom',
+        labels: {
+          generateLabels: (chart) => {
+            const datasets = chart.data.datasets;
+            return chart.data.labels.map((label, index) => {
+              const dataset = datasets[0];
+              const value = dataset.data[index];
+              return {
+                text: `${label}: ${value}`,
+                fillStyle: dataset.backgroundColor[index],
+                hidden: isNaN(dataset.data[index]),
+                lineCap: 'round',
+                lineDash: [],
+                lineDashOffset: 0,
+                lineJoin: 'round',
+                lineWidth: 1,
+                strokeStyle: dataset.backgroundColor[index],
+                pointStyle: 'circle',
+                index: index
+              }
+            });
+          }
+        }
+      },
+      datalabels: {
+        display: true,
+        color: 'black',
+        font: {
+            size: 10,
+            weight: 'bold',
+        },
+        formatter: (value, ctx) => {
+          let label = ctx.chart.data.labels[ctx.dataIndex];
+          return `${label} : ${value}`;
+        },
+      },
+    },
+    // Add this new option for the center text
+    centerText: {
+        display: true,
+    //   text: "Total"
+        text: chartName
+    }
+  };
 
-            <div style={{ width: '20%', height: '20%' }}>
-                <h2>Crank Status</h2>
-                <Doughnut data={crankChartData} />
-            </div>
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options,
+    plugins: {
+      ...defaultOptions.plugins,
+      ...options?.plugins,
+    }
+  };
 
-            <div style={{ width: '20%', height: '20%' }}>
-                <h2>Head Status</h2>
-                <Doughnut data={headChartData} />
-            </div>
-        </div>
-    )
+  // Add this new plugin to draw the center text
+  const textCenter = {
+    id: 'textCenter',
+    afterDraw: (chart) => {
+      if (chart.config.options.centerText.display !== false) {
+        const ctx = chart.ctx;
+        const centerConfig = chart.config.options.centerText;
+
+        // Get chart height and width
+        const chartArea = chart.chartArea;
+        const width = chartArea.right - chartArea.left;
+        const height = chartArea.bottom - chartArea.top;
+
+        // Set font settings
+        ctx.font = "bold 16px Arial";
+        ctx.fillStyle = "black";
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // Calculate text position
+        const textX = (chartArea.left + chartArea.right) / 2;
+        const textY = (chartArea.top + chartArea.bottom) / 2;
+
+        // Draw text
+        ctx.fillText(centerConfig.text, textX, textY);
+      }
+    }
+  };
+
+  // Add the new plugin to the chart
+  ChartJS.register(textCenter);
+
+  return <Doughnut data={data} options={mergedOptions} />;
 }
 
-export default DashPage
+export default DoughnutChart;
