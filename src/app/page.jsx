@@ -1,7 +1,7 @@
 'use client'
 
 import DoughnutChart from './components/donutDash';
-import reminderTable from './components/AlertTable';
+import ReusableTable from './components/AlertTable';  // Import the reusable table
 import React, { useState, useEffect } from 'react';
 import camStatus from './components/testing_data/camStatusMock.json';
 import blockStatus from './components/testing_data/blockStatusMock.json';
@@ -60,7 +60,7 @@ function ModelQuantityChart() {
 
   return (
     <div>
-      <h2 className='text-4xl font-bold pb-5'>Overview</h2>
+      <h2 className='text-4xl font-ligh pb-5'>Overview</h2>
 
       <div className='flex flex-row space-x-10 justify-center py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
         {/* Camshaft Chart */}
@@ -84,13 +84,15 @@ function ModelQuantityChart() {
         </div>
       </div>
 
-      <div className='flex flex-row space-x-10 py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
-        <h2 className='text-2xl font-normal pb-5 pl-5 justify-start'>Reminder</h2>
-        <reminderTable />
+      <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
+      <div className='flex flex-col space-x-10 pt-4 pb-2 mb-5 bg-rose-100 rounded-lg bg-neutral-100 justify-center'>
+        <div className='px-5'>
+          <ReusableTable pageSize={3}/>
+        </div>
       </div>
 
+      <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
       <div className='flex flex-row space-x-10 py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
-        <h2 className='text-2xl font-normal pb-5 pl-5 justify-start'>Layout</h2>
       </div>
 
     </div>
