@@ -1,0 +1,48 @@
+
+[
+    {
+        "partType": "Block",
+        "palletNumber": "BL07A",
+        "packingDate": "2022-01-01T00:00:00.000Z",
+        "plantCode": "1",
+        "plantType": "Engine",
+        "rowLocation": 1,
+        "laneLocation": 2
+    },
+    {
+        "partType": "Head",
+        "palletNumber": "HD08B",
+        "packingDate": "2022-01-01T00:00:00.000Z",
+        "plantCode": "2",
+        "plantType": "Engine",
+        "rowLocation": 2,
+        "laneLocation": 3
+    },
+    {
+        "partType": "Crank",
+        "palletNumber": "CR09C",
+        "packingDate": "2022-01-01T00:00:00.000Z",
+        "plantCode": "3",
+        "plantType": "Engine",
+        "rowLocation": 3,
+        "laneLocation": 4
+    },
+    {
+        "partType": "Cam",
+        "palletNumber": "CM10D",
+        "packingDate": "2022-01-01T00:00:00.000Z",
+        "plantCode": "2",
+        "plantType": "Engine",
+        "rowLocation": 4,
+        "laneLocation": 5
+    },
+    {
+        "partType": "Block",
+        "palletNumber": "BL11E",
+        "packingDate": "2022-01-01T00:00:00.000Z",
+        "plantCode": "3",
+        "plantType": "Engine",
+        "rowLocation": 5,
+        "laneLocation": 6
+    }
+]
