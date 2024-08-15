@@ -1,30 +1,3 @@
-// import React from 'react';
-// import { Doughnut } from 'react-chartjs-2';
-// import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-// import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-// ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
-
-// function DoughnutChart({ data, options }) {
-//     const chartOptions = {
-//         ...options,
-//         plugins: {
-//             ...options.plugins,
-//             datalabels: {
-//                 color: '#fff',
-//                 formatter: (value, ctx) => {
-//                     const label = ctx.chart.data.labels[ctx.dataIndex];
-//                     return `${label} : ${value}`;
-//                 }
-//             }
-//         }
-//     };
-
-//     return <Doughnut data={data} options={chartOptions} />;
-// }
-
-// export default DoughnutChart;
-
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';

@@ -1,6 +1,7 @@
 'use client'
 
 import DoughnutChart from './components/donutDash';
+import reminderTable from './components/AlertTable';
 import React, { useState, useEffect } from 'react';
 import camStatus from './components/testing_data/camStatusMock.json';
 import blockStatus from './components/testing_data/blockStatusMock.json';
@@ -8,29 +9,16 @@ import headStatus from './components/testing_data/headStatusMock.json';
 import crankStatus from './components/testing_data/crankStatusMock.json';
 
 function ModelQuantityChart() {
-  const [chartData, setChartData] = useState(null);
-  const [total, setTotal] = useState(0);
-  const [partType, setPartType] = useState("camshaft"); // Default to camshaft
-
-  const dataMap = {
-    camshaft: camStatus,
-    block: blockStatus,
-    head: headStatus,
-    crank: crankStatus,
-  };
-
-  const handlePartTypeChange = (type) => {
-    setPartType(type);
-  };
+  const [chartData, setChartData] = useState({});
+  const [total, setTotal] = useState({});
 
   useEffect(() => {
-    const currentData = dataMap[partType];
+    // Helper function to prepare chart data for each part
+    const prepareChartData = (data) => {
+      const labels = data.model.map(item => item.model);
+      const quantities = data.model.map(item => item.qty);
 
-    if (currentData) {
-      const labels = currentData.model.map(item => item.model);
-      const quantities = currentData.model.map(item => item.qty);
-
-      setChartData({
+      return {
         labels: labels,
         datasets: [
           {
@@ -46,28 +34,65 @@ function ModelQuantityChart() {
             ],
           },
         ],
-      });
-      setTotal(currentData.total);
-    }
-  }, [partType]);
+      };
+    };
 
-  if (!chartData) {
+    // Prepare data for all part types
+    setChartData({
+      camshaft: prepareChartData(camStatus),
+      block: prepareChartData(blockStatus),
+      head: prepareChartData(headStatus),
+      crank: prepareChartData(crankStatus),
+    });
+
+    // Set total parts for each part type
+    setTotal({
+      camshaft: camStatus.total,
+      block: blockStatus.total,
+      head: headStatus.total,
+      crank: crankStatus.total,
+    });
+  }, []);
+
+  if (!chartData.camshaft || !chartData.block || !chartData.head || !chartData.crank) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h2>Model Quantity Distribution</h2>
-      <div>
-        {/* Buttons to switch between part types */}
-        <button onClick={() => handlePartTypeChange("camshaft")}>Camshaft</button>
-        <button onClick={() => handlePartTypeChange("block")}>Block</button>
-        <button onClick={() => handlePartTypeChange("head")}>Head</button>
-        <button onClick={() => handlePartTypeChange("crank")}>Crank</button>
+      <h2 className='text-4xl font-bold pb-5'>Overview</h2>
+
+      <div className='flex flex-row space-x-10 justify-center py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
+        {/* Camshaft Chart */}
+        <div style={{ width: '20%'}}>
+          <DoughnutChart data={chartData.camshaft} chartName="Camshaft" sumParts={total.camshaft} />
+        </div>
+
+        {/* Block Chart */}
+        <div style={{ width: '20%'}}>
+          <DoughnutChart data={chartData.block} chartName="Block" sumParts={total.block} />
+        </div>
+
+        {/* Head Chart */}
+        <div style={{ width: '20%'}}>
+          <DoughnutChart data={chartData.head} chartName="Head" sumParts={total.head} />
+        </div>
+
+        {/* Crank Chart */}
+        <div style={{ width: '20%'}}>
+          <DoughnutChart data={chartData.crank} chartName="Crank" sumParts={total.crank} />
+        </div>
       </div>
-      <div style={{ width: '25%' }}>
-        <DoughnutChart data={chartData} chartName={partType} sumParts={total}/>
+
+      <div className='flex flex-row space-x-10 py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
+        <h2 className='text-2xl font-normal pb-5 pl-5 justify-start'>Reminder</h2>
+        <reminderTable />
       </div>
+
+      <div className='flex flex-row space-x-10 py-10 mb-5 bg-rose-100 rounded-lg bg-neutral-100'>
+        <h2 className='text-2xl font-normal pb-5 pl-5 justify-start'>Layout</h2>
+      </div>
+
     </div>
   );
 }

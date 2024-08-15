@@ -1,10 +1,8 @@
-// Alert table as a reusable component
+import React from 'react';
+import { Table } from 'antd';
+import data from '../components/testing_data/alertMock.json';
 
-import React from 'react'
-import { Table } from 'antd'
-import data from '../components/testing_data/alertMock.json'
-
-function AlertTable() {
+function AlertTable({ pageSize }) {
     const columns = [
         {
             title: 'Part Type',
@@ -46,13 +44,9 @@ function AlertTable() {
 
     return (
         <div>
-            <Table
-                columns={columns}
-                dataSource={data}
-                pagination={{ pageSize: 3 }}
-            />
+            <Table columns={columns} dataSource={data} pagination={{ pageSize }} />
         </div>
-    )
+    );
 }
 
-export default AlertTable
+export default AlertTable;
