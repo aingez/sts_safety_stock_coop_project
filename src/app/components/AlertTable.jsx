@@ -1,7 +1,5 @@
 // Alert table as a reusable component
 
-// 'use server'
-
 import React from 'react'
 import { Table } from 'antd'
 import data from '../components/testing_data/alertMock.json'
