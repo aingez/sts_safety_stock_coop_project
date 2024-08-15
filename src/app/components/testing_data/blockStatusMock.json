@@ -1,4 +1,6 @@
-[
+{
+    "type": "Block",
+    "model": [
     {
         "model": "HV",
         "qty": 43
@@ -7,4 +9,6 @@
         "model": "CONV",
         "qty": 72
     }
-]
+    ],
+    "total": 115
+}

@@ -32,7 +32,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-function DoughnutChart({ data, options, chartName }) {
+function DoughnutChart({ data, options, chartName, sumParts }) {
   const defaultOptions = {
     plugins: {
       legend: {
@@ -65,7 +65,7 @@ function DoughnutChart({ data, options, chartName }) {
         display: true,
         color: 'black',
         font: {
-            size: 10,
+            size: 11,
             weight: 'bold',
         },
         formatter: (value, ctx) => {
@@ -78,7 +78,7 @@ function DoughnutChart({ data, options, chartName }) {
     centerText: {
         display: true,
     //   text: "Total"
-        text: chartName
+        text: chartName + " : " + sumParts
     }
   };
 

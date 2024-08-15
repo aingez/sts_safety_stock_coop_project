@@ -1,4 +1,6 @@
-[
+{
+    "type": "Crankshaft",
+    "model": [
     {
         "model": "1NR",
         "qty": 132
@@ -11,4 +13,6 @@
         "model": "3NR",
         "qty": 278
     }
-]
+],
+"total": 566
+}

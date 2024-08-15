@@ -1,26 +1,30 @@
-[
-    {
-        "model": "889F-IN",
-        "qty": 453
-    },
-    {
-        "model": "889F-EX",
-        "qty": 453
-    },
-    {
-        "model": "926F-IN",
-        "qty": 562
-    },
-    {
-        "model": "926F-EX",
-        "qty": 562
-    },
-    {
-        "model": "D13E-IN",
-        "qty": 324
-    },
-    {
-        "model": "D13E-EX",
-        "qty": 324
-    }
-]
+{
+    "type": "Camshaft",
+    "model": [
+        {
+            "model": "889F-IN",
+            "qty": 453
+        },
+        {
+            "model": "889F-EX",
+            "qty": 453
+        },
+        {
+            "model": "926F-IN",
+            "qty": 562
+        },
+        {
+            "model": "926F-EX",
+            "qty": 562
+        },
+        {
+            "model": "D13E-IN",
+            "qty": 324
+        },
+        {
+            "model": "D13E-EX",
+            "qty": 324
+        }
+    ],
+    "total": 2678
+}
