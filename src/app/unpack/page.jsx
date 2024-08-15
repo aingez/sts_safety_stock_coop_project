@@ -1,129 +1,121 @@
 'use client'
 
 import React, { useState } from 'react';
-
-const today = new Date().toISOString().split('T')[0]; // Format date as YYYY-MM-DD
+import { Table, Input } from 'antd';
 
 export default function PackPage() {
   const partTypeSerialCount = {
     'Block': 6,
     'Head': 8,
     'Crankshaft': 12,
-    // Add more part types here if needed
   };
 
   const [formData, setFormData] = useState({
-    date: today,
     employeeId: '',
     employeeName: '',
     palletId: '',
-    partType: 'Block',  // Default part type
-    serialNumbers: Array(partTypeSerialCount['Block']).fill('') // set block serial numbers as default
+    partType: '',
+    serialNumbers: [],
   });
 
-  function handleSubmit(e) {
-    e.preventDefault(); // Prevent default form submission
-    const data = new FormData(e.target);
-    const submittedData = {
-      date: data.get('date') || today,
-      employeeId: data.get('employeeId'),
-      employeeName: data.get('employeeName'),
-      palletId: data.get('palletId'),
-      partType: formData.partType,
-      serialNumbers: Array.from(data.entries())
-        .filter(([key]) => key.startsWith('serialNumber'))
-        .map(([, value]) => value),
-    };
-    setFormData(submittedData);
-    console.log(submittedData);
+  const handlePalletIdChange = (e) => {
+    const palletId = e.target.value;
+    if (palletId.length === 5) {
+      const partType = palletId.substring(0, 2);
+      const partTypeSerialCount = {
+        'BL': 6,
+        'HE': 8,
+        'CR': 12,
+      };
+      const serialNumbers = Array(partTypeSerialCount[partType]).fill('');
+      setFormData({
+        ...formData,
+        palletId,
+        partType,
+        serialNumbers,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        palletId,
+        partType: '',
+        serialNumbers: [],
+      });
+    }
   }
 
-  function handlePartTypeSelection(e) {
-    const selectedPartType = e.target.value;
-    setFormData({
-      ...formData,
-      partType: selectedPartType,
-      serialNumbers: Array(partTypeSerialCount[selectedPartType]).fill('')
-    });
-  }
-
-  function handleSerialNumberChange(e, index) {
-    const newSerialNumbers = [...formData.serialNumbers];
-    newSerialNumbers[index] = e.target.value;
-    setFormData({ ...formData, serialNumbers: newSerialNumbers });
-  }
 
   return (
     <div>
-      <h1 className='text-5xl pb-5 font-bold'>
-        Un-Packing
-      </h1>
-      <form method="post" onSubmit={handleSubmit}>
-        {/* part type input */}
-        <p>
-          {Object.keys(partTypeSerialCount).map((partType) => (
+      {/* two column style */}
+      <form className='grid grid-cols-2'>
+        {/* make content stay on the right */}
+        <col1>
+          <h1 className='text-4xl font-bold my-4'>Un-Packing</h1>
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Employee ID
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XXXXXXXXX" required>
+            </input>
+          </div>
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Name - Surname
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="Sprinter Levin" required>
+            </input>
+          </div>
+
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Pallet ID
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX-00-X" required>
+            </input>
+          </div>
+
+          <div>
             <button
-              key={partType}
-              type="button"
-              onClick={handlePartTypeSelection}
-              value={partType}
-              className={`mx-1 font-normal py-1 px-4 border-b-4 rounded ${
-                formData.partType === partType
-                  ? 'bg-lime-500 text-white border-lime-900'  // Active styles
-                  : 'bg-slate-600 hover:bg-slate-400 text-white border-slate-700 hover:border-slate-500'  // Default styles
-              }`}
-            >
-              {partType} ({partTypeSerialCount[partType]})
+              class="mx-1 my-2 select-none rounded-lg bg-red-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type='reset'>
+              Reset
             </button>
-          ))}
-        </p>
+            <button
+              class="mx-1 my-2 select-none rounded-lg bg-green-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              type='save'>
+              Update
+            </button>
+          </div>
+        </col1>
 
-        {/* date input (auto/editable) */}
-        <label className='font-semibold'>
-          Date: <input name="date" defaultValue={today} className='font-light bg-gray-200'/>
-        </label>
-        <br />
-        {/* employee id input */}
-        <label className='font-semibold'>
-          Employee ID: <input name="employeeId" className='font-light bg-gray-200'/>
-        </label>
-        <label className='font-semibold'>
-          Employee Name: <input name="employeeName" className='font-light bg-gray-200'/>
-        </label>
-        <br />
-        {/* pallet id input */}
-        <label className='font-semibold'>
-          Pallet ID: <input name="palletId" className='font-light bg-gray-200'/>
-        </label>
-        <br />
-
-        {/* serial number inputs */}
-        {formData.serialNumbers.map((serialNumber, index) => (
-          <label key={index} className='font-semibold'>
-            Serial Number {index + 1}:
-            <input
-              className='font-light bg-gray-200'
-              name={`serialNumber${index}`}
-              value={serialNumber}
-              onChange={(e) => handleSerialNumberChange(e, index)}
-            />
-          </label>
-        ))}
-        <br />
-        <button type="button" className='mx-1 bg-rose-500 hover:bg-rose-400 text-white font-bold py-1 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded'>Clear</button>
-        <button type="submit" className='mx-1 bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-1 px-4 border-b-4 border-emerald-700 hover:border-emerald-500 rounded'>Submit</button>
+        <col2>
+          {/* original field */}
+          {/* {formData.serialNumbers.map((serialNumber, index) => (
+            <label key={index}>
+              Serial {index + 1}:
+              <input
+                type='text'
+                value={serialNumber}
+                onChange={(e) => handleSerialNumberChange(e, index)}
+              />
+            </label>
+          ))} */}
+          <col2>
+            <Table dataSource={formData.serialNumbers} pagination={false}>
+              <Table.Column
+                title="Serial Number"
+                dataIndex="serialNumber"
+                key="serialNumber"
+                render={(text, record, index) => (
+                  <Input
+                    placeholder={`Serial ${index + 1}`}
+                    value={text}
+                    onChange={(e) => handleSerialNumberChange(e, index)}
+                  />
+                )}
+              />
+            </Table>
+          </col2>
+        </col2>
       </form>
-
-      {/* Display the form data for testing */}
-      <div className='mt-5'>
-        <h2 className='text-3xl pb-3 font-semibold'>Form Data:</h2>
-        <p><strong>Date:</strong> {formData.date}</p>
-        <p><strong>Employee ID:</strong> {formData.employeeId}</p>
-        <p><strong>Employee Name:</strong> {formData.employeeName}</p>
-        <p><strong>Pallet ID:</strong> {formData.palletId}</p>
-        <p><strong>Part Type:</strong> {formData.partType}</p>
-        <p><strong>Serial Numbers:</strong> {formData.serialNumbers.join(', ')}</p>
-      </div>
     </div>
-  )
+  );
 }

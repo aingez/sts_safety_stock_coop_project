@@ -48,43 +48,40 @@ export default function PackPage() {
   return (
     <div>
       {/* two column style */}
-      <form className='grid grid-cols-2 gap-4'>
+      <form className='grid grid-cols-2'>
+        {/* make content stay on the right */}
         <col1>
-
           <h1 className='text-4xl font-bold my-4'>Packing</h1>
-          {/* input employee id */}
-          <div>
-            <label>Employee ID:</label>
-            <input
-              type='int'
-              />
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Employee ID
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XXXXXXXXX" required>
+            </input>
           </div>
-          <div>
-            {/* input employee name */}
-            <label>Employee Name:</label>
-            <input
-              type='text'
-              />
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Name - Surname
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="Sprinter Trueno" required>
+            </input>
           </div>
 
-          <div>
-            {/* input pallet id */}
-            <label>Pallet ID:</label>
-            <input
-              type='text'
-              onInput={(e) => handlePalletIdChange(e)}
-              />
+          <div className='p-1'>
+            <label class="flex  items-center mb-1 text-xs font-medium">Pallet ID
+            </label>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX-00-X" required>
+            </input>
           </div>
+
           <div>
             <button
-              class="mx-1 my-2 select-none rounded-lg bg-red-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="mx-1 my-2 select-none rounded-lg bg-red-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type='reset'>
               Reset
             </button>
             <button
-              class="mx-1 my-2 select-none rounded-lg bg-green-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-500/20 transition-all hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              class="mx-1 my-2 select-none rounded-lg bg-green-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
               type='save'>
-              Save
+              Update
             </button>
           </div>
         </col1>
@@ -109,6 +106,7 @@ export default function PackPage() {
                 key="serialNumber"
                 render={(text, record, index) => (
                   <Input
+                    placeholder={`Serial ${index + 1}`}
                     value={text}
                     onChange={(e) => handleSerialNumberChange(e, index)}
                   />
