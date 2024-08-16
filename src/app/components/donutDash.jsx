@@ -7,32 +7,11 @@ ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 function DoughnutChart({ data, options, chartName, sumParts }) {
   const defaultOptions = {
+    responsive: true,
+    // maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
-        position: 'bottom',
-        labels: {
-          generateLabels: (chart) => {
-            const datasets = chart.data.datasets;
-            return chart.data.labels.map((label, index) => {
-              const dataset = datasets[0];
-              const value = dataset.data[index];
-              return {
-                text: `${label}: ${value}`,
-                fillStyle: dataset.backgroundColor[index],
-                hidden: isNaN(dataset.data[index]),
-                lineCap: 'round',
-                lineDash: [],
-                lineDashOffset: 0,
-                lineJoin: 'round',
-                lineWidth: 1,
-                strokeStyle: dataset.backgroundColor[index],
-                pointStyle: 'circle',
-                index: index
-              }
-            });
-          }
-        }
       },
       datalabels: {
         display: true,
@@ -43,15 +22,14 @@ function DoughnutChart({ data, options, chartName, sumParts }) {
         },
         formatter: (value, ctx) => {
           let label = ctx.chart.data.labels[ctx.dataIndex];
-          return `${label} : ${value}`;
+          return label;
         },
       },
     },
     // Add this new option for the center text
     centerText: {
         display: true,
-    //   text: "Total"
-        text: chartName + " : " + sumParts
+        text: `${chartName}: ${sumParts}`
     }
   };
 
@@ -78,7 +56,7 @@ function DoughnutChart({ data, options, chartName, sumParts }) {
         const height = chartArea.bottom - chartArea.top;
 
         // Set font settings
-        ctx.font = "bold 16px Arial";
+        ctx.font = "bold 13px Arial";
         ctx.fillStyle = "black";
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
