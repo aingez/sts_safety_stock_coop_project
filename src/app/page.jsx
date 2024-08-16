@@ -2,6 +2,7 @@
 
 import DoughnutChart from './components/donutDash';
 import ReusableTable from './components/AlertTable';  // Import the reusable table
+import warehouseDash from  './components/warehouseDash'; // Import the warehouse data
 import React, { useState, useEffect } from 'react';
 import camStatus from './components/testing_data/camStatusMock.json';
 import blockStatus from './components/testing_data/blockStatusMock.json';
@@ -90,6 +91,7 @@ function ModelQuantityChart() {
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
       <div className='flex flex-row space-x-10 py-10 mb-5 bg-neutral-100 rounded-lg bg-neutral-100'>
+        <warehouseDash />
       </div>
 
     </div>
