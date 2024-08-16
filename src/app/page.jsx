@@ -2,7 +2,7 @@
 
 import DoughnutChart from './components/donutDash';
 import ReusableTable from './components/AlertTable';  // Import the reusable table
-import warehouseDash from  './components/warehouseDash'; // Import the warehouse data
+import WarehouseDash from './components/warehouseDash'; // Import the warehouse data
 import React, { useState, useEffect } from 'react';
 import camStatus from './components/testing_data/camStatusMock.json';
 import blockStatus from './components/testing_data/blockStatusMock.json';
@@ -82,7 +82,7 @@ function ModelQuantityChart() {
         </div>
       </div>
 
-        <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
+      <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
       <div className='flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
         <div className='px-5'>
           <ReusableTable pageSize={3}/>
@@ -90,8 +90,8 @@ function ModelQuantityChart() {
       </div>
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
-      <div className='flex flex-row space-x-10 py-10 mb-5 bg-neutral-100 rounded-lg bg-neutral-100'>
-        <warehouseDash />
+      <div className='flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg bg-neutral-100'>
+        <WarehouseDash />
       </div>
 
     </div>
@@ -99,4 +99,3 @@ function ModelQuantityChart() {
 }
 
 export default ModelQuantityChart;
-
