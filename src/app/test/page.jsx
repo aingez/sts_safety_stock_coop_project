@@ -7,55 +7,63 @@ export default function WarehouseTable() {
   const { warehouse, plant } = warehouseData;
 
   return (
-    <div>
+    <div class="p-4 rounded flex flex-col">
         <div class="flex flex-row">
             <h1 class="font-bold pr-2">Safety Stock :</h1>
             <p class="font-light">{plant.type} Plant {plant.code}</p>
         </div>
-      <table border="1" cellPadding="10">
-        <tbody>
-          {warehouse.lanes.map((lane, laneIndex) => (
-            <tr key={laneIndex}>
 
-              {lane.rows.map((row, rowIndex) => (
-                <td key={rowIndex} class='px-5'>
-                {row.positions.length > 0 ? (
-                  // Stack buttons inside lane-row cell
-                  row.positions.slice().reverse().map((position, posIndex) => (
-                    <div key={posIndex} class="flex flex-col my-0.5">
-                      <button
-                        style={{
-                          backgroundColor: getColorFromStatus(position.pallet.pack_age_status),
-                        }}
-                        className="rounded px-4 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-700/20"
-                      >
-                        {position.pallet.number}
+        <div class="flex flex-row pt-5">
+            <p class="font-thin pr-2 pt-5 place-content-top">LANE</p>
+            <div>
+                <p class="font-thin pr-2 ">ROW</p>
+                <table border="1" cellPadding="10">
+                    <tbody>
+                    {warehouse.lanes.map((lane, laneIndex) => (
+                        <tr key={laneIndex}>
 
-                        <p className='text-xs opacity-30 pb-1'>
-                            {position.location.layer}
-                        </p>
+                        {lane.rows.map((row, rowIndex) => (
+                            <td key={rowIndex} class='px-5'>
+                            {row.positions.length > 0 ? (
+                            // Stack buttons inside lane-row cell
+                            row.positions.slice().reverse().map((position, posIndex) => (
+                                <div key={posIndex} class="flex flex-col my-0.5">
+                                <button
+                                    style={{
+                                    backgroundColor: getColorFromStatus(position.pallet.pack_age_status),
+                                    }}
+                                    className="rounded px-4 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-700/20"
+                                >
+                                    {position.pallet.number}
 
-                      </button>
-                    </div>
-                  ))
-                ) : (
-                  <button
-                    style={{
-                      backgroundColor: 'gray',
-                    }}
-                    className="rounded px-4 bg-indigo-500 opacity-20"
-                    disabled
-                  >
-                    Empty
-                  </button>
-                )}
-              </td>
+                                    <p className='text-xs opacity-30 pb-1'>
+                                        {position.location.layer}
+                                    </p>
 
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                                </button>
+                                </div>
+                            ))
+                            ) : (
+                            <button
+                                style={{
+                                backgroundColor: 'gray',
+                                }}
+                                className="rounded px-4 bg-indigo-500 opacity-20"
+                                disabled
+                            >
+                                Empty
+                            </button>
+                            )}
+                        </td>
+
+                        ))}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
   );
 }
