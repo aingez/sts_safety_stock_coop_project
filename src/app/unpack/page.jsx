@@ -71,9 +71,9 @@ export default function PackPage() {
               <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX-00-X" required>
             </input>
           </div>
-          <div className='flex flex-row p-1 space-x-5'>
+          {/* <div className='flex flex-row p-1 space-x-5'> */}
             {/* row, col input */}
-            <div>
+            {/* <div>
               <label class="flex items-center mb-1 text-xs font-medium ">Lane
               </label>
                 <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX" required>
@@ -82,10 +82,10 @@ export default function PackPage() {
             <div>
               <label class="flex items-center mb-1 text-xs font-medium">Row
               </label>
-                <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX" required>
+                <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed disable" placeholder="XX" required>
               </input>
             </div>
-          </div>
+          </div> */}
 
           <div>
             <button
