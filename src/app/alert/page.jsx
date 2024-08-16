@@ -11,7 +11,7 @@ function AlertPage() {
             <div>
                 <h1 className='text-4xl pb-5 font-bold'>Alert Page</h1>
             </div>
-            <ReusableTable pageSize={5}/>
+            <ReusableTable pageSize={10}/>
         </>
     );
 }

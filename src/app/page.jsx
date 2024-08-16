@@ -63,7 +63,7 @@ function ModelQuantityChart() {
     <div>
       <h2 className='text-4xl font-ligh pb-5'>Overview</h2>
 
-      <div className='flex flex-row space-x-10 justify-center py-10 mb-5 rounded-lg bg-neutral-100'>
+      <div className='shadow-lg flex flex-row space-x-10 justify-center py-10 mb-5 rounded-lg bg-neutral-100'>
         {/* Camshaft Chart */}
         <div style={{ width: '20%'}}>
           <DoughnutChart data={chartData.camshaft} chartName="Camshaft" sumParts={total.camshaft} />
@@ -83,14 +83,14 @@ function ModelQuantityChart() {
       </div>
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
-      <div className='flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
+      <div className='shadow-lg flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
         <div className='px-5'>
           <ReusableTable pageSize={3}/>
         </div>
       </div>
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
-      <div className='flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg bg-neutral-100'>
+      <div className='shadow-lg flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg bg-neutral-100'>
         <WarehouseDash />
       </div>
 

@@ -41,11 +41,6 @@ function SearchPage() {
       key: 'palletNumber',
     },
     {
-      title: 'Packing Date',
-      dataIndex: 'packingDate',
-      key: 'packingDate',
-    },
-    {
       title: 'Plant Code',
       dataIndex: 'plantCode',
       key: 'plantCode',
@@ -56,15 +51,35 @@ function SearchPage() {
       key: 'plantType',
     },
     {
-      title: 'Row Location',
+      title: 'Row',
       dataIndex: 'rowLocation',
       key: 'rowLocation',
     },
     {
-      title: 'Lane Location',
+      title: 'Lane',
       dataIndex: 'laneLocation',
       key: 'laneLocation',
     },
+    {
+      title: 'Packing Date',
+      dataIndex: 'packingDate',
+      key: 'packingDate',
+    },
+    {
+      title: 'Packer',
+      dataIndex: 'packer',
+      key: 'packer',
+    },
+    {
+      title: 'Un-Pack Date',
+      dataIndex: 'packingDate',
+      key: 'packingDate',
+    },
+    {
+      title: 'Un-Packer',
+      dataIndex: 'unpacker',
+      key: 'unpacker',
+    }
   ];
 
   return (

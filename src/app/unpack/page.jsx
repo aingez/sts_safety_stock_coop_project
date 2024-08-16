@@ -48,28 +48,43 @@ export default function PackPage() {
   return (
     <div>
       {/* two column style */}
-      <form className='grid grid-cols-2'>
+      <form className='flex flex-row '>
         {/* make content stay on the right */}
-        <col1>
-          <h1 className='text-4xl font-bold my-4'>Un-Packing</h1>
+        <col1 className="w-1/2 rounded-lg bg-neutral-100 shadow-lg px-40 py-40 mr-5">
+          <h1 className='text-4xl font-bold'>Un-Packing</h1>
           <div className='p-1'>
             <label class="flex  items-center mb-1 text-xs font-medium">Employee ID
             </label>
-              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XXXXXXXXX" required>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XXXXXXXXX" required>
             </input>
           </div>
           <div className='p-1'>
             <label class="flex  items-center mb-1 text-xs font-medium">Name - Surname
             </label>
-              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="Sprinter Levin" required>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="Sprinter Trueno" required>
             </input>
           </div>
 
           <div className='p-1'>
-            <label class="flex  items-center mb-1 text-xs font-medium">Pallet ID
+            <label class="flex items-center mb-1 text-xs font-medium">Pallet ID
             </label>
-              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX-00-X" required>
+              <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX-00-X" required>
             </input>
+          </div>
+          <div className='flex flex-row p-1 space-x-5'>
+            {/* row, col input */}
+            <div>
+              <label class="flex items-center mb-1 text-xs font-medium ">Lane
+              </label>
+                <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX" required>
+              </input>
+            </div>
+            <div>
+              <label class="flex items-center mb-1 text-xs font-medium">Row
+              </label>
+                <input type="text" onInput={(e) => handlePalletIdChange(e)} class="block bg-white w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-transparent border border-black rounded placeholder-grey-700 focus:outline-none leading-relaxed" placeholder="XX" required>
+              </input>
+            </div>
           </div>
 
           <div>
@@ -86,34 +101,21 @@ export default function PackPage() {
           </div>
         </col1>
 
-        <col2>
-          {/* original field */}
-          {/* {formData.serialNumbers.map((serialNumber, index) => (
-            <label key={index}>
-              Serial {index + 1}:
-              <input
-                type='text'
-                value={serialNumber}
-                onChange={(e) => handleSerialNumberChange(e, index)}
-              />
-            </label>
-          ))} */}
-          <col2>
-            <Table dataSource={formData.serialNumbers} pagination={false}>
-              <Table.Column
-                title="Serial Number"
-                dataIndex="serialNumber"
-                key="serialNumber"
-                render={(text, record, index) => (
-                  <Input
-                    placeholder={`Serial ${index + 1}`}
-                    value={text}
-                    onChange={(e) => handleSerialNumberChange(e, index)}
-                  />
-                )}
-              />
-            </Table>
-          </col2>
+        <col2 className="w-1/2 min-h-full">
+          <Table dataSource={formData.serialNumbers} pagination={false}>
+            <Table.Column
+              title="Serial Number Input"
+              dataIndex="serialNumber"
+              key="serialNumber"
+              render={(text, record, index) => (
+                <Input
+                  placeholder={`Serial ${index + 1}`}
+                  value={text}
+                  onChange={(e) => handleSerialNumberChange(e, index)}
+                />
+              )}
+            />
+          </Table>
         </col2>
       </form>
     </div>
