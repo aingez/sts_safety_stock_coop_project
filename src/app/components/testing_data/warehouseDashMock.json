@@ -13,11 +13,11 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 1, "layer": 1},
-                  "pallet": {"number": "BL23A", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL23A", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 1, "row": 1, "layer": 2},
-                  "pallet": {"number": "HE45B", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE45B", "pack_age_status": "yellow"}
                 }
               ]
             },
@@ -26,15 +26,15 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 2, "layer": 1},
-                  "pallet": {"number": "CR78C", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR78C", "pack_age_status": "red"}
                 },
                 {
                   "location": {"lane": 1, "row": 2, "layer": 2},
-                  "pallet": {"number": "BL12D", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL12D", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 1, "row": 2, "layer": 3},
-                  "pallet": {"number": "HE67E", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE67E", "pack_age_status": "yellow"}
                 }
               ]
             },
@@ -43,7 +43,7 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 3, "layer": 1},
-                  "pallet": {"number": "CR34A", "part_type": "Crankshaft", "pack_age_status": "green"}
+                  "pallet": {"number": "CR34A", "pack_age_status": "green"}
                 }
               ]
             },
@@ -52,11 +52,11 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 4, "layer": 1},
-                  "pallet": {"number": "BL56B", "part_type": "Block", "pack_age_status": "yellow"}
+                  "pallet": {"number": "BL56B", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 1, "row": 4, "layer": 2},
-                  "pallet": {"number": "HE89C", "part_type": "Head", "pack_age_status": "red"}
+                  "pallet": {"number": "HE89C", "pack_age_status": "red"}
                 }
               ]
             },
@@ -65,7 +65,7 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 5, "layer": 1},
-                  "pallet": {"number": "CR01D", "part_type": "Crankshaft", "pack_age_status": "green"}
+                  "pallet": {"number": "CR01D", "pack_age_status": "green"}
                 }
               ]
             },
@@ -78,11 +78,11 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 7, "layer": 1},
-                  "pallet": {"number": "BL90E", "part_type": "Block", "pack_age_status": "yellow"}
+                  "pallet": {"number": "BL90E", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 1, "row": 7, "layer": 2},
-                  "pallet": {"number": "HE23A", "part_type": "Head", "pack_age_status": "green"}
+                  "pallet": {"number": "HE23A", "pack_age_status": "green"}
                 }
               ]
             },
@@ -91,7 +91,7 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 8, "layer": 1},
-                  "pallet": {"number": "CR45B", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR45B", "pack_age_status": "red"}
                 }
               ]
             },
@@ -104,15 +104,15 @@
               "positions": [
                 {
                   "location": {"lane": 1, "row": 10, "layer": 1},
-                  "pallet": {"number": "BL67C", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL67C", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 1, "row": 10, "layer": 2},
-                  "pallet": {"number": "HE89D", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE89D", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 1, "row": 10, "layer": 3},
-                  "pallet": {"number": "CR01E", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR01E", "pack_age_status": "red"}
                 }
               ]
             }
@@ -126,11 +126,11 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 1, "layer": 1},
-                  "pallet": {"number": "BL34A", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL34A", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 2, "row": 1, "layer": 2},
-                  "pallet": {"number": "HE56B", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE56B", "pack_age_status": "yellow"}
                 }
               ]
             },
@@ -139,7 +139,7 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 2, "layer": 1},
-                  "pallet": {"number": "CR78C", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR78C", "pack_age_status": "red"}
                 }
               ]
             },
@@ -152,15 +152,15 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 4, "layer": 1},
-                  "pallet": {"number": "BL90D", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL90D", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 2, "row": 4, "layer": 2},
-                  "pallet": {"number": "HE12E", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE12E", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 2, "row": 4, "layer": 3},
-                  "pallet": {"number": "CR34A", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR34A", "pack_age_status": "red"}
                 }
               ]
             },
@@ -169,7 +169,7 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 5, "layer": 1},
-                  "pallet": {"number": "BL56B", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL56B", "pack_age_status": "green"}
                 }
               ]
             },
@@ -178,11 +178,11 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 6, "layer": 1},
-                  "pallet": {"number": "HE78C", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE78C", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 2, "row": 6, "layer": 2},
-                  "pallet": {"number": "CR90D", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR90D", "pack_age_status": "red"}
                 }
               ]
             },
@@ -195,7 +195,7 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 8, "layer": 1},
-                  "pallet": {"number": "BL23E", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL23E", "pack_age_status": "green"}
                 }
               ]
             },
@@ -204,11 +204,11 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 9, "layer": 1},
-                  "pallet": {"number": "HE45A", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE45A", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 2, "row": 9, "layer": 2},
-                  "pallet": {"number": "CR67B", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR67B", "pack_age_status": "red"}
                 }
               ]
             },
@@ -217,19 +217,19 @@
               "positions": [
                 {
                   "location": {"lane": 2, "row": 10, "layer": 1},
-                  "pallet": {"number": "BL89C", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL89C", "pack_age_status": "green"}
                 },
                 {
                   "location": {"lane": 2, "row": 10, "layer": 2},
-                  "pallet": {"number": "HE01D", "part_type": "Head", "pack_age_status": "yellow"}
+                  "pallet": {"number": "HE01D", "pack_age_status": "yellow"}
                 },
                 {
                   "location": {"lane": 2, "row": 10, "layer": 3},
-                  "pallet": {"number": "CR23E", "part_type": "Crankshaft", "pack_age_status": "red"}
+                  "pallet": {"number": "CR23E", "pack_age_status": "red"}
                 },
                 {
                   "location": {"lane": 2, "row": 10, "layer": 4},
-                  "pallet": {"number": "BL45A", "part_type": "Block", "pack_age_status": "green"}
+                  "pallet": {"number": "BL45A", "pack_age_status": "green"}
                 }
               ]
             }
