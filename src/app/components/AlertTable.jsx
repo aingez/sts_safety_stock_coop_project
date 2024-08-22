@@ -2,7 +2,20 @@ import React from 'react';
 import { Table } from 'antd';
 import data from '../components/testing_data/alertMock.json';
 
-function AlertTable({ pageSize }) {
+async function AlertTable({ pageSize }) {
+
+    const callAPI = async () => {
+        try {
+            const res = await fetch(`http://localhost:8000/pallet_age_rank`);
+            const data = await res.json();
+            console.log(data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    callAPI();
+
     const columns = [
         {
             title: 'Part Type',
