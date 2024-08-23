@@ -28,6 +28,19 @@ function AlertTable({ pageSize }) {
 
     const columns = [
         {
+            title: 'Status',
+            dataIndex: 'color_status',
+            key: 'color_status',
+            // render as antd color tag
+            render: (color) => {
+                return (
+                    <span>
+                        <Tag color={color}>{color.toUpperCase()}</Tag>
+                    </span>
+                );
+            },
+        },
+        {
             title: 'Part Type',
             dataIndex: 'type',
             key: 'type',
@@ -66,19 +79,6 @@ function AlertTable({ pageSize }) {
             title: 'Row Location',
             dataIndex: 'row',
             key: 'row',
-        },
-        {
-            title: 'Status',
-            dataIndex: 'color_status',
-            key: 'color_status',
-            // render as antd color tag
-            render: (color) => {
-                return (
-                    <span>
-                        <Tag color={color}>{color.toUpperCase()}</Tag>
-                    </span>
-                );
-            },
         },
     ];
 
