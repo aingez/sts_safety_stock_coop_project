@@ -1,63 +1,85 @@
-import React from 'react';
-import { Table } from 'antd';
-import data from '../components/testing_data/alertMock.json';
+import React, { useEffect, useState } from 'react';
+import { Table, Spin, Alert } from 'antd';
 
-async function AlertTable({ pageSize }) {
+function AlertTable({ pageSize }) {
+    const [apiData, setApiData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const callAPI = async () => {
-        try {
-            const res = await fetch(`http://localhost:8000/pallet_age_rank`);
-            const data = await res.json();
-            console.log(data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    useEffect(() => {
+        const callAPI = async () => {
+            try {
+                const res = await fetch('http://localhost:8000/pallet_age_rank');
+                if (!res.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await res.json();
+                setApiData(data[0].data);
+                console.log(apiData);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    callAPI();
+        callAPI();
+    }, []);
 
     const columns = [
         {
             title: 'Part Type',
-            dataIndex: 'partType',
-            key: 'partType',
+            dataIndex: 'type',
+            key: 'type',
         },
         {
             title: 'Pallet Number',
-            dataIndex: 'palletNumber',
-            key: 'palletNumber',
+            dataIndex: 'pallet_id',
+            key: 'pallet_id',
         },
         {
             title: 'Packing Date',
-            dataIndex: 'packingDate',
-            key: 'packingDate',
-            render: (text) => new Date(text).toLocaleString(),
+            dataIndex: 'pack_date',
+            key: 'pack_date',
         },
         {
-            title: 'Plant Code',
-            dataIndex: 'plantCode',
-            key: 'plantCode',
+            title: 'Age Days',
+            dataIndex: 'formatted_age_days',
+            key: 'formatted_age_days',
         },
         {
             title: 'Plant Type',
-            dataIndex: 'plantType',
-            key: 'plantType',
+            dataIndex: 'plant_type',
+            key: 'plant_type',
         },
         {
-            title: 'Row Location',
-            dataIndex: 'rowLocation',
-            key: 'rowLocation',
+            title: 'Plant ID',
+            dataIndex: 'plant_id',
+            key: 'plant_id',
         },
         {
             title: 'Lane Location',
-            dataIndex: 'laneLocation',
-            key: 'laneLocation',
+            dataIndex: 'lane',
+            key: 'lane',
+        },
+        {
+            title: 'Row Location',
+            dataIndex: 'row',
+            key: 'row',
         },
     ];
 
+    if (loading) {
+        return <Spin tip="Loading..." />;
+    }
+
+    if (error) {
+        return <Alert message="Error" description={error.message} type="error" />;
+    }
+
     return (
         <div>
-            <Table columns={columns} dataSource={data} pagination={{ pageSize }} />
+            <Table columns={columns} dataSource={apiData || []} pagination={{ pageSize }} />
         </div>
     );
 }
