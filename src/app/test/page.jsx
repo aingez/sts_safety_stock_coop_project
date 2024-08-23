@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
@@ -19,7 +21,7 @@ const testData = [
   200
 ];
 
-function DoughnutChart({ data, options, chartName }) {
+function DoughnutChart({ data = testData, options, chartName = "Testing" }) {
   // Ensure data[0].model is valid
   const parsedData = data.length > 0 && Array.isArray(data[0].model)
     ? data[0].model.map(model => ({
