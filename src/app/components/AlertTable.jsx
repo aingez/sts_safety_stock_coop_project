@@ -15,7 +15,7 @@ function AlertTable({ pageSize }) {
                 }
                 const data = await res.json();
                 setApiData(data[0].data);
-                console.log(apiData);
+                // console.log(apiData);
             } catch (err) {
                 setError(err);
             } finally {
@@ -83,7 +83,7 @@ function AlertTable({ pageSize }) {
     ];
 
     if (loading) {
-        return <Spin tip="Loading..." />;
+        return <Spin />;
     }
 
     if (error) {
@@ -92,7 +92,7 @@ function AlertTable({ pageSize }) {
 
     return (
         <div>
-            <Table columns={columns} dataSource={apiData || []} pagination={{ pageSize }} />
+            <Table columns={columns} dataSource={apiData || []} pagination={{ pageSize }} rowKey="pallet_id" />
         </div>
     );
 }
