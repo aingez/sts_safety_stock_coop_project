@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Spin, Alert } from 'antd';
+import { Table, Spin, Alert, Tag } from 'antd';
 
 function AlertTable({ pageSize }) {
     const [apiData, setApiData] = useState(null);
@@ -66,6 +66,19 @@ function AlertTable({ pageSize }) {
             title: 'Row Location',
             dataIndex: 'row',
             key: 'row',
+        },
+        {
+            title: 'Status',
+            dataIndex: 'color_status',
+            key: 'color_status',
+            // render as antd color tag
+            render: (color) => {
+                return (
+                    <span>
+                        <Tag color={color}>{color.toUpperCase()}</Tag>
+                    </span>
+                );
+            },
         },
     ];
 

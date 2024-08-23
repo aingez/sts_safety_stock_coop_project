@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import ReusableTable from '../components/AlertTable';  // Import the reusable table
 
 function AlertPage() {
-    const [data, setData] = useState([]);
 
     return (
         <>
