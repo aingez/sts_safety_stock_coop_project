@@ -15,7 +15,7 @@ function AlertTable({ pageSize }) {
                 }
                 const data = await res.json();
                 setApiData(data[0].data);
-                // console.log(apiData);
+                console.log(apiData);
             } catch (err) {
                 setError(err);
             } finally {
