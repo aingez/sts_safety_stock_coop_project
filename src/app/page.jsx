@@ -1,7 +1,7 @@
 'use client'
 
 import DoughnutChart from './components/donutDash';
-import ReusableTable from './components/AlertTable';  // Import the reusable table
+import ReusableTable from './components/alertTable';  // Import the reusable table
 import WarehouseDash from './components/warehouseDash'; // Import the warehouse data
 import React, { useState, useEffect } from 'react';
 import camStatus from './components/testing_data/camStatusMock.json';

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import ReusableTable from '../components/AlertTable';  // Import the reusable table
+import ReusableTable from '../components/alertTable';  // Import the reusable table
 
 function AlertPage() {
 
