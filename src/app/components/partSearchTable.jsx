@@ -45,8 +45,8 @@ function PartSearchTable({partSerial}) {
       },
       {
         title: 'Pallet Number',
-        dataIndex: 'pallet_code',
-        key: 'pallet_code',
+        dataIndex: 'pallet_id',
+        key: 'pallet_id',
       },
       {
         title: 'Plant Type',
@@ -55,8 +55,8 @@ function PartSearchTable({partSerial}) {
       },
       {
         title: 'Plant Code',
-        dataIndex: 'plant_id',
-        key: 'plant_id',
+        dataIndex: 'plant_code',
+        key: 'plant_code',
       },
       {
         title: 'Row',
