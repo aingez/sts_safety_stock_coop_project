@@ -1,10 +1,10 @@
-'use client'
+"use client"
 
 import React, { useState, useEffect } from 'react';
 import DoughnutChart from './components/donutDash';
 import BarChart from './components/barDash';
-import ReusableTable from './components/alertTable';  // Import the reusable table
-import WarehouseDash from './components/warehouseDash'; // Import the warehouse data
+import ReusableTable from './components/alertTable';
+import WarehouseDash from './components/warehouseDash';
 
 function ModelQuantityChart() {
   const [barJson, setBarJson] = useState([]);
@@ -54,16 +54,14 @@ function ModelQuantityChart() {
 
   const donutDashData = parseBarJsonData(barJson);
   const transformedData = transformBarJson(barJson);
-  console.log('donutDashData:', donutDashData);
 
   return (
     <div>
       <h2 className='text-4xl font-light pb-5'>Overview</h2>
       <div className='shadow-lg space-x-20 py-10 mb-5 rounded-lg bg-neutral-100 flex flex-row justify-center'>
-        {/* if isLoading */}
-        {isLoading && <div>Loading...</div>}
-        {/* if not isLoading */}
-        {!isLoading && (
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : (
           <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center' }} className='space-x-10'>
             <div style={{ flex: 1 }}>
               {transformedData.length > 0 && <BarChart data={transformedData}/>}
@@ -86,7 +84,6 @@ function ModelQuantityChart() {
       <div className='shadow-lg flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg'>
         <WarehouseDash />
       </div>
-
     </div>
   );
 }
