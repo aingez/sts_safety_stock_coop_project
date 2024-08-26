@@ -5,22 +5,8 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-const testData = [
-  {
-    "type": "Camshaft",
-    "model": [
-      {
-        "model": "CONV",
-        "qty": 1
-      }
-    ],
-    "total": 1
-  },
-  200
-];
-
 function DoughnutChart({ data, options, chartName }) {
-  // Ensure data[0].model is valid
+  // Check data[0].model is valid
   const parsedData = data.length > 0 && Array.isArray(data[0].model)
     ? data[0].model.map(model => ({
         label: model.model,
@@ -36,28 +22,32 @@ function DoughnutChart({ data, options, chartName }) {
     datasets: [
       {
         data: parsedData.map(item => item.qty),
+        // get color scheme from https://www.learnui.design/tools/data-color-picker.html#single
         backgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
-          '#FF9F40',
+          "#1f77b4", // Strong blue
+          "#ff7f0e", // Bright orange
+          "#2ca02c", // Vivid green
+          "#d62728", // Bold red
+          "#9467bd", // Deep purple
+          "#8c564b", // Warm brown
         ],
         hoverBackgroundColor: [
-          '#FF6384',
-          '#36A2EB',
-          '#FFCE56',
-          '#4BC0C0',
-          '#9966FF',
-          '#FF9F40',
+          "#145a7a", // Darker blue
+          "#bf5a00", // Darker orange
+          "#1d7a1d", // Darker green
+          "#a31d1d", // Darker red
+          "#674a89", // Darker purple
+          "#643d35", // Darker brown
         ],
+
       },
     ],
   };
 
   const defaultOptions = {
     responsive: true,
+    maibtainAspectRatio: false,
+    // aspectRatio: 0.5,
     plugins: {
       legend: {
         display: false,
@@ -115,7 +105,11 @@ function DoughnutChart({ data, options, chartName }) {
   // Register the plugin
   ChartJS.register(textCenter);
 
-  return <Doughnut data={chartData} options={mergedOptions} />;
+  return (
+    <div style={{ width: 300, height: 300 }}>
+      <Doughnut data={chartData} options={mergedOptions} />
+    </div>
+  );
 }
 
 export default DoughnutChart;

@@ -83,13 +83,12 @@ function ModelQuantityChart() {
   return (
     <div>
       <h2 className='text-4xl font-ligh pb-5'>Overview</h2>
-
       <div className='shadow-lg space-x-10 py-10 mb-5 rounded-lg bg-neutral-100'>
         <div className='flex justify-center space-x-5'>
-          <DoughnutChart data={blockStatus} chartName={'Block'} />
-          <DoughnutChart data={headStatus} chartName={'Head'} />
-          <DoughnutChart data={crankStatus} chartName={'Crank'} />
-          <DoughnutChart data={camStatus} chartName={'Cam'} />
+          <DoughnutChart data={blockStatus} chartName={'Block'}  />
+          <DoughnutChart data={headStatus} chartName={'Head'}  />
+          <DoughnutChart data={crankStatus} chartName={'Crank'}  />
+          <DoughnutChart data={camStatus} chartName={'Cam'}  />
         </div>
       </div>
 
