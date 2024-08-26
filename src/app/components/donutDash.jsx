@@ -5,7 +5,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-function DoughnutChart({ data, options, chartName }) {
+function DoughnutChart({ data, chartName}) {
   // Check data[0].model is valid
   const parsedData = data.length > 0 && Array.isArray(data[0].model)
     ? data[0].model.map(model => ({
@@ -44,7 +44,7 @@ function DoughnutChart({ data, options, chartName }) {
     ],
   };
 
-  const defaultOptions = {
+  const defaultOptionsDoughnut = {
     responsive: true,
     maibtainAspectRatio: false,
     // aspectRatio: 0.5,
@@ -69,15 +69,6 @@ function DoughnutChart({ data, options, chartName }) {
       display: true,
       text: `${chartName}: ${sumParts}`,
     },
-  };
-
-  const mergedOptions = {
-    ...defaultOptions,
-    ...options,
-    plugins: {
-      ...defaultOptions.plugins,
-      ...options?.plugins,
-    }
   };
 
   // Add this new plugin to draw the center text
@@ -107,7 +98,7 @@ function DoughnutChart({ data, options, chartName }) {
 
   return (
     <div style={{ width: 300, height: 300 }}>
-      <Doughnut data={chartData} options={mergedOptions} />
+      <Doughnut data={chartData} options={defaultOptionsDoughnut} />
     </div>
   );
 }

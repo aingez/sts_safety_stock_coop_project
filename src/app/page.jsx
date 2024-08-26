@@ -1,6 +1,7 @@
 'use client'
 
 import DoughnutChart from './components/donutDash';
+import BarChart from './components/barDash';
 import ReusableTable from './components/alertTable';  // Import the reusable table
 import WarehouseDash from './components/warehouseDash'; // Import the warehouse data
 import React, { useState, useEffect } from 'react';
@@ -14,6 +15,7 @@ function ModelQuantityChart() {
   const [headStatus, setHeadStatus] = useState({});
   const [crankStatus, setCrankStatus] = useState({});
   const [camStatus, setCamStatus] = useState({});
+  const [barJson, setBarJson] = useState([]);
 
   async function fetchBlockStatus() {
     const response = await fetch('http://localhost:8000/quantity/Block');
@@ -36,8 +38,6 @@ function ModelQuantityChart() {
     setCamStatus(data);
   }
 
-
-
   // call the fetchBlockStatus function once
   useEffect(() => {
     fetchBlockStatus();
@@ -47,49 +47,50 @@ function ModelQuantityChart() {
   }, []);
 
   const [isLoading, setIsLoading] = useState(true);
+  // const [chartType, setChartType] = useState('doughnut');
+
+  // function toggleChartType() {
+  //   setChartType(chartType === 'doughnut' ? 'bar' : 'doughnut');
+  //   console.log(chartType);
+  // }
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const blockResponse = await fetch('http://localhost:8000/quantity/Block');
-        const blockData = await blockResponse.json();
-        setBlockStatus(blockData);
+  async function fetchData() {
+    try {
+      const types = ['Block', 'Head', 'Crankshaft', 'Camshaft'];
+      const combinedData = [];
 
-        const headResponse = await fetch('http://localhost:8000/quantity/Head');
-        const headData = await headResponse.json();
-        setHeadStatus(headData);
-
-        const crankResponse = await fetch('http://localhost:8000/quantity/Crankshaft');
-        const crankData = await crankResponse.json();
-        setCrankStatus(crankData);
-
-        const camResponse = await fetch('http://localhost:8000/quantity/Camshaft');
-        const camData = await camResponse.json();
-        setCamStatus(camData);
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+      for (const type of types) {
+        const response = await fetch(`http://localhost:8000/quantity/${type}`);
+        const data = await response.json();
+        if (Array.isArray(data) && data.length > 0 && data[0].type === type) {
+          combinedData.push(data[0]);
+        }
       }
+
+      setBarJson(combinedData);
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setIsLoading(false);
     }
-
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
   }
+
+  fetchData();
+}, []);
 
   return (
     <div>
       <h2 className='text-4xl font-ligh pb-5'>Overview</h2>
-      <div className='shadow-lg space-x-10 py-10 mb-5 rounded-lg bg-neutral-100'>
-        <div className='flex justify-center space-x-5'>
-          <DoughnutChart data={blockStatus} chartName={'Block'}  />
-          <DoughnutChart data={headStatus} chartName={'Head'}  />
-          <DoughnutChart data={crankStatus} chartName={'Crank'}  />
-          <DoughnutChart data={camStatus} chartName={'Cam'}  />
-        </div>
+      <div className='shadow-lg space-x-10 py-10 mb-5 rounded-lg bg-neutral-100 flex flex-row justify-center'>
+        {/* if isLoading */}
+        {isLoading && <div>Loading...</div>}
+        {/* if not isLoading */}
+        {!isLoading && (
+          <div style={{ width: '50%', height: '10%' }}>
+            {barJson.length > 0 && <BarChart data={barJson}/>}
+          </div>
+        )}
       </div>
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>

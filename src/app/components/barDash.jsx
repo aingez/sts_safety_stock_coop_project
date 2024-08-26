@@ -1,5 +1,3 @@
-"use client";
-
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -18,14 +16,16 @@ const BarChart = ({ data = mockData }) => {
   const labels = data.map(item => item.type);
   const uniqueModels = [...new Set(data.flatMap(item => item.model.map(m => m.model)))];
 
+  const hexColors = ["#a60a0a", "#bc432e", "#d16a53", "#e38e79", "#f2b2a1", "#ffd7cc"];
+
   const datasets = uniqueModels.map((modelName, index) => ({
     label: modelName,
     data: data.map(item => {
       const model = item.model.find(m => m.model === modelName);
       return model ? model.qty : 0;
     }),
-    backgroundColor: `rgba(${75 + index * 30}, 192, 192, 0.2)`,
-    borderColor: `rgba(${75 + index * 30}, 192, 192, 1)`,
+    backgroundColor: hexColors[index % hexColors.length],
+    borderColor: hexColors[index % hexColors.length],
     borderWidth: 1,
   }));
 
