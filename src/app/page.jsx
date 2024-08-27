@@ -58,20 +58,20 @@ function ModelQuantityChart() {
   return (
     <div>
       <h2 className='text-4xl font-light pb-5'>Overview</h2>
-      <div className='shadow-lg space-x-20 py-10 mb-5 rounded-lg bg-neutral-100 flex flex-row justify-center'>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'center' }} className='space-x-10'>
-            <div style={{ flex: 1 }}>
-              {transformedData.length > 0 && <BarChart data={transformedData}/>}
-            </div>
-            <div style={{ flex: 1 }}>
-              <DoughnutChart data={donutDashData} chartName={"Type Quantity"}/>
-            </div>
-          </div>
-        )}
+      <div className='shadow-lg py-10 mb-5 rounded-lg bg-neutral-100'>
+  {isLoading ? (
+    <div className='flex justify-center items-center space-x-10'>Loading...</div>
+  ) : (
+    <div className='flex justify-center items-center space-x-10'>
+      <div style={{ width: '50%' }}>
+        <BarChart data={transformedData} />
       </div>
+      <div style={{ width: '30%' }}>
+        <DoughnutChart data={donutDashData} chartName={"Type Quantity"} />
+      </div>
+    </div>
+  )}
+</div>
 
       <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
       <div className='shadow-lg flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
