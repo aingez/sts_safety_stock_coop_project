@@ -9,11 +9,12 @@ function Nav() {
 
   return (
     <ul className='text-[20px] mb-10 flex justify-left p-3 bg-black'>
-        <li className={`mx-2 text-white transition-all hover:text-gray-400 ${pathname === "/" ? "text-yellow-500 font-bold" : ""}`}><Link href="/">M-Stock</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-gray-400 ${pathname === "/pack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/pack">Pack</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-gray-400 ${pathname === "/unpack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/unpack">Unpack</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-gray-400 ${pathname === "/alert" ? "text-yellow-500 font-bold" : ""}`}><Link href="/alert">Alert</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-gray-400 ${pathname === "/search" ? "text-yellow-500 font-bold" : ""}`}><Link href="/search">Search</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/" ? "text-yellow-500 font-bold" : ""}`}><Link href="/">M-Stock</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/pack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/pack">Pack</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/unpack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/unpack">Unpack</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/alert" ? "text-yellow-500 font-bold" : ""}`}><Link href="/alert">Alert</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/search" ? "text-yellow-500 font-bold" : ""}`}><Link href="/search">Search</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/test" ? "text-yellow-500 font-bold" : ""}`}><Link href="/test">Test</Link></li>
     </ul>
   )
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { Button, Radio } from 'antd';
+import { Button, Radio, InputNumber } from 'antd';
 
 function EditorPage() {
   const [palletMode, setPalletMode] = useState('Create');
@@ -83,6 +83,37 @@ function EditorPage() {
       <div className='shadow-lg mb-5 px-5 space-x-5 rounded-lg bg-neutral-100 flex flex-row'>
         <div className='shadow-lg rounded-lg bg-neutral-100 p-10 my-5'>
           <h3 className='text-1xl font-light pb-5'>Create Layout</h3>
+          <div className="flex space-x-5">
+            <div>
+              <label className="flex items-center mb-1 text-xs font-medium">Plant Type</label>
+              <Radio.Group onChange={handlePlantType} size="large" value={plantType} >
+                <Radio.Button value="Engine">Engine</Radio.Button>
+                <Radio.Button value="Casting">Casting</Radio.Button>
+              </Radio.Group>
+            </div>
+            <div>
+              <label className="flex items-center mb-1 text-xs font-medium">Plant Number</label>
+              <Radio.Group onChange={handlePlantNumber} size="large" value={plantNumber} >
+                <Radio.Button value="1">1</Radio.Button>
+                <Radio.Button value="2">2</Radio.Button>
+                <Radio.Button value="3">3</Radio.Button>
+              </Radio.Group>
+            </div>
+          </div>
+          <div className='pt-5 flex flex-row space-x-5'>
+            <label className="flex items-center mb-1 text-xs font-medium">Lane</label>
+            <InputNumber min={1} max={20} defaultValue={0} />
+            <label className="flex items-center mb-1 text-xs font-medium">Row</label>
+            <InputNumber min={1} max={20} defaultValue={0} />
+          </div>
+          <div className='flex flex-row space-x-2 pt-2'>
+            <Button type="primary" size="large" style={{ backgroundColor: palletMode === 'Create' ? '#22c55e' : 'white' }} disabled={palletMode === 'Remove'}>
+              CREATE
+            </Button>
+            <Button type="primary" size="large" style={{ backgroundColor: '#f87171' }} onClick={handleClear}>
+              CLEAR
+            </Button>
+          </div>
         </div>
         <div className='shadow-lg rounded-lg bg-neutral-100 p-10 my-5'>
           <h3 className='text-1xl font-light pb-5'>Remove Layout</h3>

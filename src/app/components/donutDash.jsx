@@ -13,12 +13,12 @@ function DoughnutChart({ data, chartName }) {
       {
         data: data.map(item => item.total),
         backgroundColor: [
-          "#a60a0a",
-          "#bc432e",
-          "#d16a53",
-          "#e38e79",
-          "#f2b2a1",
-          "#ffd7cc"
+          "#d99b0a",
+          "#e1a83d",
+          "#e9b65f",
+          "#efc37e",
+          "#f4d19e",
+          "#f8dfbd"
         ],
         hoverBackgroundColor: [
           "#8f1f79",

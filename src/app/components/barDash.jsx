@@ -17,7 +17,7 @@ const BarChart = ({ data = mockData }) => {
   const labels = data.map(item => item.type);
   const uniqueModels = [...new Set(data.flatMap(item => item.model.map(m => m.model)))];
 
-  const hexColors = ["#8f2a1b", "#b8614f", "#dd9788", "#e89d95", "#cf6c6c", "#b33549"];
+  const hexColors = ["#d99b0a", "#e1a83d", "#e9b65f", "#efc37e", "#f4d19e", "#f8dfbd"];
 
   const datasets = uniqueModels.map((modelName, index) => ({
     label: modelName,
