@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Spin, Alert, Tag } from 'antd';
+import { Table, Alert, Tag } from 'antd';
 
 function AlertTable({ pageSize }) {
     const [apiData, setApiData] = useState(null);
@@ -88,7 +88,7 @@ function AlertTable({ pageSize }) {
     ];
 
     if (loading) {
-        return <Spin />;
+        return <div className='flex justify-center items-center space-x-10'>Loading...</div>;
     }
 
     if (error) {
