@@ -56,35 +56,35 @@ function ModelQuantityChart() {
   const transformedData = transformBarJson(barJson);
 
   return (
-    <div>
-      <h2 className='text-4xl font-light pb-5'>Overview</h2>
-      <div className='shadow-lg py-10 mb-5 rounded-lg bg-neutral-100'>
-  {isLoading ? (
-    <div className='flex justify-center items-center space-x-10'>Loading...</div>
-  ) : (
-    <div className='flex justify-center items-center space-x-10'>
-      <div style={{ width: '50%' }}>
-        <BarChart data={transformedData} />
-      </div>
-      <div style={{ width: '30%' }}>
-        <DoughnutChart data={donutDashData} chartName={"Type Quantity"} />
-      </div>
-    </div>
-  )}
-</div>
-
-      <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
-      <div className='shadow-lg flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
-        <div className='px-5'>
-          <ReusableTable pageSize={3}/>
+  <div className='pb-20'>
+    <h2 className='text-4xl font-light pb-5'>Overview</h2>
+    <div className='shadow-lg py-10 mb-5 rounded-lg bg-neutral-100'>
+    {isLoading ? (
+      <div className='flex justify-center items-center space-x-10'>Loading...</div>
+    ) : (
+      <div className='flex justify-center items-center space-x-10'>
+        <div style={{ width: '50%' }}>
+          <BarChart data={transformedData} />
+        </div>
+        <div style={{ width: '30%' }}>
+          <DoughnutChart data={donutDashData} chartName={"Type Quantity"} />
         </div>
       </div>
+    )}
+  </div>
 
-      <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
-      <div className='shadow-lg flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg'>
-        <WarehouseDash />
+    <h2 className='text-2xl font-light pb-5 justify-start'>Reminder</h2>
+    <div className='shadow-lg flex flex-col space-x-10 pt-4 pb-2 mb-5 rounded-lg bg-neutral-100 justify-center'>
+      <div className='px-5'>
+        <ReusableTable pageSize={3}/>
       </div>
     </div>
+
+    <h2 className='text-2xl font-light pb-5 justify-start'>Warehouse</h2>
+    <div className='shadow-lg flex flex-row space-x-10 py-0 mb-5 bg-neutral-100 rounded-lg'>
+      <WarehouseDash />
+    </div>
+  </div>
   );
 }
 
