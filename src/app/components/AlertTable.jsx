@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Alert, Tag } from 'antd';
 
 function AlertTable({ pageSize }) {
-    const [apiData, setApiData] = useState(null);
+    const [apiData, setApiData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -15,7 +15,6 @@ function AlertTable({ pageSize }) {
                 }
                 const data = await res.json();
                 setApiData(data[0].data);
-                console.log(apiData);
             } catch (err) {
                 setError(err);
             } finally {
@@ -25,6 +24,11 @@ function AlertTable({ pageSize }) {
 
         callAPI();
     }, []);
+
+    const getUniquePartTypes = () => {
+        const types = [...new Set(apiData.map(item => item.type))];
+        return types.map(type => ({ text: type, value: type }));
+    };
 
     const columns = [
         {
@@ -44,6 +48,9 @@ function AlertTable({ pageSize }) {
             title: 'Part Type',
             dataIndex: 'type',
             key: 'type',
+            filters: getUniquePartTypes(),
+            onFilter: (value, record) => record.type === value,
+            filterSearch: true,
         },
         {
             title: 'Pallet Number',
@@ -71,12 +78,12 @@ function AlertTable({ pageSize }) {
             key: 'plant_id',
         },
         {
-            title: 'Lane Location',
+            title: 'Lane',
             dataIndex: 'lane',
             key: 'lane',
         },
         {
-            title: 'Row Location',
+            title: 'Row',
             dataIndex: 'row',
             key: 'row',
         },
@@ -97,7 +104,12 @@ function AlertTable({ pageSize }) {
 
     return (
         <div>
-            <Table columns={columns} dataSource={apiData || []} pagination={{ pageSize }} rowKey="pallet_id" />
+            <Table
+                columns={columns}
+                dataSource={apiData}
+                pagination={{ pageSize }}
+                rowKey="pallet_id"
+            />
         </div>
     );
 }
