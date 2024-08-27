@@ -41,14 +41,18 @@ function DoughnutChart({ data, chartName }) {
       },
       datalabels: {
         display: true,
-        color: 'black',
+        color: 'white',
         font: {
-          size: 11,
+          size: 14,
           weight: 'bold',
         },
+        textStrokeColor	: 'black',
+        textStrokeWidth	: 1,
+        textShadowColor: 'black',
+        textShadowBlur: 15,
         formatter: (value, ctx) => {
           let label = ctx.chart.data.labels[ctx.dataIndex];
-          return `${label}: ${value}`;
+          return `${label} : ${value}`;
         },
       },
       tooltip: {

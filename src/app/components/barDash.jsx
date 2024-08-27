@@ -5,6 +5,7 @@ import React from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
+// Mock data for the Bar chart testing
 const mockData = [
   {"type":"Block","model":[{"model":"CONV","qty":2}],"total":2},
   {"type":"Head","model":[{"model":"HV","qty":1}],"total":1},
@@ -16,7 +17,7 @@ const BarChart = ({ data = mockData }) => {
   const labels = data.map(item => item.type);
   const uniqueModels = [...new Set(data.flatMap(item => item.model.map(m => m.model)))];
 
-  const hexColors = ["#a60a0a", "#bc432e", "#d16a53", "#e38e79", "#f2b2a1", "#ffd7cc"];
+  const hexColors = ["#8f2a1b", "#b8614f", "#dd9788", "#e89d95", "#cf6c6c", "#b33549"];
 
   const datasets = uniqueModels.map((modelName, index) => ({
     label: modelName,
@@ -47,13 +48,19 @@ const BarChart = ({ data = mockData }) => {
       },
       datalabels: {
         display: true,
-        color: 'black',
-        anchor: 'center',
-        align: 'center',
+        color: 'white',
+        font: {
+          size: 12,
+          weight: 'bold',
+        },
+        textStrokeColor	: 'black',
+        textStrokeWidth	: 1,
+        textShadowColor: 'black',
+        textShadowBlur: 15,
         formatter: (value, context) => {
           if (value === 0) return '';
           const modelName = context.dataset.label;
-          return `${modelName}: ${value}`;
+          return `${modelName} : ${value}`;
         },
       },
       tooltip: {
