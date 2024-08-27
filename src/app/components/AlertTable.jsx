@@ -80,6 +80,11 @@ function AlertTable({ pageSize }) {
             dataIndex: 'row',
             key: 'row',
         },
+        {
+            title: 'Layer',
+            dataIndex: 'layer',
+            key: 'layer',
+        },
     ];
 
     if (loading) {
