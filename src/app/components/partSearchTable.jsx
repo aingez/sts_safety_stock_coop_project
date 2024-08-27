@@ -9,7 +9,6 @@ function PartSearchTable({partSerial}) {
   useEffect(() => {
       const callAPI = async () => {
           try {
-              console.log("searching for: " + partSerial);
               const res = await fetch('http://localhost:8000/search/' + partSerial);
               if (!res.ok) {
                   throw new Error('Network response was not ok');
@@ -55,8 +54,8 @@ function PartSearchTable({partSerial}) {
       },
       {
         title: 'Plant Code',
-        dataIndex: 'plant_code',
-        key: 'plant_code',
+        dataIndex: 'plant_id',
+        key: 'plant_id',
       },
       {
         title: 'Row',
@@ -92,7 +91,6 @@ function PartSearchTable({partSerial}) {
 
   return (
     <div>
-      <h2>Search Result : {partSerial}</h2>
       <Table columns={columns} dataSource={apiData || []} rowKey="serial" />
     </div>
   )
