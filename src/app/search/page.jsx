@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ReusableTable from '../components/partSearchTable';
 
 function SearchPage() {
@@ -42,7 +42,20 @@ function SearchPage() {
           </div>
           <div className='pb-5'>
             <button
-              className="mx-1 my-2 select-none rounded-lg bg-red-500 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              className="
+                mx-1 my-2
+                rounded-lg
+                bg-red-500
+                py-3 px-6
+                text-center text-xs font-sans font-bold uppercase text-white
+                shadow-md shadow-red-900/20
+                transition-all
+                hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40
+                focus:opacity-[0.85] focus:shadow-none
+                active:opacity-[0.85] active:shadow-none
+                disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none
+                select-none
+              "
               onClick={handleReset}
               type='button'
             >
