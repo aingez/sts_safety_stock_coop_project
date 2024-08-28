@@ -47,8 +47,7 @@ export default function PackPage() {
   return (
     <div>
       {/* two column style */}
-      <form className="flex flex-row">
-        {/* make content stay on the right */}
+      <form className="flex min-h-screen flex-row">
         <col1 className="mr-5 w-1/2 rounded-lg bg-neutral-100 px-40 py-40 shadow-lg">
           <h1 className="text-4xl font-bold">Un-Packing</h1>
           <div className="p-1">

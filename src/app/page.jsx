@@ -56,8 +56,8 @@ function ModelQuantityChart() {
   const transformedData = transformBarJson(barJson);
 
   return (
-    <div className="pb-20">
-      <h2 className="pb-5 text-4xl font-light">Overview</h2>
+    <div className="min-h-screen pb-20">
+      <h2 class="custom-title-1">Overview</h2>
       <div className="mb-5 rounded-lg bg-neutral-100 py-10 shadow-lg">
         {isLoading ? (
           <div className="flex items-center justify-center space-x-10">
@@ -75,15 +75,15 @@ function ModelQuantityChart() {
         )}
       </div>
 
-      <h2 className="justify-start pb-5 text-2xl font-light">Reminder</h2>
-      <div className="mb-5 flex flex-col justify-center space-x-10 rounded-lg bg-neutral-100 pb-2 pt-4 shadow-lg">
+      <h2 class="custom-subtitle-1">Reminder</h2>
+      <div class="custom-box-2">
         <div className="px-5">
           <ReusableTable pageSize={3} />
         </div>
       </div>
 
-      <h2 className="justify-start pb-5 text-2xl font-light">Warehouse</h2>
-      <div className="mb-5 flex flex-row space-x-10 rounded-lg bg-neutral-100 py-0 shadow-lg">
+      <h2 class="custom-subtitle-1 pt-5">Warehouse</h2>
+      <div class="custom-box-1">
         <WarehouseDash />
       </div>
     </div>

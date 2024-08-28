@@ -25,44 +25,51 @@ function SearchPage() {
   };
 
   return (
-    <>
-      <div>
-        <h1 className="pb-5 text-4xl font-bold">Part Search</h1>
-        <form className="flex flex-col pb-1" onSubmit={handleSubmit}>
-          <div className="p-1">
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Serial Number
-            </label>
-            <input
-              type="text"
-              value={serialInput}
-              onChange={handleChange}
-              className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
-              placeholder="XXXXXXXXXX"
-              required
-            />
+    <div className="flex min-h-screen flex-col">
+      <main className="flex-grow">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="mb-6 text-3xl font-bold">Part Search</h1>
+          <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="mb-1 block text-sm font-medium text-gray-700">
+                  Serial Number
+                </label>
+                <input
+                  type="text"
+                  value={serialInput}
+                  onChange={handleChange}
+                  className="block w-full max-w-xs rounded border border-gray-300 px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  placeholder="XXXXXXXXXX"
+                  required
+                />
+              </div>
+              <div className="flex space-x-4">
+                <button
+                  className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+                  onClick={handleReset}
+                  type="button"
+                >
+                  Reset
+                </button>
+                <button
+                  className="rounded-md bg-green-500 px-4 py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50"
+                  type="submit"
+                >
+                  Search
+                </button>
+              </div>
+            </form>
           </div>
-          <div className="pb-5">
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-red-500 px-6 py-3 text-center font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              onClick={handleReset}
-              type="button"
-            >
-              Reset
-            </button>
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-green-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="submit"
-            >
-              Search
-            </button>
-          </div>
-        </form>
-      </div>
-      {tableKey > 0 && (
-        <ReusableTable key={tableKey} partSerial={serialInput} />
-      )}
-    </>
+          {tableKey > 0 && (
+            <div className="rounded-lg bg-white p-6 shadow-md">
+              <h3 className="mb-4 text-xl font-semibold">Results</h3>
+              <ReusableTable key={tableKey} partSerial={serialInput} />
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
   );
 }
 

@@ -29,7 +29,8 @@ const PalletEditor = ({
   };
 
   return (
-    <div className="mb-5 flex flex-row space-x-5 rounded-lg bg-neutral-100 px-5 shadow-lg">
+    // <div className="mb-5 flex flex-row space-x-5 rounded-lg bg-neutral-100 px-5 shadow-lg">
+    <div class="custom-box-1">
       <div className="space-y-2 p-5">
         <div>
           <label className="mb-1 flex items-center text-xs font-medium">
@@ -165,8 +166,8 @@ const WarehouseEditor = ({
   };
 
   return (
-    <div className="mb-5 flex flex-row space-x-5 rounded-lg bg-neutral-100 px-5 shadow-lg">
-      <div className="my-5 rounded-lg bg-neutral-100 p-10 shadow-lg">
+    <div class="custom-box-1">
+      <div class="custom-box-2">
         <div className="pb-2">
           <label className="mb-1 flex items-center text-xs font-medium">
             Mode Select
@@ -229,7 +230,7 @@ const WarehouseEditor = ({
             onChange={handleRowChange}
           />
         </div>
-        <div className="flex flex-row space-x-2 pt-2">
+        <div className="my-2 flex flex-row space-x-2 pt-2">
           <Button
             danger
             type="primary"
@@ -261,7 +262,7 @@ const WarehouseEditor = ({
           </Button>
         </div>
       </div>
-      <div className="my-5 rounded-lg bg-neutral-100 p-10 shadow-lg">
+      <div class="custom-box-2">
         <h3 className="text-1xl pb-5 font-light">Layout Preview</h3>
         <LayoutMock laneNumber={laneNumber} rowNumber={rowNumber} />
       </div>
@@ -281,10 +282,9 @@ function EditorPage() {
   };
 
   return (
-    <div className="pb-20">
-      <h1 className="pb-5 text-4xl font-light">Data Editor</h1>
-
-      <h2 className="justify-start pb-5 text-2xl font-light">Pallet Editor</h2>
+    <div className="min-h-screen pb-20">
+      <h1 class="custom-title-1">Data Editor</h1>
+      <h2 class="custom-subtitle-2">Pallet Editor</h2>
       <PalletEditor
         palletMode={palletMode}
         setPalletMode={setPalletMode}
@@ -295,9 +295,7 @@ function EditorPage() {
         handleClear={handleClear}
       />
 
-      <h2 className="justify-start pb-5 text-2xl font-light">
-        Warehouse Editor
-      </h2>
+      <h2 class="custom-subtitle-2">Warehouse Editor</h2>
       <WarehouseEditor
         palletMode={palletMode}
         setPalletMode={setPalletMode}

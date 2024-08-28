@@ -46,9 +46,7 @@ export default function PackPage() {
 
   return (
     <div>
-      {/* two column style */}
-      <form className="flex flex-row">
-        {/* make content stay on the right */}
+      <form className="flex min-h-screen flex-row">
         <col1 className="mr-5 w-1/2 rounded-lg bg-neutral-100 px-40 py-40 shadow-lg">
           <h1 className="text-4xl font-bold">Packing</h1>
           <div className="p-1">
@@ -89,7 +87,6 @@ export default function PackPage() {
             ></input>
           </div>
           <div className="flex flex-row space-x-5 p-1">
-            {/* row, col input */}
             <div>
               <label class="mb-1 flex items-center text-xs font-medium">
                 Lane
