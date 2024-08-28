@@ -82,8 +82,8 @@ function ModelQuantityChart() {
         </div>
       </div>
 
-      <h2 class="custom-subtitle-1 pt-5">Warehouse</h2>
-      <div class="custom-box-1">
+      <h2 class="custom-subtitle-1 py-5">Warehouse</h2>
+      <div class="custom-box-1 mt-5">
         <WarehouseDash />
       </div>
     </div>
