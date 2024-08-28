@@ -14,7 +14,7 @@ function Nav() {
         <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/unpack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/unpack">Unpack</Link></li>
         <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/alert" ? "text-yellow-500 font-bold" : ""}`}><Link href="/alert">Alert</Link></li>
         <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/search" ? "text-yellow-500 font-bold" : ""}`}><Link href="/search">Search</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/test" ? "text-yellow-500 font-bold" : ""}`}><Link href="/test">Test</Link></li>
+        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/editor" ? "text-yellow-500 font-bold" : ""}`}><Link href="/editor">Edit</Link></li>
     </ul>
   )
 }

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button, Radio, InputNumber } from 'antd';
+import LayoutMock from '../components/layoutMock';
 
 function EditorPage() {
   const [palletMode, setPalletMode] = useState('Create');
@@ -106,7 +107,7 @@ function EditorPage() {
             <label className="flex items-center mb-1 text-xs font-medium">Row</label>
             <InputNumber min={1} max={20} defaultValue={0} />
           </div>
-          <div className='flex flex-row space-x-2 pt-2'>
+          <div className='flex flex-row space-x-2 pt-5'>
             <Button type="primary" size="large" style={{ backgroundColor: palletMode === 'Create' ? '#22c55e' : 'white' }} disabled={palletMode === 'Remove'}>
               CREATE
             </Button>
@@ -114,6 +115,10 @@ function EditorPage() {
               CLEAR
             </Button>
           </div>
+        </div>
+        <div className='shadow-lg rounded-lg bg-neutral-100 p-10 my-5'>
+          <h3 className='text-1xl font-light pb-5'>Layout Preview</h3>
+          <LayoutMock laneNumber={2} rowNumber={10} />
         </div>
         <div className='shadow-lg rounded-lg bg-neutral-100 p-10 my-5'>
           <h3 className='text-1xl font-light pb-5'>Remove Layout</h3>
