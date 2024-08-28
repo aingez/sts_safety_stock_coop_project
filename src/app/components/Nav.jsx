@@ -1,22 +1,46 @@
-'use client'
+"use client";
 
-import React from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 function Nav() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
-    <ul className='text-[20px] mb-10 flex justify-left p-3 bg-black'>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/" ? "text-yellow-500 font-bold" : ""}`}><Link href="/">M-Stock</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/pack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/pack">Pack</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/unpack" ? "text-yellow-500 font-bold" : ""}`}><Link href="/unpack">Unpack</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/alert" ? "text-yellow-500 font-bold" : ""}`}><Link href="/alert">Alert</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/search" ? "text-yellow-500 font-bold" : ""}`}><Link href="/search">Search</Link></li>
-        <li className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/editor" ? "text-yellow-500 font-bold" : ""}`}><Link href="/editor">Edit</Link></li>
+    <ul className="justify-left mb-10 flex bg-black p-3 text-[20px]">
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/">M-Stock</Link>
+      </li>
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/pack" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/pack">Pack</Link>
+      </li>
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/unpack" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/unpack">Unpack</Link>
+      </li>
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/alert" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/alert">Alert</Link>
+      </li>
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/search" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/search">Search</Link>
+      </li>
+      <li
+        className={`mx-2 text-white transition-all hover:text-yellow-700 ${pathname === "/editor" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/editor">Edit</Link>
+      </li>
     </ul>
-  )
+  );
 }
 
-export default Nav
+export default Nav;
