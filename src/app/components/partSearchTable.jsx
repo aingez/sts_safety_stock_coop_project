@@ -15,7 +15,7 @@ function PartSearchTable({ partSerial }) {
         }
         const data = await res.json();
         setApiData([data[0].data]);
-        console.log(apiData);
+        console.log(data);
       } catch (err) {
         setError(err);
       } finally {
@@ -81,8 +81,8 @@ function PartSearchTable({ partSerial }) {
     },
     {
       title: "Un-Pack Date",
-      dataIndex: "unpack_date",
-      key: "unpack_date", // Assign a unique key for the column
+      dataIndex: "formatted_unpack_date",
+      key: "formatted_unpack_date",
     },
     {
       title: "Un-Packer",
