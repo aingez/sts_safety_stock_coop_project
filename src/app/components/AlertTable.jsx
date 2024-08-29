@@ -54,13 +54,13 @@ function AlertTable({ pageSize }) {
     },
     {
       title: "Pallet Number",
-      dataIndex: "pallet_id",
-      key: "pallet_id",
+      dataIndex: "pallet_name",
+      key: "pallet_name",
     },
     {
       title: "Packing Date",
-      dataIndex: "pack_date",
-      key: "pack_date",
+      dataIndex: "formatted_pack_date",
+      key: "formatted_pack_date",
     },
     {
       title: "Age Days",
