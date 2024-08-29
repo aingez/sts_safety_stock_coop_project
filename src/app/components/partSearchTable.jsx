@@ -44,15 +44,17 @@ function PartSearchTable({ partSerial }) {
     },
     {
       title: "Pallet Number",
-      dataIndex: "pallet_id",
-      key: "pallet_id",
+      dataIndex: "pallet_name",
+      key: "pallet_name",
     },
     {
+      // ISSUE
       title: "Plant Type",
       dataIndex: "plant_type",
       key: "plant_type",
     },
     {
+      // ISSUE
       title: "Plant Code",
       dataIndex: "plant_id",
       key: "plant_id",
@@ -69,8 +71,8 @@ function PartSearchTable({ partSerial }) {
     },
     {
       title: "Packing Date",
-      dataIndex: "pack_date",
-      key: "pack_date",
+      dataIndex: "formatted_pack_date",
+      key: "formatted_pack_date",
     },
     {
       title: "Packer",
