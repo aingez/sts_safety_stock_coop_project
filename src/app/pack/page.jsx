@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Table, Input } from "antd";
+import { Table, Input, Button, Radio, InputNumber } from "antd";
 
 export default function PackPage() {
   const partTypeSerialCount = {
@@ -10,7 +10,7 @@ export default function PackPage() {
     Crankshaft: 12,
   };
 
-  const [formData, setFormData] = useState({
+  const [divData, setdivData] = useState({
     employeeId: "",
     employeeName: "",
     palletId: "",
@@ -28,15 +28,15 @@ export default function PackPage() {
         CR: 12,
       };
       const serialNumbers = Array(partTypeSerialCount[partType]).fill("");
-      setFormData({
-        ...formData,
+      setdivData({
+        ...divData,
         palletId,
         partType,
         serialNumbers,
       });
     } else {
-      setFormData({
-        ...formData,
+      setdivData({
+        ...divData,
         palletId,
         partType: "",
         serialNumbers: [],
@@ -45,119 +45,137 @@ export default function PackPage() {
   };
 
   return (
-    <div>
-      <form className="flex min-h-screen flex-row">
-        <col1 className="mr-5 w-1/2 rounded-lg bg-neutral-100 px-40 py-40 shadow-lg">
-          <h1 className="text-4xl font-bold">Packing</h1>
-          <div className="p-1">
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Employee ID
-            </label>
+    <div className="mb-20 flex min-h-screen flex-row space-x-10">
+      <form className="custom-box-1">
+        <div className="flex flex-col p-10">
+          <h1 className="custom-title-1">Packing</h1>
+          <div className="custom-input-layout-1">
+            <label>Employee ID</label>
             <input
               type="text"
               onInput={(e) => handlePalletIdChange(e)}
-              className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
+              className="custom-text-input-1"
               placeholder="XXXXXXXXX"
               required
             ></input>
           </div>
-          <div className="p-1">
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Name - Surname
-            </label>
+          <div className="custom-input-layout-1">
+            <label>Name - Surname</label>
             <input
               type="text"
               onInput={(e) => handlePalletIdChange(e)}
-              className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
+              className="custom-text-input-1"
               placeholder="Sprinter Trueno"
               required
             ></input>
           </div>
-
-          <div className="p-1">
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Pallet ID
-            </label>
-            <input
-              type="text"
-              onInput={(e) => handlePalletIdChange(e)}
-              className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
-              placeholder="XX-00-X"
-              required
-            ></input>
-          </div>
-          <div className="flex flex-row space-x-5 p-1">
-            <div>
-              <label className="mb-1 flex items-center text-xs font-medium">
-                Lane
-              </label>
+          <div className="flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label>Pallet ID</label>
               <input
                 type="text"
                 onInput={(e) => handlePalletIdChange(e)}
-                className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
-                placeholder="XX"
+                className="custom-text-input-1"
+                placeholder="XX-00-X"
                 required
               ></input>
             </div>
-            <div>
-              <label className="mb-1 flex items-center text-xs font-medium">
-                Row
-              </label>
-              <input
-                type="text"
-                onInput={(e) => handlePalletIdChange(e)}
-                className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
-                placeholder="XX"
-                required
-              ></input>
+            <div className="custom-input-layout-1">
+              <label>Plant Type</label>
+              <Radio.Group
+                // onChange={handlePlantTypeChange}
+                size="large"
+                // value={plantType}
+                // disabled={palletMode === "Remove"}
+              >
+                <Radio.Button value="Engine">Engine</Radio.Button>
+                <Radio.Button value="Casting">Casting</Radio.Button>
+              </Radio.Group>
             </div>
-            <div>
-              <label className="mb-1 flex items-center text-xs font-medium">
-                Layer
-              </label>
-              <input
-                type="text"
-                onInput={(e) => handlePalletIdChange(e)}
-                className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded border border-black bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-900 focus:outline-none"
-                placeholder="XX"
-                required
-              ></input>
+            <div className="custom-input-layout-1">
+              <label>Plant Number</label>
+              <Radio.Group
+                // onChange={handlePlantNumberChange}
+                size="large"
+                // value={plantNumber}
+                // disabled={palletMode === "Remove"}
+              >
+                <Radio.Button value="1">1</Radio.Button>
+                <Radio.Button value="2">2</Radio.Button>
+                <Radio.Button value="3">3</Radio.Button>
+              </Radio.Group>
             </div>
           </div>
-
-          <div>
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-red-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="reset"
-            >
+          {/* position */}
+          <div className="flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label>Lane</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Row</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Pile (Not Sure)</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Layer</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+              ></input>
+            </div>
+          </div>
+          <div className="my-4 flex flex-row space-x-2">
+            <button className="custom-button-1-red" type="reset">
               Reset
             </button>
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-green-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="save"
-            >
+            <button className="custom-button-1-green" type="save">
               Update
             </button>
           </div>
-        </col1>
-
-        <col2 className="min-h-full w-1/2">
-          <Table dataSource={formData.serialNumbers} pagination={false}>
-            <Table.Column
-              title="Serial Number Input"
-              dataIndex="serialNumber"
-              key="serialNumber"
-              render={(text, record, index) => (
-                <Input
-                  placeholder={`Serial ${index + 1}`}
-                  value={text}
-                  onChange={(e) => handleSerialNumberChange(e, index)}
-                />
-              )}
-            />
-          </Table>
-        </col2>
+        </div>
       </form>
+
+      <div className="min-h-full w-1/2">
+        <Table dataSource={divData.serialNumbers} pagination={false}>
+          <Table.Column
+            title="Serial Number Input"
+            dataIndex="serialNumber"
+            key="serialNumber"
+            render={(text, record, index) => (
+              <Input
+                placeholder={`Serial ${index + 1}`}
+                value={text}
+                onChange={(e) => handleSerialNumberChange(e, index)}
+              />
+            )}
+          />
+        </Table>
+      </div>
     </div>
   );
 }
