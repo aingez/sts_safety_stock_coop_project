@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import ReusableTable from "../components/partSearchTable";
+import ReusableTable from "../../components/partSearchTable";
 
 function SearchPage() {
   const [serialInput, setSerialInput] = useState("");

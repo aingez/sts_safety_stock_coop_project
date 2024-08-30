@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import DoughnutChart from "./components/donutDash";
-import BarChart from "./components/barDash";
-import ReusableTable from "./components/alertTable";
-import WarehouseDash from "./components/warehouseDash";
+import DoughnutChart from "../components/donutDash";
+import BarChart from "../components/barDash";
+import ReusableTable from "../components/alertTable";
+import WarehouseDash from "../components/warehouseDash";
 
 function ModelQuantityChart() {
   const [barJson, setBarJson] = useState([]);

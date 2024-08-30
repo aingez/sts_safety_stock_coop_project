@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Alert, Tag } from "antd";
+import { Table, Alert, Tag, Spin } from "antd";
 
 function AlertTable({ pageSize }) {
   const [apiData, setApiData] = useState([]);
@@ -16,7 +16,7 @@ function AlertTable({ pageSize }) {
         const data = await res.json();
         setApiData(data[0].data);
       } catch (err) {
-        setError(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -27,7 +27,10 @@ function AlertTable({ pageSize }) {
 
   const getUniquePartTypes = () => {
     const types = [...new Set(apiData.map((item) => item.type))];
-    return types.map((type) => ({ text: type, value: type }));
+    return types.map((type) => ({
+      text: type,
+      value: type,
+    }));
   };
 
   const columns = [
@@ -35,14 +38,7 @@ function AlertTable({ pageSize }) {
       title: "Status",
       dataIndex: "color_status",
       key: "color_status",
-      // render as antd color tag
-      render: (color) => {
-        return (
-          <span>
-            <Tag color={color}>{color.toUpperCase()}</Tag>
-          </span>
-        );
-      },
+      render: (color) => <Tag color={color}>{color.toUpperCase()}</Tag>,
     },
     {
       title: "Part Type",
@@ -97,13 +93,13 @@ function AlertTable({ pageSize }) {
   if (loading) {
     return (
       <div className="flex items-center justify-center space-x-10">
-        Loading...
+        <Spin size="large" />
       </div>
     );
   }
 
   if (error) {
-    return <Alert message="Error" description={error.message} type="error" />;
+    return <Alert message="Error" description={error} type="error" showIcon />;
   }
 
   return (
@@ -112,7 +108,7 @@ function AlertTable({ pageSize }) {
         columns={columns}
         dataSource={apiData}
         pagination={{ pageSize }}
-        rowKey="pallet_id"
+        rowKey={(record) => record.pallet_id}
       />
     </div>
   );

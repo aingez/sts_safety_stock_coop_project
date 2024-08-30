@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spin, Alert, Tag } from "antd";
+import { Table, Spin, Alert } from "antd";
 
 function PartSearchTable({ partSerial }) {
   const [apiData, setApiData] = useState(null);
@@ -9,22 +9,21 @@ function PartSearchTable({ partSerial }) {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const res = await fetch("http://localhost:8000/search/" + partSerial);
+        const res = await fetch(`http://localhost:8000/search/${partSerial}`);
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setApiData([data[0].data]);
-        console.log(data);
+        setApiData(data[0].data);
       } catch (err) {
-        setError(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
     };
 
     callAPI();
-  }, []);
+  }, [partSerial]);
 
   const columns = [
     {
@@ -48,13 +47,11 @@ function PartSearchTable({ partSerial }) {
       key: "pallet_name",
     },
     {
-      // ISSUE
       title: "Plant Type",
       dataIndex: "plant_type",
       key: "plant_type",
     },
     {
-      // ISSUE
       title: "Plant Code",
       dataIndex: "plant_id",
       key: "plant_id",
@@ -91,9 +88,21 @@ function PartSearchTable({ partSerial }) {
     },
   ];
 
+  if (loading) {
+    return <Spin size="large" />;
+  }
+
+  if (error) {
+    return <Alert message="Error" description={error} type="error" showIcon />;
+  }
+
   return (
     <div>
-      <Table columns={columns} dataSource={apiData || []} rowKey="serial" />
+      <Table
+        columns={columns}
+        dataSource={apiData ? [apiData] : []}
+        rowKey={(record) => record.serial}
+      />
     </div>
   );
 }

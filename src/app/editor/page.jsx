@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button, Radio, InputNumber } from "antd";
-import LayoutMock from "../components/layoutMock";
+import LayoutMock from "../../components/layoutMock";
 
 const PalletEditor = ({
   palletMode,
