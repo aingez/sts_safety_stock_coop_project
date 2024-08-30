@@ -25,7 +25,7 @@ function layoutMock({ laneNumber, rowNumber }) {
               </td>
               {[...Array(rowNumber)].map((_, rowIndex) => (
                 <td key={rowIndex} className="p-1">
-                  <div className="h-10 w-10 rounded-lg bg-amber-500 shadow-lg"></div>
+                  <div className="h-10 w-10 rounded-lg bg-amber-400 shadow-lg"></div>
                 </td>
               ))}
             </tr>

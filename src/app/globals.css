@@ -14,10 +14,22 @@
     @apply text-4xl font-normal py-5;
 }
 
+.custom-box-title-1 {
+    @apply text-lg my-2;
+}
+
 .custom-subtitle-1 {
     @apply text-2xl font-light pb-0;
 }
 
 .custom-subtitle-2 {
     @apply text-2xl font-light py-5;
+}
+
+.custom-input-layout-1 {
+    @apply flex flex-col;
+}
+
+.custom-text-input-1 {
+    @apply border-2 border-neutral-200 rounded-lg p-2 block w-full max-w-xs bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-200 focus:outline-none;
 }

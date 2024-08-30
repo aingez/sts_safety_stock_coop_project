@@ -29,13 +29,11 @@ const PalletEditor = ({
   };
 
   return (
-    // <div className="mb-5 flex flex-row space-x-5 rounded-lg bg-neutral-100 px-5 shadow-lg">
     <div class="custom-box-1">
-      <div className="space-y-2 p-5">
-        <div>
-          <label className="mb-1 flex items-center text-xs font-medium">
-            Mode Select
-          </label>
+      <div className="custom-box-2">
+        <h1 className="custom-box-title-1">Create/Remove</h1>
+        <div className="custom-input-layout-1">
+          <label>Mode Select</label>
           <Radio.Group
             onChange={handlePalletModeChange}
             size="large"
@@ -45,22 +43,18 @@ const PalletEditor = ({
             <Radio.Button value="Remove">REMOVE</Radio.Button>
           </Radio.Group>
         </div>
-        <div className="flex space-x-5">
-          <div>
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Pallet ID
-            </label>
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Pallet ID</label>
             <input
               type="text"
-              className="shadow-xs placeholder-grey-700 block w-full max-w-xs rounded-lg border border-neutral-300 bg-transparent bg-white px-4 py-2 text-sm font-normal leading-relaxed text-gray-200 focus:outline-none"
+              className="custom-text-input-1"
               placeholder="XX-XX-X"
               required
             />
           </div>
-          <div>
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Plant Type
-            </label>
+          <div className="custom-input-layout-1">
+            <label>Plant Type</label>
             <Radio.Group
               onChange={handlePlantTypeChange}
               size="large"
@@ -71,10 +65,8 @@ const PalletEditor = ({
               <Radio.Button value="Casting">Casting</Radio.Button>
             </Radio.Group>
           </div>
-          <div>
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Plant Number
-            </label>
+          <div className="custom-input-layout-1">
+            <label>Plant Number</label>
             <Radio.Group
               onChange={handlePlantNumberChange}
               size="large"
@@ -87,7 +79,7 @@ const PalletEditor = ({
             </Radio.Group>
           </div>
         </div>
-        <div className="flex flex-row space-x-2 pt-2">
+        <div className="my-2 space-x-2">
           <Button
             danger
             type="primary"
@@ -122,6 +114,76 @@ const PalletEditor = ({
               *Able to remove only Unpacked Pallet
             </p>
           )}
+        </div>
+      </div>
+
+      <div className="custom-box-2">
+        <h1 className="custom-box-title-1">Pallet Mover</h1>
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Pallet ID</label>
+            <input
+              type="text"
+              className="custom-text-input-1"
+              placeholder="XX-XX-X"
+              required
+            />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Plant Type</label>
+            <Radio.Group
+              onChange={handlePlantTypeChange}
+              size="large"
+              value={plantType}
+              disabled={palletMode === "Remove"}
+            >
+              <Radio.Button value="Engine">Engine</Radio.Button>
+              <Radio.Button value="Casting">Casting</Radio.Button>
+            </Radio.Group>
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Plant Number</label>
+            <Radio.Group
+              onChange={handlePlantNumberChange}
+              size="large"
+              value={plantNumber}
+              disabled={palletMode === "Remove"}
+            >
+              <Radio.Button value="1">1</Radio.Button>
+              <Radio.Button value="2">2</Radio.Button>
+              <Radio.Button value="3">3</Radio.Button>
+            </Radio.Group>
+          </div>
+        </div>
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Lane</label>
+            <InputNumber min={1} max={20} defaultValue={3} />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Row</label>
+            <InputNumber min={1} max={20} defaultValue={10} />
+          </div>
+        </div>
+        <div className="my-2 space-x-2">
+          <Button
+            type="primary"
+            size="large"
+            style={{
+              backgroundColor: palletMode === "Create" ? "#22c55e" : "white",
+            }}
+            // disabled={palletMode === "Remove"}
+          >
+            MOVE
+          </Button>
+          <Button
+            type="primary"
+            size="large"
+            style={{ backgroundColor: "#f87171" }}
+            // onClick={handleClear}
+          >
+            CLEAR
+          </Button>
         </div>
       </div>
     </div>
@@ -168,24 +230,22 @@ const WarehouseEditor = ({
   return (
     <div class="custom-box-1">
       <div class="custom-box-2">
-        <div className="pb-2">
-          <label className="mb-1 flex items-center text-xs font-medium">
-            Mode Select
-          </label>
-          <Radio.Group
-            onChange={(e) => setPalletMode(e.target.value)}
-            size="large"
-            value={palletMode}
-          >
-            <Radio.Button value="Create">CREATE</Radio.Button>
-            <Radio.Button value="Remove">REMOVE</Radio.Button>
-          </Radio.Group>
-        </div>
-        <div className="flex space-x-5">
-          <div>
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Plant Type
-            </label>
+        <h1 className="custom-box-title-1">Create/Remove</h1>
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label className="">Mode Select</label>
+            <Radio.Group
+              onChange={(e) => setPalletMode(e.target.value)}
+              size="large"
+              value={palletMode}
+            >
+              <Radio.Button value="Create">CREATE</Radio.Button>
+              <Radio.Button value="Remove">REMOVE</Radio.Button>
+            </Radio.Group>
+          </div>
+
+          <div className="custom-input-layout-1">
+            <label className="">Plant Type</label>
             <Radio.Group
               onChange={(e) => setPlantType(e.target.value)}
               size="large"
@@ -195,10 +255,8 @@ const WarehouseEditor = ({
               <Radio.Button value="Casting">Casting</Radio.Button>
             </Radio.Group>
           </div>
-          <div>
-            <label className="mb-1 flex items-center text-xs font-medium">
-              Plant Number
-            </label>
+          <div className="custom-input-layout-1">
+            <label>Plant Number</label>
             <Radio.Group
               onChange={(e) => setPlantNumber(e.target.value)}
               size="large"
@@ -210,27 +268,27 @@ const WarehouseEditor = ({
             </Radio.Group>
           </div>
         </div>
-        <div className="flex flex-row space-x-5 pt-5">
-          <label className="mb-1 flex items-center text-xs font-medium">
-            Lane
-          </label>
-          <InputNumber
-            min={1}
-            max={20}
-            defaultValue={3}
-            onChange={handleLaneChange}
-          />
-          <label className="mb-1 flex items-center text-xs font-medium">
-            Row
-          </label>
-          <InputNumber
-            min={1}
-            max={20}
-            defaultValue={10}
-            onChange={handleRowChange}
-          />
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Lane</label>
+            <InputNumber
+              min={1}
+              max={20}
+              defaultValue={3}
+              onChange={handleLaneChange}
+            />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Row</label>
+            <InputNumber
+              min={1}
+              max={20}
+              defaultValue={10}
+              onChange={handleRowChange}
+            />
+          </div>
         </div>
-        <div className="my-2 flex flex-row space-x-2 pt-2">
+        <div className="my-2 space-x-2">
           <Button
             danger
             type="primary"
@@ -262,8 +320,9 @@ const WarehouseEditor = ({
           </Button>
         </div>
       </div>
+
       <div class="custom-box-2">
-        <h3 className="text-1xl pb-5 font-light">Layout Preview</h3>
+        <h3 className="custom-box-title-1">Layout Preview</h3>
         <LayoutMock laneNumber={laneNumber} rowNumber={rowNumber} />
       </div>
     </div>
