@@ -6,24 +6,32 @@ function AlertTable({ pageSize }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const callAPI = async () => {
-      try {
-        const res = await fetch("http://localhost:8000/pallet_age_rank");
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        setApiData(data[0].data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/pallet_age_rank");
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
       }
-    };
+      const data = await res.json();
+      setApiData(data[0].data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    callAPI();
-  }, []);
+  useEffect(() => {
+    fetchData(); // Initial fetch
+
+    // Set up an interval to refetch the data every 5 seconds
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 30000); // milliseconds
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array
 
   const getUniquePartTypes = () => {
     const types = [...new Set(apiData.map((item) => item.type))];
