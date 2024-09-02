@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/donutDash";
-import BarChart from "../components/barDash";
+// import BarChart from "../components/barDash";
+import BarChart from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";
 
@@ -64,13 +65,13 @@ function ModelQuantityChart() {
             Loading...
           </div>
         ) : (
-          <div className="flex items-center justify-center space-x-10">
+          <div className="flex space-x-10 px-10">
             <div style={{ width: "50%" }}>
-              <BarChart data={transformedData} />
+              <BarChart />
             </div>
-            <div style={{ width: "30%" }}>
+            {/* <div style={{ width: "30%" }}>
               <DoughnutChart data={donutDashData} chartName={"Type Quantity"} />
-            </div>
+            </div> */}
           </div>
         )}
       </div>
