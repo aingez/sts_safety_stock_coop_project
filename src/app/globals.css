@@ -18,6 +18,10 @@
     @apply text-lg my-2;
 }
 
+.custom-box-title-2 {
+    @apply text-sm font-normal text-amber-500;
+}
+
 .custom-subtitle-1 {
     @apply text-2xl font-light pb-0;
 }
