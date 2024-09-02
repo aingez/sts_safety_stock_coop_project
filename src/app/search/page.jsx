@@ -73,16 +73,13 @@ function SearchPage() {
               </div>
             </div>
             <div className="my-2 space-x-2">
-              <button
-                type="submit"
-                className="rounded-lg bg-green-500 px-4 py-2 text-white hover:bg-green-600"
-              >
+              <button type="submit" className="custom-button-1-green">
                 SEARCH
               </button>
               <button
                 onClick={handleReset}
                 type="button"
-                className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                className="custom-button-1-red"
               >
                 CLEAR
               </button>

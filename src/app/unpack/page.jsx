@@ -1,16 +1,28 @@
 "use client";
 
 import React, { useState } from "react";
-import { Table, Input } from "antd";
+import { Table, Input, Button, Radio, InputNumber } from "antd";
 
-export default function PackPage() {
+export default function UnPackPage() {
+  const [dateTimeValues, setDateTimeValues] = useState({});
+
+  const handleSerialNumberChange = (e, index) => {
+    const newDateTime = new Date().toLocaleString(); // Get current date and time
+
+    // Update the state for the specific row
+    setDateTimeValues((prev) => ({
+      ...prev,
+      [index]: newDateTime,
+    }));
+  };
+
   const partTypeSerialCount = {
     Block: 6,
     Head: 8,
     Crankshaft: 12,
   };
 
-  const [formData, setFormData] = useState({
+  const [divData, setdivData] = useState({
     employeeId: "",
     employeeName: "",
     palletId: "",
@@ -28,15 +40,15 @@ export default function PackPage() {
         CR: 12,
       };
       const serialNumbers = Array(partTypeSerialCount[partType]).fill("");
-      setFormData({
-        ...formData,
+      setdivData({
+        ...divData,
         palletId,
         partType,
         serialNumbers,
       });
     } else {
-      setFormData({
-        ...formData,
+      setdivData({
+        ...divData,
         palletId,
         partType: "",
         serialNumbers: [],
@@ -69,63 +81,95 @@ export default function PackPage() {
               required
             ></input>
           </div>
-          <div className="custom-input-layout-1">
-            <label>Pallet ID</label>
-            <input
-              type="text"
-              onInput={(e) => handlePalletIdChange(e)}
-              className="custom-text-input-1"
-              placeholder="XX-00-X"
-              required
-            ></input>
+          <div className="flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label>Pallet ID</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX-00-X"
+                required
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Plant Type</label>
+              <Radio.Group
+                // onChange={handlePlantTypeChange}
+                size="large"
+                // value={plantType}
+                // disabled={palletMode === "Remove"}
+              >
+                <Radio.Button value="Engine">Engine</Radio.Button>
+                <Radio.Button value="Casting">Casting</Radio.Button>
+              </Radio.Group>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Plant Number</label>
+              <Radio.Group
+                // onChange={handlePlantNumberChange}
+                size="large"
+                // value={plantNumber}
+                // disabled={palletMode === "Remove"}
+              >
+                <Radio.Button value="1">1</Radio.Button>
+                <Radio.Button value="2">2</Radio.Button>
+                <Radio.Button value="3">3</Radio.Button>
+              </Radio.Group>
+            </div>
           </div>
-          {/* position unused */}
+          {/* position */}
           <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
               <label>Lane</label>
               <input
-                disabled
                 type="text"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
+                disabled
               ></input>
             </div>
             <div className="custom-input-layout-1">
               <label>Row</label>
               <input
-                disabled
                 type="text"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
+                disabled
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Pile (Not Sure)</label>
+              <input
+                type="text"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+                disabled
               ></input>
             </div>
             <div className="custom-input-layout-1">
               <label>Layer</label>
               <input
-                disabled
                 type="text"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
+                disabled
               ></input>
             </div>
           </div>
-          <div className="my-2 flex flex-row">
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-red-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-900/20 transition-all hover:bg-red-400 hover:shadow-lg hover:shadow-red-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="reset"
-            >
+          <div className="my-4 flex flex-row space-x-2">
+            <button className="custom-button-1-red" type="reset">
               Reset
             </button>
-            <button
-              className="mx-1 my-2 select-none rounded-lg bg-green-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-              type="save"
-            >
+            <button className="custom-button-1-green" type="update">
               Update
             </button>
           </div>
@@ -133,7 +177,7 @@ export default function PackPage() {
       </form>
 
       <div className="min-h-full w-1/2">
-        <Table dataSource={formData.serialNumbers} pagination={false}>
+        <Table dataSource={divData.serialNumbers} pagination={false}>
           <Table.Column
             title="Serial Number Input"
             dataIndex="serialNumber"
@@ -143,6 +187,18 @@ export default function PackPage() {
                 placeholder={`Serial ${index + 1}`}
                 value={text}
                 onChange={(e) => handleSerialNumberChange(e, index)}
+              />
+            )}
+          />
+          <Table.Column
+            title="Pack Date Time"
+            dataIndex="dateTime"
+            key="dateTime"
+            render={(_, __, index) => (
+              <Input
+                placeholder="Current Date Time"
+                value={dateTimeValues[index] || ""}
+                disabled
               />
             )}
           />

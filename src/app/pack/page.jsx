@@ -165,7 +165,7 @@ export default function PackPage() {
             <button className="custom-button-1-red" type="reset">
               Reset
             </button>
-            <button className="custom-button-1-green" type="save">
+            <button className="custom-button-1-green" type="update">
               Update
             </button>
           </div>
@@ -187,7 +187,7 @@ export default function PackPage() {
             )}
           />
           <Table.Column
-            title="Date Time"
+            title="Pack Date Time"
             dataIndex="dateTime"
             key="dateTime"
             render={(_, __, index) => (
