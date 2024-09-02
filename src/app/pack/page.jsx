@@ -4,6 +4,18 @@ import React, { useState } from "react";
 import { Table, Input, Button, Radio, InputNumber } from "antd";
 
 export default function PackPage() {
+  const [dateTimeValues, setDateTimeValues] = useState({});
+
+  const handleSerialNumberChange = (e, index) => {
+    const newDateTime = new Date().toLocaleString(); // Get current date and time
+
+    // Update the state for the specific row
+    setDateTimeValues((prev) => ({
+      ...prev,
+      [index]: newDateTime,
+    }));
+  };
+
   const partTypeSerialCount = {
     Block: 6,
     Head: 8,
@@ -171,6 +183,18 @@ export default function PackPage() {
                 placeholder={`Serial ${index + 1}`}
                 value={text}
                 onChange={(e) => handleSerialNumberChange(e, index)}
+              />
+            )}
+          />
+          <Table.Column
+            title="Date Time"
+            dataIndex="dateTime"
+            key="dateTime"
+            render={(_, __, index) => (
+              <Input
+                placeholder="Current Date Time"
+                value={dateTimeValues[index] || ""}
+                disabled
               />
             )}
           />
