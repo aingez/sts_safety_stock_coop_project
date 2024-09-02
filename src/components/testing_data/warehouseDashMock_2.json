@@ -1,0 +1,101 @@
+{
+    "status": "success",
+    "data": {
+      "plant": {
+        "code": "1",
+        "type": "Engine",
+        "max_lane": 2,
+        "max_row": 10,
+        "is_active": true
+      },
+      "warehouse": {
+        "lanes": [
+          {
+            "lane_number": 1,
+            "rows": [
+              {
+                "row_number": 1,
+                "positions": [
+                  {
+                    "location": {
+                      "lane": 1,
+                      "row": 1,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "BL01A",
+                      "pack_age_status": "yellow"
+                    }
+                  },
+                  {
+                    "location": {
+                      "lane": 1,
+                      "row": 1,
+                      "layer": 2
+                    },
+                    "pallet": {
+                      "number": "BL02A",
+                      "pack_age_status": "red"
+                    }
+                  }
+                ]
+              },
+              {
+                "row_number": 2,
+                "positions": [
+                  {
+                    "location": {
+                      "lane": 1,
+                      "row": 2,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "HE02B",
+                      "pack_age_status": "red"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "lane_number": 2,
+            "rows": [
+              {
+                "row_number": 1,
+                "positions": [
+                  {
+                    "location": {
+                      "lane": 2,
+                      "row": 1,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "CR01C",
+                      "pack_age_status": "green"
+                    }
+                  }
+                ]
+              },
+              {
+                "row_number": 2,
+                "positions": [
+                  {
+                    "location": {
+                      "lane": 2,
+                      "row": 10,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "CM02D",
+                      "pack_age_status": "green"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }

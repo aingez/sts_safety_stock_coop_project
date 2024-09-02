@@ -270,21 +270,21 @@ const WarehouseEditor = ({
         </div>
         <div className="flex flex-row space-x-2">
           <div className="custom-input-layout-1">
-            <label>Lane</label>
-            <InputNumber
-              min={1}
-              max={20}
-              defaultValue={3}
-              onChange={handleLaneChange}
-            />
-          </div>
-          <div className="custom-input-layout-1">
             <label>Row</label>
             <InputNumber
               min={1}
               max={20}
               defaultValue={10}
               onChange={handleRowChange}
+            />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Lane</label>
+            <InputNumber
+              min={1}
+              max={20}
+              defaultValue={3}
+              onChange={handleLaneChange}
             />
           </div>
         </div>
