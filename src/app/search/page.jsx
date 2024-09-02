@@ -61,7 +61,7 @@ function SearchPage() {
                   className="block w-full grow rounded-lg border-2 border-neutral-200 bg-transparent bg-white p-2 px-4 py-2 text-sm font-normal leading-relaxed text-gray-400 focus:outline-none disabled:bg-neutral-200"
                   disabled={serialInput.length > 0}
                 />
-                <span>-</span>
+                <span>→</span>
                 <input
                   type="date"
                   name="end"
