@@ -58,7 +58,7 @@ function ModelQuantityChart() {
   return (
     <div className="min-h-screen pb-20">
       <h2 class="custom-title-1">Overview</h2>
-      <div className="mb-5 rounded-lg bg-neutral-100 py-10 shadow-lg">
+      <div className="mb-5 rounded-lg py-10 shadow-lg dark:bg-neutral-600">
         {isLoading ? (
           <div className="flex items-center justify-center space-x-10">
             Loading...

@@ -1,7 +1,10 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
 import Nav from "../components/Nav"
 import Footer from "../components/Footer"
+
+import "./globals.css";
+import { ThemeProvider } from "./ThemeProviders";
+import SwitchTheme from "@/components/themeSwitch";
 // import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,9 +18,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Nav />
-          <div className="mx-20">
-              {children}
+          <div className="dark:bg-neutral-700">
+              <Nav />
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                transition
+                >
+              <div className="fixed bottom-4 right-4">
+                <SwitchTheme />
+              </div>
+              <div className="mx-20">
+                  {children}
+              </div>
+            </ThemeProvider>
           </div>
         <Footer />
       </body>
