@@ -1,15 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
-import { Table, Input, Button, Radio, InputNumber } from "antd";
 
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
+  const [divData, setDivData] = useState({
+    employeeId: "",
+    employeeName: "",
+    palletId: "",
+    partType: "",
+    serialNumbers: [],
+  });
 
   const handleSerialNumberChange = (e, index) => {
     const newDateTime = new Date().toLocaleString(); // Get current date and time
-
-    // Update the state for the specific row
     setDateTimeValues((prev) => ({
       ...prev,
       [index]: newDateTime,
@@ -22,13 +26,16 @@ export default function PackPage() {
     Crankshaft: 12,
   };
 
-  const [divData, setdivData] = useState({
-    employeeId: "",
-    employeeName: "",
-    palletId: "",
-    partType: "",
-    serialNumbers: [],
-  });
+  const radioOptionsPlantType = [
+    { value: "engine", label: "Engine" },
+    { value: "casting", label: "Casting" },
+  ];
+
+  const radioOptionsPlantNum = [
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ];
 
   const handlePalletIdChange = (e) => {
     const palletId = e.target.value;
@@ -40,14 +47,14 @@ export default function PackPage() {
         CR: 12,
       };
       const serialNumbers = Array(partTypeSerialCount[partType]).fill("");
-      setdivData({
+      setDivData({
         ...divData,
         palletId,
         partType,
         serialNumbers,
       });
     } else {
-      setdivData({
+      setDivData({
         ...divData,
         palletId,
         partType: "",
@@ -69,7 +76,7 @@ export default function PackPage() {
               className="custom-text-input-1"
               placeholder="XXXXXXXXX"
               required
-            ></input>
+            />
           </div>
           <div className="custom-input-layout-1">
             <label>Name - Surname</label>
@@ -79,7 +86,7 @@ export default function PackPage() {
               className="custom-text-input-1"
               placeholder="Sprinter Trueno"
               required
-            ></input>
+            />
           </div>
           <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
@@ -90,35 +97,55 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
                 required
-              ></input>
+              />
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <Radio.Group
-                // onChange={handlePlantTypeChange}
-                size="large"
-                // value={plantType}
-                // disabled={palletMode === "Remove"}
-              >
-                <Radio.Button value="Engine">Engine</Radio.Button>
-                <Radio.Button value="Casting">Casting</Radio.Button>
-              </Radio.Group>
+              <ul className="custom-radio-1">
+                {radioOptionsPlantType.map((option) => (
+                  <li key={option.value}>
+                    <div className="radio-button-1">
+                      <input
+                        id={`plant-type-${option.value}`}
+                        type="radio"
+                        value={option.value}
+                        name="list-radio"
+                      />
+                      <label
+                        htmlFor={`plant-type-${option.value}`}
+                        className="mx-2"
+                      >
+                        {option.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Number</label>
-              <Radio.Group
-                // onChange={handlePlantNumberChange}
-                size="large"
-                // value={plantNumber}
-                // disabled={palletMode === "Remove"}
-              >
-                <Radio.Button value="1">1</Radio.Button>
-                <Radio.Button value="2">2</Radio.Button>
-                <Radio.Button value="3">3</Radio.Button>
-              </Radio.Group>
+              <ul className="custom-radio-1">
+                {radioOptionsPlantNum.map((option) => (
+                  <li key={option.value}>
+                    <div className="radio-button-1">
+                      <input
+                        id={`plant-num-${option.value}`}
+                        type="radio"
+                        value={option.value}
+                        name="list-radio-plant-num"
+                      />
+                      <label
+                        htmlFor={`plant-num-${option.value}`}
+                        className="mx-2"
+                      >
+                        {option.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          {/* position */}
           <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
               <label>Lane</label>
@@ -128,7 +155,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
-              ></input>
+              />
             </div>
             <div className="custom-input-layout-1">
               <label>Row</label>
@@ -138,7 +165,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
-              ></input>
+              />
             </div>
             <div className="custom-input-layout-1">
               <label>Pile (Not Sure)</label>
@@ -148,7 +175,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
-              ></input>
+              />
             </div>
             <div className="custom-input-layout-1">
               <label>Layer</label>
@@ -158,47 +185,55 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
-              ></input>
+              />
             </div>
           </div>
           <div className="my-4 flex flex-row space-x-2">
             <button className="custom-button-1-red" type="reset">
               Reset
             </button>
-            <button className="custom-button-1-green" type="update">
+            <button className="custom-button-1-green" type="submit">
               Update
             </button>
           </div>
         </div>
       </form>
-
       <div className="min-h-full w-1/2">
-        <Table dataSource={divData.serialNumbers} pagination={false}>
-          <Table.Column
-            title="Serial Number Input"
-            dataIndex="serialNumber"
-            key="serialNumber"
-            render={(text, record, index) => (
-              <Input
-                placeholder={`Serial ${index + 1}`}
-                value={text}
-                onChange={(e) => handleSerialNumberChange(e, index)}
-              />
-            )}
-          />
-          <Table.Column
-            title="Pack Date Time"
-            dataIndex="dateTime"
-            key="dateTime"
-            render={(_, __, index) => (
-              <Input
-                placeholder="Current Date Time"
-                value={dateTimeValues[index] || ""}
-                disabled
-              />
-            )}
-          />
-        </Table>
+        <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+            <tr>
+              <th className="px-6 py-3">Serial Number Input</th>
+              <th className="px-6 py-3">Pack Date Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {divData.serialNumbers.map((item, index) => (
+              <tr
+                key={index}
+                className="border-b bg-white hover:bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
+              >
+                <td className="px-6 py-4">
+                  <input
+                    type="text"
+                    placeholder={`Serial ${index + 1}`}
+                    value={item.serialNumber}
+                    onChange={(e) => handleSerialNumberChange(e, index)}
+                    className="custom-text-input-1"
+                  />
+                </td>
+                <td className="px-6 py-4">
+                  <input
+                    type="text"
+                    placeholder="Current Date Time"
+                    value={dateTimeValues[index] || ""}
+                    disabled
+                    className="custom-text-input-1"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

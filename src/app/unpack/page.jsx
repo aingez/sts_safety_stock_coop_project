@@ -30,6 +30,17 @@ export default function UnPackPage() {
     serialNumbers: [],
   });
 
+  const radioOptionsPlantType = [
+    { value: "engine", label: "Engine" },
+    { value: "casting", label: "Casting" },
+  ];
+
+  const radioOptionsPlantNum = [
+    { value: "1", label: "1" },
+    { value: "2", label: "2" },
+    { value: "3", label: "3" },
+  ];
+
   const handlePalletIdChange = (e) => {
     const palletId = e.target.value;
     if (palletId.length === 5) {
@@ -90,32 +101,53 @@ export default function UnPackPage() {
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
                 required
-              ></input>
+              />
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <Radio.Group
-                // onChange={handlePlantTypeChange}
-                size="large"
-                // value={plantType}
-                // disabled={palletMode === "Remove"}
-              >
-                <Radio.Button value="Engine">Engine</Radio.Button>
-                <Radio.Button value="Casting">Casting</Radio.Button>
-              </Radio.Group>
+              <ul className="custom-radio-1">
+                {radioOptionsPlantType.map((option) => (
+                  <li key={option.value}>
+                    <div className="radio-button-1">
+                      <input
+                        id={`plant-type-${option.value}`}
+                        type="radio"
+                        value={option.value}
+                        name="list-radio"
+                      />
+                      <label
+                        htmlFor={`plant-type-${option.value}`}
+                        className="mx-2"
+                      >
+                        {option.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Number</label>
-              <Radio.Group
-                // onChange={handlePlantNumberChange}
-                size="large"
-                // value={plantNumber}
-                // disabled={palletMode === "Remove"}
-              >
-                <Radio.Button value="1">1</Radio.Button>
-                <Radio.Button value="2">2</Radio.Button>
-                <Radio.Button value="3">3</Radio.Button>
-              </Radio.Group>
+              <ul className="custom-radio-1">
+                {radioOptionsPlantNum.map((option) => (
+                  <li key={option.value}>
+                    <div className="radio-button-1">
+                      <input
+                        id={`plant-num-${option.value}`}
+                        type="radio"
+                        value={option.value}
+                        name="list-radio-plant-num"
+                      />
+                      <label
+                        htmlFor={`plant-num-${option.value}`}
+                        className="mx-2"
+                      >
+                        {option.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
           {/* position */}
@@ -177,32 +209,41 @@ export default function UnPackPage() {
       </form>
 
       <div className="min-h-full w-1/2">
-        <Table dataSource={divData.serialNumbers} pagination={false}>
-          <Table.Column
-            title="Serial Number Input"
-            dataIndex="serialNumber"
-            key="serialNumber"
-            render={(text, record, index) => (
-              <Input
-                placeholder={`Serial ${index + 1}`}
-                value={text}
-                onChange={(e) => handleSerialNumberChange(e, index)}
-              />
-            )}
-          />
-          <Table.Column
-            title="Unpack Date Time"
-            dataIndex="dateTime"
-            key="dateTime"
-            render={(_, __, index) => (
-              <Input
-                placeholder="Current Date Time"
-                value={dateTimeValues[index] || ""}
-                disabled
-              />
-            )}
-          />
-        </Table>
+        <table className="w-full border border-gray-200 bg-white text-left text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th className="px-6 py-3">Serial Number Input</th>
+              <th className="px-6 py-3">Unpack Date Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {divData.serialNumbers.map((item, index) => (
+              <tr
+                key={index}
+                className="border-b bg-white hover:bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
+              >
+                <td className="px-6 py-4">
+                  <input
+                    type="text"
+                    placeholder={`Serial ${index + 1}`}
+                    value={item.serialNumber}
+                    onChange={(e) => handleSerialNumberChange(e, index)}
+                    className="custom-text-input-1"
+                  />
+                </td>
+                <td className="px-6 py-4">
+                  <input
+                    type="text"
+                    placeholder="Current Date Time"
+                    value={dateTimeValues[index] || ""}
+                    disabled
+                    className="custom-text-input-1"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
