@@ -191,7 +191,7 @@ export default function UnPackPage() {
             )}
           />
           <Table.Column
-            title="Pack Date Time"
+            title="Unpack Date Time"
             dataIndex="dateTime"
             key="dateTime"
             render={(_, __, index) => (
