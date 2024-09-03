@@ -1,31 +1,65 @@
 import React from "react";
 import mockData from "../../components/testing_data/warehouseDashMock_2.json";
 
+// Helper component for the legend items
+function LegendItem({ color, label }) {
+  return (
+    <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
+      <div
+        className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
+      ></div>
+      <span className="text-sm text-gray-700 dark:text-white">{label}</span>
+    </div>
+  );
+}
+
+// Pallet status color config
 const statusColors = {
-  green: "bg-green-500",
-  yellow: "bg-yellow-500",
-  red: "bg-red-500",
+  green: "bg-[#84cc16]", // Hex for green
+  yellow: "bg-[#f59e0b]", // Hex for yellow
+  red: "bg-[#FF1700]", // Hex for red
+};
+// Lane color config
+const laneColors = {
+  blue: "bg-[#DFF5FF]",
+  yellow: "bg-[#FEECB3]",
+  green: "bg-[#75ffbc]",
 };
 
 function LayoutComp() {
   const { plant, warehouse, layout } = mockData[0].data;
 
   return (
-    <div className="flex min-h-screen flex-col p-4">
+    <div className="flex flex-col p-10">
       <div>
-        <h1 className="pr-2 font-bold">Safety Stock :</h1>
-        <p className="font-light">
+        <h1 className="custom-box-title-2">Safety Stock :</h1>
+        <p className="custom-box-title-4">
           {plant.type} Plant {plant.code}
         </p>
       </div>
 
-      <div className="mt-4">
-        <table className="w-full table-auto border-collapse border border-gray-400">
-          <thead>
+      {/* Legend */}
+      <div className="mt-6 flex flex-wrap gap-4">
+        <LegendItem color={laneColors.blue} label="Block Lane (Max : 2)" />
+        <LegendItem color={laneColors.yellow} label="Head Lane (Max : 2)" />
+        <LegendItem
+          color={laneColors.green}
+          label="Crankshaft Lane (Max : 2)"
+        />
+      </div>
+
+      <div className="mt-5 flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
+        <table className="min-w-full border-separate rounded-lg bg-white p-2 dark:bg-neutral-500">
+          <thead className="bg-neutral-300 dark:bg-neutral-400">
             <tr>
-              <th className="border border-gray-300 p-2">Row</th>
+              <th className="border-none p-3 text-left font-medium text-gray-700 dark:text-gray-300">
+                Row
+              </th>
               {[...Array(plant.max_lane)].map((_, index) => (
-                <th key={index} className="border border-gray-300 p-2">
+                <th
+                  key={index}
+                  className="border-none p-3 text-left font-medium text-gray-700 dark:text-gray-300"
+                >
                   Lane {index + 1}
                 </th>
               ))}
@@ -33,8 +67,13 @@ function LayoutComp() {
           </thead>
           <tbody>
             {warehouse.rows.map((row) => (
-              <tr key={row.row_number}>
-                <td className="border border-gray-300 p-2">{row.row_number}</td>
+              <tr
+                key={row.row_number}
+                className="hover:bg-gray-100 dark:hover:bg-gray-600"
+              >
+                <td className="p-3 font-medium text-gray-700 dark:text-gray-300">
+                  {row.row_number}
+                </td>
                 {[...Array(plant.max_lane)].map((_, laneIndex) => {
                   const lane = row.lanes.find(
                     (l) => l.lane_number === laneIndex + 1,
@@ -43,22 +82,26 @@ function LayoutComp() {
                   return (
                     <td
                       key={laneIndex}
-                      className={`border border-gray-300 p-2 ${laneColor}`}
+                      className={`p-3 ${laneColor} space-y-1 rounded-md dark:border-gray-600 dark:bg-opacity-60`}
+                      style={{ verticalAlign: "bottom" }}
                     >
                       {lane ? (
                         lane.positions.map((position) => (
                           <div
                             key={`${position.location.row}-${position.location.lane}-${position.location.layer}`}
+                            className="flex justify-center"
                           >
                             <button
-                              className={`m-1 px-2 py-1 text-white ${statusColors[position.pallet.pack_age_status]}`}
+                              className={`rounded-lg px-4 py-2 font-semibold text-white shadow-md ${statusColors[position.pallet.pack_age_status]}`}
                             >
                               {position.pallet.number}
                             </button>
                           </div>
                         ))
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center opacity-20"></div>
+                        <div className="flex items-center justify-center px-4 italic text-gray-400 dark:text-gray-500">
+                          EMPTY
+                        </div>
                       )}
                     </td>
                   );
@@ -74,11 +117,11 @@ function LayoutComp() {
 
 function getLaneColor(layout, laneNumber) {
   if (laneNumber >= 1 && laneNumber <= 4) {
-    return `bg-${layout.block.color}-200`;
+    return `${laneColors.blue}`;
   } else if (laneNumber >= 5 && laneNumber <= 7) {
-    return `bg-${layout.head.color}-200`;
+    return `${laneColors.yellow}`;
   } else if (laneNumber >= 8 && laneNumber <= 10) {
-    return `bg-${layout.crankshaft.color}-200`;
+    return `${laneColors.green}`;
   }
   return "bg-white";
 }

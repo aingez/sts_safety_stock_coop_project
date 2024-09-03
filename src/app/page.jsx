@@ -76,19 +76,10 @@ function ModelQuantityChart() {
           </div>
         </div>
       </div>
-
-      {/* <div className="custom-box-2">
-        <h2 className="custom-title-1">Reminder</h2>
-        <div className="px-5"></div>
-      </div> */}
-
       <h2 className="custom-title-1">Warehouse</h2>
       <div className="custom-box-1 mt-5">
         <WarehouseDisp />
       </div>
-      {/* <div className="custom-box-1 mt-5">
-        <WarehouseDash />
-      </div> */}
     </div>
   );
 }

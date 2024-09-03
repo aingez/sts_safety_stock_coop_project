@@ -1,7 +1,7 @@
 import React from "react";
 import mockData from "../components/testing_data/warehouseDashMock_2.json";
 
-// Helper component for the legend items
+// legend items helper
 function LegendItem({ color, label }) {
   return (
     <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
