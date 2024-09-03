@@ -37,18 +37,20 @@ const mockData = [
 
 const BarChart = ({ data = mockData }) => {
   return (
-    <div>
+    <div className="space-y-3">
       {data.map((item) => (
-        <div key={item.type} className="">
-          <h3>{item.type}</h3>
-          {item.model.map((model) => (
-            <button
-              key={model.model}
-              className="disabled mx-2 my-3 select-none rounded-lg bg-yellow-500 px-6 py-3 text-center align-middle font-sans text-xl font-bold uppercase text-white shadow-lg transition-all"
-            >
-              {model.model} : {model.qty}
-            </button>
-          ))}
+        <div key={item.type}>
+          <h3 className="custom-box-title-3">{item.type} :</h3>
+          <div className="grid grid-cols-4 gap-2">
+            {item.model.map((model) => (
+              <button
+                key={model.model}
+                className="select-none rounded-lg bg-yellow-500 p-2 text-center align-middle text-lg font-bold uppercase text-black shadow-lg transition-all"
+              >
+                {model.model} : {model.qty}
+              </button>
+            ))}
+          </div>
         </div>
       ))}
     </div>
