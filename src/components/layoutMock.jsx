@@ -4,7 +4,7 @@ function layoutMock({ laneNumber, rowNumber }) {
   // create mock layout of warehouse
   // with antd table to display on editor page
   return (
-    <div className="rounded-lg bg-neutral-200 p-5 shadow-lg">
+    <div className="rounded-lg p-5 shadow-lg">
       <table className="border-collapse">
         <tbody>
           <tr>
