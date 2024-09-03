@@ -102,7 +102,7 @@ function AlertTable({ pageSize }) {
           {paginatedData.map((item) => (
             <tr
               key={item.pallet_id}
-              className="border-b bg-white hover:bg-gray-100 hover:font-bold dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
             >
               <td className="px-6 py-4">
                 <span
