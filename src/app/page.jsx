@@ -6,6 +6,7 @@ import DoughnutChart from "../components/donutDash";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";
+import WarehouseDisp from "../components/layoutDisp";
 
 function ModelQuantityChart() {
   const [barJson, setBarJson] = useState([]);
@@ -83,8 +84,11 @@ function ModelQuantityChart() {
 
       <h2 className="custom-title-1">Warehouse</h2>
       <div className="custom-box-1 mt-5">
-        <WarehouseDash />
+        <WarehouseDisp />
       </div>
+      {/* <div className="custom-box-1 mt-5">
+        <WarehouseDash />
+      </div> */}
     </div>
   );
 }

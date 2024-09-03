@@ -58,7 +58,7 @@ function WarehouseTable() {
                                     position.pallet.pack_age_status,
                                   ),
                                 }}
-                                className="rounded px-4 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-700/20"
+                                className="rounded px-4 shadow-lg"
                               >
                                 {position.pallet.number}
 

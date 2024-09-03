@@ -26,6 +26,10 @@
     @apply text-lg font-normal;
 }
 
+.custom-box-title-4 {
+    @apply text-3xl font-normal;
+}
+
 .custom-subtitle-1 {
     @apply text-2xl font-light pb-0;
 }

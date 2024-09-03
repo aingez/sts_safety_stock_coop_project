@@ -35,6 +35,11 @@ function Nav() {
         <Link href="/search">Search</Link>
       </li>
       <li
+        className={`mx-2 text-white transition-all hover:text-yellow-200 ${pathname === "/manage" ? "font-bold text-yellow-500" : ""}`}
+      >
+        <Link href="/manage">Manage</Link>
+      </li>
+      <li
         className={`mx-2 text-white transition-all hover:text-yellow-200 ${pathname === "/editor" ? "font-bold text-yellow-500" : ""}`}
       >
         <Link href="/editor">Edit</Link>

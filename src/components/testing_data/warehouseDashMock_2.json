@@ -1,25 +1,40 @@
-{
+[
+  {
     "status": "success",
     "data": {
       "plant": {
         "code": "1",
         "type": "Engine",
-        "max_lane": 2,
-        "max_row": 10,
+        "max_row": 2,
+        "max_lane": 10,
         "is_active": true
       },
+      "layout": {
+        "block": {
+          "lane": "1-4",
+          "color": "blue"
+        },
+        "head": {
+          "lane": "5-7",
+          "color": "yellow"
+        },
+        "crankshaft": {
+          "lane": "8-10",
+          "color": "green"
+        }
+      },
       "warehouse": {
-        "lanes": [
+        "rows": [
           {
-            "lane_number": 1,
-            "rows": [
+            "row_number": 1,
+            "lanes": [
               {
-                "row_number": 1,
+                "lane_number": 1,
                 "positions": [
                   {
                     "location": {
-                      "lane": 1,
                       "row": 1,
+                      "lane": 1,
                       "layer": 1
                     },
                     "pallet": {
@@ -29,8 +44,8 @@
                   },
                   {
                     "location": {
-                      "lane": 1,
                       "row": 1,
+                      "lane": 1,
                       "layer": 2
                     },
                     "pallet": {
@@ -41,33 +56,12 @@
                 ]
               },
               {
-                "row_number": 2,
+                "lane_number": 2,
                 "positions": [
                   {
                     "location": {
-                      "lane": 1,
-                      "row": 2,
-                      "layer": 1
-                    },
-                    "pallet": {
-                      "number": "HE02B",
-                      "pack_age_status": "red"
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "lane_number": 2,
-            "rows": [
-              {
-                "row_number": 1,
-                "positions": [
-                  {
-                    "location": {
-                      "lane": 2,
                       "row": 1,
+                      "lane": 2,
                       "layer": 1
                     },
                     "pallet": {
@@ -76,18 +70,50 @@
                     }
                   }
                 ]
-              },
+              }
+            ]
+          },
+          {
+            "row_number": 2,
+            "lanes": [
               {
-                "row_number": 2,
+                "lane_number": 1,
                 "positions": [
                   {
                     "location": {
+                      "row": 2,
+                      "lane": 1,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "HE02B",
+                      "pack_age_status": "red"
+                    }
+                  }
+                ]
+              },
+              {
+                "lane_number": 10,
+                "positions": [
+                  {
+                    "location": {
+                      "row": 2,
                       "lane": 2,
-                      "row": 10,
                       "layer": 1
                     },
                     "pallet": {
                       "number": "CM02D",
+                      "pack_age_status": "green"
+                    }
+                  },
+                  {
+                    "location": {
+                      "row": 2,
+                      "lane": 2,
+                      "layer": 2
+                    },
+                    "pallet": {
+                      "number": "CM08D",
                       "pack_age_status": "green"
                     }
                   }
@@ -98,4 +124,6 @@
         ]
       }
     }
-  }
+  },
+  200
+]
