@@ -209,11 +209,11 @@ export default function UnPackPage() {
       </form>
 
       <div className="min-h-full w-1/2">
-        <table className="w-full border border-gray-200 bg-white text-left text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+        <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+          <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
               <th className="px-6 py-3">Serial Number Input</th>
-              <th className="px-6 py-3">Unpack Date Time</th>
+              <th className="px-6 py-3">Unack Date Time</th>
             </tr>
           </thead>
           <tbody>

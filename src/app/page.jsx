@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/donutDash";
 // import BarChart from "../components/barDash";
-import BarChart from "../components/qtyDisp";
+import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";
 
@@ -58,33 +58,31 @@ function ModelQuantityChart() {
 
   return (
     <div className="min-h-screen pb-20">
-      <h2 class="custom-title-1">Overview</h2>
-      <div className="mb-5 rounded-lg py-10 shadow-lg dark:bg-neutral-600">
-        {isLoading ? (
-          <div className="flex items-center justify-center space-x-10">
-            Loading...
-          </div>
-        ) : (
-          <div className="flex space-x-10 px-10">
-            <div style={{ width: "50%" }}>
-              <BarChart />
+      <h2 className="custom-title-1">Overview</h2>
+      <div className="custom-box-2">
+        <div className="flex flex-row space-x-5">
+          {isLoading ? (
+            <div className="flex items-center justify-center space-x-10">
+              Loading...
             </div>
-            {/* <div style={{ width: "30%" }}>
-              <DoughnutChart data={donutDashData} chartName={"Type Quantity"} />
-            </div> */}
+          ) : (
+            <div className="custom-box-2">
+              <QuantityDisplay />
+            </div>
+          )}
+          <div className="custom-box-2">
+            <ReusableTable pageSize={3} />
           </div>
-        )}
-      </div>
-
-      <h2 class="custom-subtitle-1">Reminder</h2>
-      <div class="custom-box-2">
-        <div className="px-5">
-          <ReusableTable pageSize={3} />
         </div>
       </div>
 
-      <h2 class="custom-subtitle-1 py-5">Warehouse</h2>
-      <div class="custom-box-1 mt-5">
+      {/* <div className="custom-box-2">
+        <h2 className="custom-title-1">Reminder</h2>
+        <div className="px-5"></div>
+      </div> */}
+
+      <h2 className="custom-title-1">Warehouse</h2>
+      <div className="custom-box-1 mt-5">
         <WarehouseDash />
       </div>
     </div>

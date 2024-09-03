@@ -21,25 +21,25 @@ function WarehouseTable() {
   const { warehouse, plant } = warehouseData;
 
   return (
-    <div class="flex flex-col rounded p-4">
-      <div class="flex flex-row">
-        <h1 class="pr-2 font-bold">Safety Stock :</h1>
-        <p class="font-light">
+    <div className="flex flex-col rounded p-4">
+      <div className="flex flex-row">
+        <h1 className="pr-2 font-bold">Safety Stock :</h1>
+        <p className="font-light">
           {plant.type} Plant {plant.code}
         </p>
       </div>
 
-      <div class="flex flex-row pt-5">
-        <p class="place-content-top pr-2 pt-5 text-xs font-thin">LANE</p>
+      <div className="flex flex-row pt-5">
+        <p className="place-content-top pr-2 pt-5 text-xs font-thin">LANE</p>
         <div>
-          <p class="pr-2 text-xs font-thin">ROW</p>
+          <p className="pr-2 text-xs font-thin">ROW</p>
           <table border="1" cellPadding="10">
             <tbody>
               {warehouse.lanes.map((lane, laneIndex) => (
                 <tr key={laneIndex}>
                   {lane.rows.map((row, rowIndex) => (
-                    <td key={rowIndex} class="px-3">
-                      <p class="text-xs font-thin opacity-60">
+                    <td key={rowIndex} className="px-3">
+                      <p className="text-xs font-thin opacity-60">
                         LN.{laneIndex + 1} Row{rowIndex + 1}
                       </p>
                       {row.positions.length > 0 ? (
@@ -48,7 +48,10 @@ function WarehouseTable() {
                           .slice()
                           .reverse()
                           .map((position, posIndex) => (
-                            <div key={posIndex} class="my-0.5 flex flex-col">
+                            <div
+                              key={posIndex}
+                              className="my-0.5 flex flex-col"
+                            >
                               <button
                                 style={{
                                   backgroundColor: getColorFromStatus(
