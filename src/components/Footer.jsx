@@ -9,6 +9,9 @@ function Footer() {
         <ul>Developed by STM STS (2024)</ul>
         <ul className="text-xs">Cooperative Project of</ul>
         <ul className="text-xs">Aingthawan K. [CprE. KMUTNB]</ul>
+        <p className="pt-5 text-xs">
+          &ldquo; Dev. with love of 11,000 rpm &ldquo;
+        </p>
       </div>
     </div>
   );
