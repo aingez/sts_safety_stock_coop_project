@@ -45,7 +45,7 @@ const BarChart = ({ data = mockData }) => {
             {item.model.map((model) => (
               <button
                 key={model.model}
-                className="select-none rounded-lg bg-yellow-500 p-2 text-center align-middle text-lg font-bold uppercase text-black shadow-lg transition-all"
+                className="select-none rounded-lg bg-yellow-500 px-2 py-1 text-center align-middle text-lg font-light uppercase text-black shadow-lg transition-all"
               >
                 {model.model} : {model.qty}
               </button>

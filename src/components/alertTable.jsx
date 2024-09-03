@@ -106,12 +106,12 @@ function AlertTable({ pageSize }) {
             >
               <td className="px-6 py-4">
                 <span
-                  className={`inline-block rounded-full px-2 py-1 text-xs font-semibold ${
+                  className={`rounded-lg px-2 py-1 text-xs font-semibold ${
                     item.color_status === "red"
-                      ? "bg-red-200 text-red-800"
+                      ? "bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
                       : item.color_status === "green"
-                        ? "bg-green-200 text-green-800"
-                        : "bg-yellow-200 text-yellow-800"
+                        ? "bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100"
+                        : "bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100"
                   }`}
                 >
                   {item.color_status.toUpperCase()}

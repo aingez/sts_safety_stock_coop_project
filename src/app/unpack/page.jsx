@@ -105,7 +105,7 @@ export default function UnPackPage() {
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <ul className="custom-radio-1">
+              <ul className="custom-radio-1 grid-cols-2">
                 {radioOptionsPlantType.map((option) => (
                   <li key={option.value}>
                     <div className="radio-button-1">
@@ -128,7 +128,7 @@ export default function UnPackPage() {
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Number</label>
-              <ul className="custom-radio-1">
+              <ul className="custom-radio-1 grid-cols-3">
                 {radioOptionsPlantNum.map((option) => (
                   <li key={option.value}>
                     <div className="radio-button-1">
@@ -198,7 +198,7 @@ export default function UnPackPage() {
             </div>
           </div>
           <div className="my-4 flex flex-row space-x-2">
-            <button className="custom-button-1-red" type="reset">
+            <button className="custom-button-1-pink" type="reset">
               Reset
             </button>
             <button className="custom-button-1-green" type="update">

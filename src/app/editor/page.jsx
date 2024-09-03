@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button, Radio, InputNumber } from "antd";
 import LayoutMock from "../../components/layoutMock";
 
 const PalletEditor = ({
@@ -29,19 +28,35 @@ const PalletEditor = ({
   };
 
   return (
-    <div class="custom-box-1">
+    <div className="custom-box-1">
       <div className="custom-box-2">
         <h1 className="custom-box-title-1">Create/Remove</h1>
         <div className="custom-input-layout-1">
-          <label>Mode Select</label>
-          <Radio.Group
-            onChange={handlePalletModeChange}
-            size="large"
-            value={palletMode}
-          >
-            <Radio.Button value="Create">CREATE</Radio.Button>
-            <Radio.Button value="Remove">REMOVE</Radio.Button>
-          </Radio.Group>
+          <label>Mode</label>
+          <ul className="custom-radio-1 grid-cols-2">
+            <li className="radio-item">
+              <div className="radio-button-1">
+                <input
+                  id="horizontal-list-radio-license"
+                  type="radio"
+                  value="engine"
+                  name="list-radio"
+                />
+                <label className="radio-label">CREATE</label>
+              </div>
+            </li>
+            <li className="radio-item">
+              <div className="radio-button-1">
+                <input
+                  id="horizontal-list-radio-id"
+                  type="radio"
+                  value="casting"
+                  name="list-radio"
+                />
+                <label className="radio-label">REMOVE</label>
+              </div>
+            </li>
+          </ul>
         </div>
         <div className="flex flex-row space-x-2">
           <div className="custom-input-layout-1">
@@ -55,60 +70,91 @@ const PalletEditor = ({
           </div>
           <div className="custom-input-layout-1">
             <label>Plant Type</label>
-            <Radio.Group
-              onChange={handlePlantTypeChange}
-              size="large"
-              value={plantType}
-              disabled={palletMode === "Remove"}
-            >
-              <Radio.Button value="Engine">Engine</Radio.Button>
-              <Radio.Button value="Casting">Casting</Radio.Button>
-            </Radio.Group>
+            <ul className="custom-radio-1 grid-cols-2">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Engine</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Casting</label>
+                </div>
+              </li>
+            </ul>
           </div>
+
           <div className="custom-input-layout-1">
             <label>Plant Number</label>
-            <Radio.Group
-              onChange={handlePlantNumberChange}
-              size="large"
-              value={plantNumber}
-              disabled={palletMode === "Remove"}
-            >
-              <Radio.Button value="1">1</Radio.Button>
-              <Radio.Button value="2">2</Radio.Button>
-              <Radio.Button value="3">3</Radio.Button>
-            </Radio.Group>
+            <ul className="custom-radio-1 grid-cols-3">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">1</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">2</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">3</label>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="my-2 space-x-2">
-          <Button
-            danger
-            type="primary"
-            size="large"
-            style={{
-              backgroundColor: palletMode === "Remove" ? "#ef4444" : "white",
-            }}
-            disabled={palletMode === "Create"}
-          >
+          <button type="primary" size="large" className="custom-button-1-red">
             REMOVE
-          </Button>
-          <Button
+          </button>
+          <button
             type="primary"
             size="large"
-            style={{
-              backgroundColor: palletMode === "Create" ? "#22c55e" : "white",
-            }}
+            className="custom-button-1-green"
             disabled={palletMode === "Remove"}
           >
             CREATE
-          </Button>
-          <Button
+          </button>
+          <button
             type="primary"
             size="large"
-            style={{ backgroundColor: "#f87171" }}
+            className="custom-button-1-pink"
             onClick={handleClear}
           >
             CLEAR
-          </Button>
+          </button>
           {palletMode === "Remove" && (
             <p className="pt-2 text-xs font-light">
               *Able to remove only Unpacked Pallet
@@ -131,59 +177,106 @@ const PalletEditor = ({
           </div>
           <div className="custom-input-layout-1">
             <label>Plant Type</label>
-            <Radio.Group
-              onChange={handlePlantTypeChange}
-              size="large"
-              value={plantType}
-              disabled={palletMode === "Remove"}
-            >
-              <Radio.Button value="Engine">Engine</Radio.Button>
-              <Radio.Button value="Casting">Casting</Radio.Button>
-            </Radio.Group>
+            <ul className="custom-radio-1 grid-cols-2">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Engine</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Casting</label>
+                </div>
+              </li>
+            </ul>
           </div>
+
           <div className="custom-input-layout-1">
             <label>Plant Number</label>
-            <Radio.Group
-              onChange={handlePlantNumberChange}
-              size="large"
-              value={plantNumber}
-              disabled={palletMode === "Remove"}
-            >
-              <Radio.Button value="1">1</Radio.Button>
-              <Radio.Button value="2">2</Radio.Button>
-              <Radio.Button value="3">3</Radio.Button>
-            </Radio.Group>
+            <ul className="custom-radio-1 grid-cols-3">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">1</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">2</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">3</label>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="flex flex-row space-x-2">
           <div className="custom-input-layout-1">
-            <label>Lane</label>
-            <InputNumber min={1} max={20} defaultValue={3} />
+            <form>
+              <label>Row</label>
+              <input
+                type="number"
+                id="number-input"
+                aria-describedby="helper-text-explanation"
+                className="custom-text-input-1"
+                placeholder="1"
+                required
+              />
+            </form>
           </div>
           <div className="custom-input-layout-1">
-            <label>Row</label>
-            <InputNumber min={1} max={20} defaultValue={10} />
+            <form>
+              <label>Lane</label>
+              <input
+                type="number"
+                id="number-input"
+                aria-describedby="helper-text-explanation"
+                className="custom-text-input-1"
+                placeholder="10"
+                required
+              />
+            </form>
           </div>
         </div>
         <div className="my-2 space-x-2">
-          <Button
-            type="primary"
-            size="large"
-            style={{
-              backgroundColor: palletMode === "Create" ? "#22c55e" : "white",
-            }}
-            // disabled={palletMode === "Remove"}
-          >
+          <button type="primary" size="large" className="custom-button-1-green">
             MOVE
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            style={{ backgroundColor: "#f87171" }}
-            // onClick={handleClear}
-          >
+          </button>
+          <button type="primary" size="large" className="custom-button-1-pink">
             CLEAR
-          </Button>
+          </button>
         </div>
       </div>
     </div>
@@ -228,100 +321,151 @@ const WarehouseEditor = ({
   };
 
   return (
-    <div class="custom-box-1">
-      <div class="custom-box-2">
+    <div className="custom-box-1">
+      <div className="custom-box-2">
         <h1 className="custom-box-title-1">Create/Remove</h1>
         <div className="flex flex-row space-x-2">
           <div className="custom-input-layout-1">
-            <label className="">Mode Select</label>
-            <Radio.Group
-              onChange={(e) => setPalletMode(e.target.value)}
-              size="large"
-              value={palletMode}
-            >
-              <Radio.Button value="Create">CREATE</Radio.Button>
-              <Radio.Button value="Remove">REMOVE</Radio.Button>
-            </Radio.Group>
+            <label>Mode</label>
+            <ul className="custom-radio-1 grid-cols-2">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">CREATE</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">REMOVE</label>
+                </div>
+              </li>
+            </ul>
           </div>
 
           <div className="custom-input-layout-1">
-            <label className="">Plant Type</label>
-            <Radio.Group
-              onChange={(e) => setPlantType(e.target.value)}
-              size="large"
-              value={plantType}
-            >
-              <Radio.Button value="Engine">Engine</Radio.Button>
-              <Radio.Button value="Casting">Casting</Radio.Button>
-            </Radio.Group>
+            <label>Plant Type</label>
+            <ul className="custom-radio-1 grid-cols-2">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Engine</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">Casting</label>
+                </div>
+              </li>
+            </ul>
           </div>
           <div className="custom-input-layout-1">
             <label>Plant Number</label>
-            <Radio.Group
-              onChange={(e) => setPlantNumber(e.target.value)}
-              size="large"
-              value={plantNumber}
-            >
-              <Radio.Button value="1">1</Radio.Button>
-              <Radio.Button value="2">2</Radio.Button>
-              <Radio.Button value="3">3</Radio.Button>
-            </Radio.Group>
+            <ul className="custom-radio-1 grid-cols-3">
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-license"
+                    type="radio"
+                    value="engine"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">1</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">2</label>
+                </div>
+              </li>
+              <li className="radio-item">
+                <div className="radio-button-1">
+                  <input
+                    id="horizontal-list-radio-id"
+                    type="radio"
+                    value="casting"
+                    name="list-radio"
+                  />
+                  <label className="radio-label">3</label>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="flex flex-row space-x-2">
           <div className="custom-input-layout-1">
-            <label>Row</label>
-            <InputNumber
-              min={1}
-              max={20}
-              defaultValue={10}
-              onChange={handleRowChange}
-            />
+            <form>
+              <label>Row</label>
+              <input
+                type="number"
+                id="number-input"
+                aria-describedby="helper-text-explanation"
+                className="custom-text-input-1"
+                placeholder="1"
+                required
+              />
+            </form>
           </div>
           <div className="custom-input-layout-1">
-            <label>Lane</label>
-            <InputNumber
-              min={1}
-              max={20}
-              defaultValue={3}
-              onChange={handleLaneChange}
-            />
+            <form>
+              <label>Lane</label>
+              <input
+                type="number"
+                id="number-input"
+                aria-describedby="helper-text-explanation"
+                className="custom-text-input-1"
+                placeholder="10"
+                required
+              />
+            </form>
           </div>
         </div>
         <div className="my-2 space-x-2">
-          <Button
+          <button
             danger
             type="primary"
             size="large"
-            style={{
-              backgroundColor: palletMode === "Remove" ? "#ef4444" : "white",
-            }}
-            disabled={palletMode === "Create"}
+            className="custom-button-1-red"
           >
             REMOVE
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            style={{
-              backgroundColor: palletMode === "Create" ? "#22c55e" : "white",
-            }}
-            disabled={palletMode === "Remove"}
-          >
+          </button>
+          <button type="primary" size="large" className="custom-button-1-green">
             CREATE
-          </Button>
-          <Button
-            type="primary"
-            size="large"
-            style={{ backgroundColor: "#f87171" }}
-            onClick={handleClear}
-          >
+          </button>
+          <button type="primary" size="large" className="custom-button-1-pink">
             CLEAR
-          </Button>
+          </button>
         </div>
       </div>
 
-      <div class="custom-box-2">
+      <div className="custom-box-2">
         <h3 className="custom-box-title-1">Layout Preview</h3>
         <LayoutMock laneNumber={laneNumber} rowNumber={rowNumber} />
       </div>
@@ -342,8 +486,8 @@ function EditorPage() {
 
   return (
     <div className="min-h-screen pb-20">
-      <h1 class="custom-title-1">Data Editor</h1>
-      <h2 class="custom-subtitle-2">Pallet Editor</h2>
+      <h1 className="custom-title-1">Data Editor</h1>
+      <h2 className="custom-subtitle-2">Pallet Editor</h2>
       <PalletEditor
         palletMode={palletMode}
         setPalletMode={setPalletMode}
@@ -354,7 +498,7 @@ function EditorPage() {
         handleClear={handleClear}
       />
 
-      <h2 class="custom-subtitle-2">Warehouse Editor</h2>
+      <h2 className="custom-subtitle-2">Warehouse Editor</h2>
       <WarehouseEditor
         palletMode={palletMode}
         setPalletMode={setPalletMode}

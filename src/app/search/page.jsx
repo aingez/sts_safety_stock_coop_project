@@ -78,7 +78,7 @@ function SearchPage() {
             <button
               onClick={handleReset}
               type="button"
-              className="custom-button-1-red"
+              className="custom-button-1-pink"
             >
               CLEAR
             </button>
