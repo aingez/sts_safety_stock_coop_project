@@ -67,14 +67,15 @@ function ModelQuantityChart() {
               Loading...
             </div>
           ) : (
-            <div className="custom-box-2">
+            <div className="flex-none">
               <QuantityDisplay />
             </div>
           )}
-          <div className="custom-box-2">
-            <ReusableTable pageSize={3} />
-          </div>
         </div>
+      </div>
+      <h2 className="custom-title-1">Reminder</h2>
+      <div className="custom-box-2">
+        <ReusableTable pageSize={3} />
       </div>
       <h2 className="custom-title-1">Warehouse</h2>
       <div className="custom-box-2">

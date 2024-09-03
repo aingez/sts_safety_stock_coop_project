@@ -14,6 +14,7 @@ function Nav() {
       >
         <Link href="/">M-Stock</Link>
       </li>
+      <div className="mx-2 border-r border-white" />
       <li
         className={`mx-2 text-white transition-all hover:text-yellow-200 ${pathname === "/pack" ? "font-bold text-yellow-500" : ""}`}
       >
@@ -24,6 +25,7 @@ function Nav() {
       >
         <Link href="/unpack">Unpack</Link>
       </li>
+      <div className="mx-2 border-r border-white" />
       <li
         className={`mx-2 text-white transition-all hover:text-yellow-200 ${pathname === "/alert" ? "font-bold text-yellow-500" : ""}`}
       >
@@ -34,6 +36,7 @@ function Nav() {
       >
         <Link href="/search">Search</Link>
       </li>
+      <div className="mx-2 border-r border-white" />
       <li
         className={`mx-2 text-white transition-all hover:text-yellow-200 ${pathname === "/manage" ? "font-bold text-yellow-500" : ""}`}
       >

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function AlertTable({ pageSize }) {
+function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -62,38 +62,38 @@ function AlertTable({ pageSize }) {
   }
 
   return (
-    <div className="relative overflow-x-auto">
-      <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
         <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
           <tr>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3 sm:px-6">
               Status
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3 sm:px-6">
               Part Type
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3 sm:px-6">
               Pallet Number
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3 sm:px-6">
               Packing Date
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-4 py-3 sm:px-6">
               Age Days
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="hidden px-4 py-3 sm:table-cell sm:px-6">
               Plant Type
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="hidden px-4 py-3 sm:table-cell sm:px-6">
               Plant ID
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="hidden px-4 py-3 sm:table-cell sm:px-6">
               Lane
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="hidden px-4 py-3 sm:table-cell sm:px-6">
               Row
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="hidden px-4 py-3 sm:table-cell sm:px-6">
               Layer
             </th>
           </tr>
@@ -104,7 +104,7 @@ function AlertTable({ pageSize }) {
               key={item.pallet_id}
               className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
             >
-              <td className="px-6 py-4">
+              <td className="px-4 py-4 sm:px-6">
                 <span
                   className={`rounded-lg px-2 py-1 text-xs font-semibold ${
                     item.color_status === "red"
@@ -117,26 +117,36 @@ function AlertTable({ pageSize }) {
                   {item.color_status.toUpperCase()}
                 </span>
               </td>
-              <td className="px-6 py-4">{item.type}</td>
-              <td className="px-6 py-4">{item.pallet_name}</td>
-              <td className="px-6 py-4">{item.formatted_pack_date}</td>
-              <td className="px-6 py-4">{item.formatted_age_days}</td>
-              <td className="px-6 py-4">{item.plant_type}</td>
-              <td className="px-6 py-4">{item.plant_id}</td>
-              <td className="px-6 py-4">{item.lane}</td>
-              <td className="px-6 py-4">{item.row}</td>
-              <td className="px-6 py-4">{item.layer}</td>
+              <td className="px-4 py-4 sm:px-6">{item.type}</td>
+              <td className="px-4 py-4 sm:px-6">{item.pallet_name}</td>
+              <td className="px-4 py-4 sm:px-6">{item.formatted_pack_date}</td>
+              <td className="px-4 py-4 sm:px-6">{item.formatted_age_days}</td>
+              <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {item.plant_type}
+              </td>
+              <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {item.plant_id}
+              </td>
+              <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {item.lane}
+              </td>
+              <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {item.row}
+              </td>
+              <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {item.layer}
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
 
       {/* Pagination Controls */}
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="rounded bg-gray-200 px-4 py-2 text-gray-700 disabled:opacity-50"
+          className="w-full rounded bg-gray-200 px-4 py-2 text-gray-700 disabled:opacity-50 sm:w-auto"
         >
           Previous
         </button>
@@ -146,7 +156,7 @@ function AlertTable({ pageSize }) {
         <button
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="rounded bg-gray-200 px-4 py-2 text-gray-700 disabled:opacity-50"
+          className="w-full rounded bg-gray-200 px-4 py-2 text-gray-700 disabled:opacity-50 sm:w-auto"
         >
           Next
         </button>
