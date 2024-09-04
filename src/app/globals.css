@@ -1,15 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* eva */
+/* .custom-box-1 {
+    @apply flex flex-row space-x-5 px-5 shadow-2xl dark:border-2 dark:border-amber-500 dark:text-amber-500 rounded-lg dark:bg-neutral-800 ;
+} */
 .custom-box-1 {
     @apply flex flex-row space-x-5 px-5 rounded-lg shadow-2xl dark:bg-neutral-600;
 }
 
+/* eva */
+/* .custom-box-2 {
+    @apply p-5 shadow-2xl my-5 dark:border-2 dark:border-amber-500 dark:text-amber-500 rounded-lg dark:bg-neutral-800 ;
+} */
 .custom-box-2 {
     @apply rounded-lg p-5 shadow-2xl my-5 dark:bg-neutral-600;
 }
 
+/* eva */
+/* .custom-title-1 {
+    @apply dark:border-2 dark:border-amber-500 text-4xl font-normal py-5 dark:text-amber-500 rounded-lg dark:bg-neutral-800 dark:pl-5;
+} */
 .custom-title-1 {
     @apply text-4xl font-normal py-5;
 }

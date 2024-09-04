@@ -175,7 +175,7 @@ export default function UnPackPage() {
               ></input>
             </div>
             <div className="custom-input-layout-1">
-              <label>Pile (Not Sure)</label>
+              <label>Pile</label>
               <input
                 type="text"
                 onInput={(e) => handlePalletIdChange(e)}

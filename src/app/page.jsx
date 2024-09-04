@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import DoughnutChart from "../components/donutDash";
-// import BarChart from "../components/barDash";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";

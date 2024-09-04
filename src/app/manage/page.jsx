@@ -4,7 +4,7 @@ function PalletManage() {
   return (
     <div className="min-h-screen">
       <h1 className="custom-title-1">Pallet Management</h1>
-      <div className="custom-box-1">
+      <div className="custom-box-2">
         <div className="custom-box-2">
           <h1 className="custom-box-title-1">Pallet Mover</h1>
           <div className="flex flex-row space-x-2">
@@ -101,6 +101,32 @@ function PalletManage() {
             <div className="custom-input-layout-1">
               <form>
                 <label>Lane</label>
+                <input
+                  type="number"
+                  id="number-input"
+                  aria-describedby="helper-text-explanation"
+                  className="custom-text-input-1"
+                  placeholder="10"
+                  required
+                />
+              </form>
+            </div>
+            <div className="custom-input-layout-1">
+              <form>
+                <label>Pile</label>
+                <input
+                  type="number"
+                  id="number-input"
+                  aria-describedby="helper-text-explanation"
+                  className="custom-text-input-1"
+                  placeholder="10"
+                  required
+                />
+              </form>
+            </div>
+            <div className="custom-input-layout-1">
+              <form>
+                <label>Layer</label>
                 <input
                   type="number"
                   id="number-input"

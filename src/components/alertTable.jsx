@@ -106,7 +106,7 @@ function AlertTable({ pageSize = 10 }) {
             >
               <td className="px-4 py-4 sm:px-6">
                 <span
-                  className={`rounded-lg px-2 py-1 text-xs font-semibold ${
+                  className={`rounded-md px-2 py-1 text-xs font-semibold ${
                     item.color_status === "red"
                       ? "bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
                       : item.color_status === "green"
