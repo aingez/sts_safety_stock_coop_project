@@ -13,6 +13,20 @@ const LegendItem = ({ color, label }) => {
   );
 };
 
+// Pallet status color config
+const statusColors = {
+  green: "bg-[#84cc16]",
+  yellow: "bg-[#f59e0b]",
+  red: "bg-[#FF1700]",
+};
+
+// Lane color config
+const laneColors = {
+  blue: "bg-[#DFF5FF]",
+  yellow: "bg-[#FEECB3]",
+  green: "bg-[#75ffbc]",
+};
+
 // GenerateTable component
 const GenerateTable = ({ data }) => {
   // Determine the maximum pile and layer number
@@ -38,12 +52,16 @@ const GenerateTable = ({ data }) => {
   });
 
   return (
-    <table className="min-w-full border-collapse border border-gray-200">
+    <table className="min-w-full">
+      {/* column label for debug */}
       <thead>
         <tr>
           {Array.from({ length: maxPile }).map((_, pileIndex) => (
-            <th key={pileIndex} className="border border-gray-300 p-2">
-              Pile {pileIndex + 1}
+            <th
+              key={pileIndex}
+              className="text-left font-light text-gray-400 opacity-20 dark:text-gray-500"
+            >
+              {pileIndex + 1}
             </th>
           ))}
         </tr>
@@ -52,20 +70,20 @@ const GenerateTable = ({ data }) => {
         {table.map((row, rowIndex) => (
           <tr key={rowIndex}>
             {row.map((pallet, colIndex) => (
-              <td key={colIndex} className="border border-gray-300 p-2">
+              <td key={colIndex}>
                 {pallet ? (
                   <button
-                    className={`h-full w-full text-white ${
-                      pallet.pack_age_status === "yellow"
-                        ? "bg-yellow-500"
-                        : "bg-red-500"
+                    className={`rounded-lg px-2 py-1 text-sm font-bold text-white shadow-xl ${
+                      statusColors[pallet.pack_age_status] || "bg-red-500"
                     }`}
                     title={pallet.number}
                   >
                     {pallet.number}
                   </button>
                 ) : (
-                  <div className="text-white">Empty</div>
+                  <div className="flex items-center justify-center px-2 py-1 font-light italic text-gray-400 opacity-20 dark:text-gray-500">
+                    Empty
+                  </div>
                 )}
               </td>
             ))}
@@ -74,20 +92,6 @@ const GenerateTable = ({ data }) => {
       </tbody>
     </table>
   );
-};
-
-// Pallet status color config
-const statusColors = {
-  green: "bg-[#84cc16]", // Hex for green
-  yellow: "bg-[#f59e0b]", // Hex for yellow
-  red: "bg-[#FF1700]", // Hex for red
-};
-
-// Lane color config
-const laneColors = {
-  blue: "bg-[#DFF5FF]",
-  yellow: "bg-[#FEECB3]",
-  green: "bg-[#75ffbc]",
 };
 
 // Generate Color LUT
@@ -113,7 +117,7 @@ const LayoutComp = () => {
   const laneColorLUT = generateColorLUT(layout);
 
   return (
-    <div className="flex flex-col p-10">
+    <div className="flex flex-col p-4 md:p-10">
       <div>
         <h1 className="custom-box-title-2">Safety Stock :</h1>
         <p className="custom-box-title-4">
@@ -131,66 +135,63 @@ const LayoutComp = () => {
         />
       </div>
 
-      <div className="mt-5 flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
-        <div className="overflow-x-auto">
-          <table className="min-w-full border-separate rounded-lg bg-white p-2 dark:bg-neutral-500">
-            <thead className="bg-neutral-300 dark:bg-neutral-400">
-              <tr>
-                <th className="border-none p-3 text-left font-medium text-gray-700 dark:text-gray-300">
-                  Row
+      <div className="custom-box-2 mt-5 overflow-x-auto">
+        <table className="p-2">
+          <thead>
+            <tr>
+              <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300">
+                Row
+              </th>
+              {[...Array(plant.max_lane)].map((_, index) => (
+                <th
+                  key={index}
+                  className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300"
+                >
+                  Lane {index + 1}
                 </th>
-                {[...Array(plant.max_lane)].map((_, index) => (
-                  <th
-                    key={index}
-                    className="border-none p-3 text-left font-medium text-gray-700 dark:text-gray-300"
-                    style={{
-                      width: `calc(100% / ${plant.max_lane})`, // Responsive width based on total lanes
-                    }}
-                  >
-                    Lane {index + 1}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {warehouse.rows.map((row) => (
-                <tr key={row.row_number}>
-                  <td className="p-3 font-medium text-gray-700 dark:text-gray-300">
-                    {row.row_number}
-                  </td>
-                  {[...Array(plant.max_lane)].map((_, laneIndex) => {
-                    const lane = row.lanes.find(
-                      (l) => l.lane_number === laneIndex + 1,
-                    );
-                    const rawLaneColor = laneColorLUT[laneIndex];
-                    // Map raw lane color to the lane color config
-                    const laneColor = laneColors[rawLaneColor] || "bg-white";
-
-                    return (
-                      // cell
-                      <td
-                        key={laneIndex}
-                        className={`p-3 ${laneColor} space-y-1 rounded-md dark:border-gray-600 dark:bg-opacity-60`}
-                        style={{
-                          verticalAlign: "bottom",
-                          width: `calc(100% / ${plant.max_lane})`,
-                          maxWidth: "150px", // Limit maximum width to maintain responsiveness
-                        }}
-                      >
-                        {lane ? (
-                          <GenerateTable data={lane} />
-                        ) : (
-                          <div className="text-white">Empty</div>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
               ))}
-            </tbody>
-          </table>
-        </div>
+            </tr>
+          </thead>
+
+          <tbody>
+            {warehouse.rows.map((row) => (
+              <tr key={row.row_number}>
+                <td className="p-3 text-center align-middle font-medium text-gray-700 dark:text-gray-300">
+                  {row.row_number}
+                </td>
+                {[...Array(plant.max_lane)].map((_, laneIndex) => {
+                  const lane = row.lanes.find(
+                    (l) => l.lane_number === laneIndex + 1,
+                  );
+                  const rawLaneColor = laneColorLUT[laneIndex];
+                  // Map raw lane color to the lane color config
+                  const laneColor = laneColors[rawLaneColor] || "bg-white";
+
+                  return (
+                    // cell
+                    <td
+                      key={laneIndex}
+                      className={`p-3 ${laneColor} space-y-1 border-2 border-gray-300 dark:border-gray-500 dark:bg-opacity-60`}
+                      style={{
+                        verticalAlign: "bottom",
+                        width: `calc(100% / ${plant.max_lane})`,
+                        maxWidth: "150px", // Limit maximum width to maintain responsiveness
+                      }}
+                    >
+                      {lane ? (
+                        <GenerateTable data={lane} />
+                      ) : (
+                        <div className="flex items-center justify-center px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
+                          Empty
+                        </div>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
