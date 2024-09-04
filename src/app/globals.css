@@ -73,6 +73,10 @@
     @apply uppercase grow select-none rounded-lg bg-green-500 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-900/20 transition-all hover:bg-green-400 hover:shadow-lg hover:shadow-green-700/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none;
 }
 
+.custom-button-1-libero {
+    @apply uppercase select-none rounded-lg px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg;
+}
+
 .custom-radio-1 {
     @apply grid gap-2 border-2 border-neutral-200 rounded-lg p-2 bg-transparent bg-white text-sm font-normal leading-relaxed text-gray-800 focus:outline-none disabled:bg-neutral-200 dark:disabled:border-neutral-500 dark:disabled:bg-neutral-500 dark:bg-neutral-700 dark:border-neutral-700;
 }

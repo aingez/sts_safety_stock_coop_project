@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import WarehouseLayoutDisplay from "../../components/layoutDisp";
+import WarehouseLayoutDisplay from "../components/layoutDisp";
 
 const WarehouseLayoutEditor = () => {
   const [layoutData, setLayoutData] = useState([]);
@@ -100,7 +100,7 @@ const WarehouseLayoutEditor = () => {
   return (
     <div className="flex flex-col gap-8 p-4">
       <div>
-        <h2 className="custom-title-1">Warehouse Layout Editor</h2>
+        <h2 className="custom-box-title-1">Warehouse Layout Editor</h2>
         <div className="mb-4 flex gap-4">
           <div className="custom-input-layout-1">
             <label>Row</label>
@@ -124,12 +124,13 @@ const WarehouseLayoutEditor = () => {
           </div>
           <button
             onClick={generateLayout}
-            className="select-none rounded-lg bg-green-400 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
+            className="rounded-lg bg-green-400 px-6 py-2 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
           >
             Generate Layout
           </button>
         </div>
-        <table className="w-full border-collapse">
+
+        <table className="w-full border-collapse bg-neutral-500">
           <thead>
             <tr>
               <th className="border border-gray-300 p-2">Row</th>
@@ -148,7 +149,7 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "row", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1"
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
@@ -158,7 +159,7 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "lane", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1"
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
@@ -168,13 +169,13 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "piles", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1"
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
                   <button
                     onClick={() => deleteCell(item.id)}
-                    className="bg-red-500 px-2 py-1 text-white"
+                    className="custom-button-1-red"
                   >
                     Delete
                   </button>
@@ -185,12 +186,11 @@ const WarehouseLayoutEditor = () => {
         </table>
         <button
           onClick={addNewRow}
-          className="mt-2 select-none rounded-lg bg-green-400 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
+          className="mt-2 select-none rounded-lg bg-sky-400 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
         >
           Add Row
         </button>
       </div>
-      <h1 className="custom-title-1">Example Table</h1>
       <div className="custom-box-2">
         {jsonOutput.length > 10 ? (
           <div>
