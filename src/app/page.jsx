@@ -6,6 +6,7 @@ import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";
 import WarehouseDisp from "../components/layoutDisp";
+import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
 
 function ModelQuantityChart() {
   const [barJson, setBarJson] = useState([]);
@@ -78,7 +79,7 @@ function ModelQuantityChart() {
       </div>
       <h2 className="custom-title-1">Warehouse</h2>
       <div className="custom-box-2">
-        <WarehouseDisp />
+        <WarehouseDisp inputData={mockWarehouseData} />
       </div>
     </div>
   );

@@ -1,200 +1,211 @@
-import React from "react";
-import mockData from "../../components/testing_data/warehouseDashMock_2.json";
+"use client";
 
-// Legend items helper
-const LegendItem = ({ color, label }) => {
-  return (
-    <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
-      <div
-        className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
-      ></div>
-      <span className="text-sm text-gray-700 dark:text-white">{label}</span>
-    </div>
-  );
-};
+import React, { useState, useEffect } from "react";
+import WarehouseLayoutDisplay from "../../components/layoutDisp";
+import testData from "../../components/testing_data/warehouseDashMock_2.json";
 
-// Pallet status color config
-const statusColors = {
-  green: "bg-[#84cc16]",
-  yellow: "bg-[#f59e0b]",
-  red: "bg-[#FF1700]",
-};
+const WarehouseLayoutEditor = () => {
+  const [layoutData, setLayoutData] = useState([
+    { id: 1, row: 1, lane: 1, piles: 2 },
+    { id: 2, row: 2, lane: 1, piles: 1 },
+  ]);
+  const [jsonOutput, setJsonOutput] = useState("");
+  const handleInputChange = (id, field, value) => {
+    setLayoutData(
+      layoutData.map((item) =>
+        item.id === id ? { ...item, [field]: parseInt(value) || 0 } : item,
+      ),
+    );
+  };
 
-// Lane color config
-const laneColors = {
-  blue: "bg-[#DFF5FF]",
-  yellow: "bg-[#FEECB3]",
-  green: "bg-[#75ffbc]",
-};
+  const addNewRow = () => {
+    const newId = Math.max(...layoutData.map((item) => item.id)) + 1;
+    setLayoutData([...layoutData, { id: newId, row: 1, lane: 1, piles: 1 }]);
+  };
 
-// GenerateTable component
-const GenerateTable = ({ data }) => {
-  // Determine the maximum pile and layer number
-  let maxPile = 0;
-  let maxLayer = 0;
+  const generateTestPallet = (row, lane, pile) => {
+    const types = ["BL", "CR", "HE", "CM"];
+    const type = types[Math.floor(Math.random() * types.length)];
+    const number = `${type}${String(row).padStart(2, "0")}${String.fromCharCode(65 + lane - 1)}`;
+    const statuses = ["red", "yellow", "green"];
+    const status = statuses[Math.floor(Math.random() * statuses.length)];
+    return { number, pack_age_status: status };
+  };
+  const generateJson = () => {
+    const maxRow = Math.max(...layoutData.map((item) => item.row));
+    const maxLane = Math.max(...layoutData.map((item) => item.lane));
 
-  data.positions.forEach((position) => {
-    const { pile, layer } = position.location;
-    if (pile > maxPile) maxPile = pile;
-    if (layer > maxLayer) maxLayer = layer;
-  });
+    const warehouseData = {
+      rows: Array.from({ length: maxRow }, (_, rowIndex) => ({
+        row_number: rowIndex + 1,
+        lanes: layoutData
+          .filter((item) => item.row === rowIndex + 1)
+          .map((item) => ({
+            lane_number: item.lane,
+            positions: Array.from({ length: item.piles }, (_, pileIndex) => ({
+              location: {
+                pile: pileIndex + 1,
+                layer: 1,
+              },
+              pallet: generateTestPallet(item.row, item.lane, pileIndex + 1),
+            })),
+          })),
+      })),
+    };
+    const jsonData = {
+      status: "success",
+      data: {
+        plant: {
+          code: "1",
+          type: "Engine",
+          max_row: maxRow,
+          max_lane: maxLane,
+          is_active: true,
+        },
+        layout: {
+          block: { lane: "1-2", color: "blue" },
+          head: { lane: "3-8", color: "yellow" },
+          crankshaft: { lane: "9-10", color: "green" },
+        },
+        warehouse: warehouseData,
+      },
+    };
+    setJsonOutput(JSON.stringify([jsonData, 200], null, 2));
+  };
 
-  // Create a 2D array to represent the table
-  const table = Array.from({ length: maxLayer }, () =>
-    Array(maxPile).fill(null),
-  );
+  const updateJsonOnInputChange = () => {
+    generateJson();
+  };
 
-  // Fill the table with pallet data
-  data.positions.forEach((position) => {
-    const { pile, layer } = position.location;
-    const pallet = position.pallet;
-    table[maxLayer - layer][pile - 1] = pallet;
-  });
+  useEffect(() => {
+    updateJsonOnInputChange();
+  }, [layoutData]);
 
-  return (
-    <table className="min-w-full">
-      {/* column label for debug */}
-      <thead>
-        <tr>
-          {Array.from({ length: maxPile }).map((_, pileIndex) => (
-            <th
-              key={pileIndex}
-              className="text-left font-light text-gray-400 opacity-20 dark:text-gray-500"
-            >
-              {pileIndex + 1}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {table.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((pallet, colIndex) => (
-              <td key={colIndex}>
-                {pallet ? (
-                  <button
-                    className={`rounded-lg px-2 py-1 text-sm font-bold text-white shadow-xl ${
-                      statusColors[pallet.pack_age_status] || "bg-red-500"
-                    }`}
-                    title={pallet.number}
-                  >
-                    {pallet.number}
-                  </button>
-                ) : (
-                  <div className="flex items-center justify-center px-2 py-1 font-light italic text-gray-400 opacity-20 dark:text-gray-500">
-                    Empty
-                  </div>
-                )}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
-// Generate Color LUT
-const generateColorLUT = (data) => {
-  const result = [];
-
-  Object.values(data).forEach(({ lane, color }) => {
-    // Split the lane string into start and end numbers
-    const [start, end] = lane.split("-").map(Number);
-
-    // Push the color into the result array for each number in the range
-    for (let i = start; i <= end; i++) {
-      result.push(color);
-    }
-  });
-
-  return result;
-};
-
-// LayoutComp component
-const LayoutComp = () => {
-  const { plant, warehouse, layout } = mockData[0].data;
-  const laneColorLUT = generateColorLUT(layout);
+  useEffect(() => {
+    // console.log(jsonOutput);
+  }, [jsonOutput]);
 
   return (
-    <div className="flex flex-col p-4 md:p-10">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "2rem",
+        padding: "1rem",
+      }}
+    >
       <div>
-        <h1 className="custom-box-title-2">Safety Stock :</h1>
-        <p className="custom-box-title-4">
-          {plant.type} Plant {plant.code}
-        </p>
-      </div>
-
-      {/* Legend */}
-      <div className="mt-6 flex flex-wrap gap-4">
-        <LegendItem color={laneColors.blue} label="Block Lane (Max : 2)" />
-        <LegendItem color={laneColors.yellow} label="Head Lane (Max : 2)" />
-        <LegendItem
-          color={laneColors.green}
-          label="Crankshaft Lane (Max : 2)"
-        />
-      </div>
-
-      <div className="custom-box-2 mt-5 overflow-x-auto">
-        <table className="p-2">
+        <h2
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            marginBottom: "1rem",
+          }}
+        >
+          Warehouse Layout Editor
+        </h2>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr>
-              <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300">
+              <th style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
                 Row
               </th>
-              {[...Array(plant.max_lane)].map((_, index) => (
-                <th
-                  key={index}
-                  className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300"
-                >
-                  Lane {index + 1}
-                </th>
-              ))}
+              <th style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
+                Lane
+              </th>
+              <th style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
+                Piles
+              </th>
             </tr>
           </thead>
-
           <tbody>
-            {warehouse.rows.map((row) => (
-              <tr key={row.row_number}>
-                <td className="p-3 text-center align-middle font-medium text-gray-700 dark:text-gray-300">
-                  {row.row_number}
+            {layoutData.map((item) => (
+              <tr key={item.id}>
+                <td style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
+                  <input
+                    type="number"
+                    value={item.row}
+                    onChange={(e) =>
+                      handleInputChange(item.id, "row", e.target.value)
+                    }
+                    style={{ width: "100%" }}
+                  />
                 </td>
-                {[...Array(plant.max_lane)].map((_, laneIndex) => {
-                  const lane = row.lanes.find(
-                    (l) => l.lane_number === laneIndex + 1,
-                  );
-                  const rawLaneColor = laneColorLUT[laneIndex];
-                  // Map raw lane color to the lane color config
-                  const laneColor = laneColors[rawLaneColor] || "bg-white";
-
-                  return (
-                    // cell
-                    <td
-                      key={laneIndex}
-                      className={`p-3 ${laneColor} space-y-1 border-2 border-gray-300 dark:border-gray-500 dark:bg-opacity-60`}
-                      style={{
-                        verticalAlign: "bottom",
-                        width: `calc(100% / ${plant.max_lane})`,
-                        maxWidth: "150px", // Limit maximum width to maintain responsiveness
-                      }}
-                    >
-                      {lane ? (
-                        <GenerateTable data={lane} />
-                      ) : (
-                        <div className="flex items-center justify-center px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
-                          Empty
-                        </div>
-                      )}
-                    </td>
-                  );
-                })}
+                <td style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
+                  <input
+                    type="number"
+                    value={item.lane}
+                    onChange={(e) =>
+                      handleInputChange(item.id, "lane", e.target.value)
+                    }
+                    style={{ width: "100%" }}
+                  />
+                </td>
+                <td style={{ border: "1px solid #ccc", padding: "0.5rem" }}>
+                  <input
+                    type="number"
+                    value={item.piles}
+                    onChange={(e) =>
+                      handleInputChange(item.id, "piles", e.target.value)
+                    }
+                    style={{ width: "100%" }}
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        <button
+          onClick={addNewRow}
+          style={{
+            marginTop: "1rem",
+            padding: "0.5rem 1rem",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Add Row
+        </button>
+      </div>
+      <div>
+        {/* show component if jsonOut not empty */}
+        {jsonOutput.length > 10 ? (
+          <div>
+            <WarehouseLayoutDisplay inputData={JSON.parse(jsonOutput)} />
+            {console.log("jsonOutput OK")}
+          </div>
+        ) : (
+          <div className="flex items-center justify-center space-x-10">
+            Loading...
+            {console.log("waiting jsonOutput . . .")}
+          </div>
+        )}
+      </div>
+      <div>
+        <h2
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: "bold",
+            marginBottom: "1rem",
+          }}
+        >
+          JSON Output
+        </h2>
+        <pre
+          style={{
+            whiteSpace: "pre-wrap",
+            wordWrap: "break-word",
+            background: "#f0f0f0",
+            padding: "1rem",
+          }}
+        >
+          {jsonOutput}
+        </pre>
       </div>
     </div>
   );
 };
 
-export default LayoutComp;
+export default WarehouseLayoutEditor;

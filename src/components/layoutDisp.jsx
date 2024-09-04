@@ -1,5 +1,4 @@
 import React from "react";
-import mockData from "../components/testing_data/warehouseDashMock_2.json";
 
 // Legend items helper
 const LegendItem = ({ color, label }) => {
@@ -95,10 +94,9 @@ const GenerateTable = ({ data }) => {
 };
 
 // Generate Color LUT
-const generateColorLUT = (data) => {
+const generateColorLUT = (layout) => {
   const result = [];
-
-  Object.values(data).forEach(({ lane, color }) => {
+  Object.values(layout).forEach(({ lane, color }) => {
     // Split the lane string into start and end numbers
     const [start, end] = lane.split("-").map(Number);
 
@@ -112,8 +110,11 @@ const generateColorLUT = (data) => {
 };
 
 // LayoutComp component
-const LayoutComp = () => {
-  const { plant, warehouse, layout } = mockData[0].data;
+const LayoutComp = ({ inputData }) => {
+  console.log("LayoutComp inputData");
+  console.log(inputData.data);
+  console.log(inputData[0].data);
+  const { plant, warehouse, layout } = inputData[0].data;
   const laneColorLUT = generateColorLUT(layout);
 
   return (
