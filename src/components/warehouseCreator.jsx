@@ -11,6 +11,7 @@ const WarehouseLayoutEditor = () => {
   const [crankshaftLaneRange, setCrankshaftLaneRange] = useState("5-10");
   const [plantType, setPlantType] = useState("Engine");
   const [plantNumber, setPlantNumber] = useState("1");
+  const [creatorJson, setCreatorJson] = useState("");
 
   const handleInputChange = (id, field, value) => {
     setLayoutData(
@@ -105,6 +106,50 @@ const WarehouseLayoutEditor = () => {
     setLayoutData(newLayoutData);
   };
 
+  const generateCustomJson = () => {
+    const maxRow = Math.max(...layoutData.map((item) => item.row), 0);
+    const maxLane = Math.max(...layoutData.map((item) => item.lane), 0);
+
+    // Group lanes by rows
+    const warehousePositions = Array.from(
+      { length: maxRow },
+      (_, rowIndex) => ({
+        row: rowIndex + 1,
+        lanes: layoutData
+          .filter((item) => item.row === rowIndex + 1)
+          .map((item) => ({
+            number: item.lane,
+            max_pile: item.piles,
+            max_layer: 2, // Set this value based on your requirements
+          })),
+      }),
+    );
+
+    // Generate the custom JSON structure
+    const customJsonData = {
+      data: {
+        plant: {
+          code: plantNumber,
+          type: plantType,
+          max_row: maxRow,
+          max_lane: maxLane,
+          is_active: true,
+          layout: [
+            { lane: blockLaneRange, color: "blue" },
+            { lane: headLaneRange, color: "yellow" },
+            { lane: crankshaftLaneRange, color: "green" },
+          ],
+        },
+        warehouse: {
+          position: warehousePositions,
+        },
+      },
+    };
+
+    // Convert to a pretty JSON string and set it to the output state
+    setCreatorJson(JSON.stringify(customJsonData, null, 2));
+  };
+
   return (
     <div className="flex flex-row gap-8 p-4">
       <div className="custom-box-2 flex-none">
@@ -186,9 +231,17 @@ const WarehouseLayoutEditor = () => {
               placeholder="Number of Lanes"
             />
           </div>
-          <button onClick={generateLayout} className="custom-button-1-green">
-            Generate Layout
-          </button>
+          <div className="flex flex-col space-y-2">
+            <button onClick={generateLayout} className="custom-button-1-pink">
+              Generate Layout
+            </button>
+            <button
+              onClick={generateCustomJson}
+              className="custom-button-1-green"
+            >
+              Create Layout
+            </button>
+          </div>
         </div>
 
         <table className="w-full bg-neutral-200 dark:bg-neutral-500">
@@ -260,7 +313,7 @@ const WarehouseLayoutEditor = () => {
       <div className="custom-box-2">
         <h2 className="custom-box-title-1">JSON Output</h2>
         <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
-          {jsonOutput}
+          {creatorJson}
         </pre>
       </div>
     </div>

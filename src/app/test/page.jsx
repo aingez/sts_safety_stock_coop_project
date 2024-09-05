@@ -6,8 +6,13 @@ import WarehouseLayoutDisplay from "../../components/layoutDisp";
 const WarehouseLayoutEditor = () => {
   const [layoutData, setLayoutData] = useState([]);
   const [jsonOutput, setJsonOutput] = useState("");
-  const [rows, setRows] = useState(2); // Default rows
-  const [lanes, setLanes] = useState(2); // Default lanes
+  const [rows, setRows] = useState(2);
+  const [lanes, setLanes] = useState(2);
+  const [blockLaneRange, setBlockLaneRange] = useState("1-2");
+  const [headLaneRange, setHeadLaneRange] = useState("3-4");
+  const [crankshaftLaneRange, setCrankshaftLaneRange] = useState("5-10");
+  const [plantType, setPlantType] = useState("Engine");
+  const [plantNumber, setPlantNumber] = useState("1");
 
   const handleInputChange = (id, field, value) => {
     setLayoutData(
@@ -57,16 +62,16 @@ const WarehouseLayoutEditor = () => {
       status: "success",
       data: {
         plant: {
-          code: "1",
-          type: "Engine",
+          code: plantNumber,
+          type: plantType,
           max_row: maxRow,
           max_lane: maxLane,
           is_active: true,
         },
         layout: {
-          block: { lane: "1-2", color: "blue" },
-          head: { lane: "3-8", color: "yellow" },
-          crankshaft: { lane: "9-10", color: "green" },
+          block: { lane: blockLaneRange, color: "blue" },
+          head: { lane: headLaneRange, color: "yellow" },
+          crankshaft: { lane: crankshaftLaneRange, color: "green" },
         },
         warehouse: warehouseData,
       },
@@ -74,13 +79,18 @@ const WarehouseLayoutEditor = () => {
     setJsonOutput(JSON.stringify([jsonData, 200], null, 2));
   };
 
-  const updateJsonOnInputChange = () => {
-    generateJson();
-  };
-
   useEffect(() => {
-    updateJsonOnInputChange();
-  }, [layoutData]);
+    generateJson();
+  }, [
+    layoutData,
+    rows,
+    lanes,
+    blockLaneRange,
+    headLaneRange,
+    crankshaftLaneRange,
+    plantType,
+    plantNumber,
+  ]);
 
   const generateLayout = () => {
     const newLayoutData = [];
@@ -98,38 +108,92 @@ const WarehouseLayoutEditor = () => {
   };
 
   return (
-    <div className="flex flex-col gap-8 p-4">
-      <div>
-        <h2 className="custom-title-1">Warehouse Layout Editor</h2>
-        <div className="mb-4 flex gap-4">
+    <div className="flex flex-row gap-8 p-4">
+      <div className="custom-box-2 flex-none">
+        <h2 className="custom-box-title-1">Warehouse Layout Creator</h2>
+        <div className="flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Plant Type</label>
+            <select
+              className="custom-text-input-1"
+              value={plantType}
+              onChange={(e) => setPlantType(e.target.value)}
+            >
+              <option value="Engine">Engine</option>
+              <option value="Casting">Casting</option>
+            </select>
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Plant Number</label>
+            <input
+              type="text"
+              className="custom-text-input-1"
+              placeholder="Plant Number"
+              value={plantNumber}
+              onChange={(e) => setPlantNumber(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="my-2 flex flex-row space-x-2">
+          <div className="custom-input-layout-1">
+            <label>Block Lane Range</label>
+            <input
+              type="text"
+              className="custom-text-input-1"
+              placeholder="1-2"
+              value={blockLaneRange}
+              onChange={(e) => setBlockLaneRange(e.target.value)}
+            />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Head Lane Range</label>
+            <input
+              type="text"
+              className="custom-text-input-1"
+              placeholder="3-4"
+              value={headLaneRange}
+              onChange={(e) => setHeadLaneRange(e.target.value)}
+            />
+          </div>
+          <div className="custom-input-layout-1">
+            <label>Crankshaft Lane Range</label>
+            <input
+              type="text"
+              className="custom-text-input-1"
+              placeholder="5-10"
+              value={crankshaftLaneRange}
+              onChange={(e) => setCrankshaftLaneRange(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="mb-4 flex gap-2">
           <div className="custom-input-layout-1">
             <label>Row</label>
             <input
               type="number"
               value={rows}
               onChange={(e) => setRows(parseInt(e.target.value) || 0)}
-              className="rounded-lg px-5 py-2"
+              className="custom-text-input-1"
               placeholder="Number of Rows"
             />
           </div>
           <div className="custom-input-layout-1">
-            <label>Column</label>
+            <label>Lanes</label>
             <input
               type="number"
               value={lanes}
               onChange={(e) => setLanes(parseInt(e.target.value) || 0)}
-              className="rounded-lg px-5 py-2"
+              className="custom-text-input-1"
               placeholder="Number of Lanes"
             />
           </div>
-          <button
-            onClick={generateLayout}
-            className="select-none rounded-lg bg-green-400 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
-          >
+          <button onClick={generateLayout} className="custom-button-1-green">
             Generate Layout
           </button>
         </div>
-        <table className="w-full border-collapse">
+
+        <table className="w-full bg-neutral-200 dark:bg-neutral-500">
           <thead>
             <tr>
               <th className="border border-gray-300 p-2">Row</th>
@@ -148,7 +212,7 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "row", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1-small max-w-20"
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
@@ -158,7 +222,7 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "lane", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1-small max-w-20"
                   />
                 </td>
                 <td className="border border-gray-300 p-2">
@@ -168,13 +232,13 @@ const WarehouseLayoutEditor = () => {
                     onChange={(e) =>
                       handleInputChange(item.id, "piles", e.target.value)
                     }
-                    className="w-full"
+                    className="custom-text-input-1-small max-w-20"
                   />
                 </td>
-                <td className="border border-gray-300 p-2">
+                <td className="border border-gray-300 p-2 text-center">
                   <button
                     onClick={() => deleteCell(item.id)}
-                    className="bg-red-500 px-2 py-1 text-white"
+                    className="custom-button-1-red"
                   >
                     Delete
                   </button>
@@ -183,26 +247,23 @@ const WarehouseLayoutEditor = () => {
             ))}
           </tbody>
         </table>
-        <button
-          onClick={addNewRow}
-          className="mt-2 select-none rounded-lg bg-green-400 px-6 py-3 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg"
-        >
-          Add Row
-        </button>
       </div>
-      <h1 className="custom-title-1">Example Table</h1>
       <div className="custom-box-2">
         {jsonOutput.length > 10 ? (
           <div>
             <WarehouseLayoutDisplay inputData={JSON.parse(jsonOutput)} />
-            {console.log("jsonOutput OK")}
           </div>
         ) : (
           <div className="flex items-center justify-center space-x-4">
             Loading...
-            {console.log("waiting jsonOutput . . .")}
           </div>
         )}
+      </div>
+      <div className="custom-box-2">
+        <h2 className="custom-box-title-1">JSON Output</h2>
+        <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
+          {jsonOutput}
+        </pre>
       </div>
     </div>
   );
