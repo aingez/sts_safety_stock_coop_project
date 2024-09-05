@@ -239,7 +239,7 @@ function EditorPage() {
       />
 
       <h2 className="custom-subtitle-2">Warehouse Editor</h2>
-      <WarehouseEditor
+      {/* <WarehouseEditor
         palletMode={palletMode}
         setPalletMode={setPalletMode}
         plantType={plantType}
@@ -247,7 +247,10 @@ function EditorPage() {
         plantNumber={plantNumber}
         setPlantNumber={setPlantNumber}
         handleClear={handleClear}
-      />
+      /> */}
+      <div className="custom-box-1 overflow-x-auto">
+        <WhCreator />
+      </div>
     </div>
   );
 }

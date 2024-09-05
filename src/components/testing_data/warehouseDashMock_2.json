@@ -60,6 +60,15 @@
                       "number": "BL03A",
                       "pack_age_status": "red"
                     }
+                  },{
+                    "location": {
+                      "pile": 3,
+                      "layer": 1
+                    },
+                    "pallet": {
+                      "number": "TEST",
+                      "pack_age_status": "green"
+                    }
                   }
                 ]
               },

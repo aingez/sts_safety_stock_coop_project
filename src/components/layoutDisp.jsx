@@ -72,7 +72,7 @@ const GenerateTable = ({ data }) => {
               <td key={colIndex}>
                 {pallet ? (
                   <button
-                    className={`rounded-lg px-2 py-1 text-sm font-bold text-white shadow-xl ${
+                    className={`mx-0.5 min-w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${
                       statusColors[pallet.pack_age_status] || "bg-red-500"
                     }`}
                     title={pallet.number}
@@ -80,8 +80,8 @@ const GenerateTable = ({ data }) => {
                     {pallet.number}
                   </button>
                 ) : (
-                  <div className="flex items-center justify-center px-2 py-1 font-light italic text-gray-400 opacity-20 dark:text-gray-500">
-                    Empty
+                  <div className="mx-0.5 min-w-16 rounded-lg border-2 border-dashed border-neutral-400 py-1 text-center text-sm font-light text-neutral-400 text-white">
+                    MT
                   </div>
                 )}
               </td>
@@ -172,17 +172,17 @@ const LayoutComp = ({ inputData }) => {
                     // cell
                     <td
                       key={laneIndex}
-                      className={`p-3 ${laneColor} space-y-1 border-2 border-gray-300 dark:border-gray-500 dark:bg-opacity-60`}
+                      className={`p-2 ${laneColor} space-y-1 border-2 border-gray-300 dark:border-gray-500 dark:bg-opacity-60`}
                       style={{
                         verticalAlign: "bottom",
                         width: `calc(100% / ${plant.max_lane})`,
-                        maxWidth: "150px", // Limit maximum width to maintain responsiveness
+                        // maxWidth: "150px", // Limit maximum width to maintain responsiveness
                       }}
                     >
                       {lane ? (
                         <GenerateTable data={lane} />
                       ) : (
-                        <div className="flex items-center justify-center px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
+                        <div className="flex px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
                           Empty
                         </div>
                       )}
