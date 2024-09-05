@@ -80,7 +80,7 @@ const GenerateTable = ({ data }) => {
                     {pallet.number}
                   </button>
                 ) : (
-                  <div className="mx-0.5 min-w-16 rounded-lg border-2 border-dashed border-neutral-400 py-1 text-center text-sm font-light text-neutral-400 text-white">
+                  <div className="mx-0.5 min-w-16 rounded-lg border-2 border-dashed border-neutral-400 py-1 text-center text-sm font-light text-neutral-400 opacity-20 dark:opacity-100">
                     MT
                   </div>
                 )}
