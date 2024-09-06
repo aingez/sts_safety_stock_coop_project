@@ -130,16 +130,16 @@ const WarehouseLayoutEditor = () => {
     const customJsonData = {
       data: {
         plant: {
-          code: plantNumber,
-          type: plantType,
-          max_row: maxRow,
+          plant_type: plantType,
+          plant_id: plantNumber,
           max_lane: maxLane,
-          is_active: true,
-          layout: {
+          max_row: maxRow,
+          color_layout: {
             block: { lane: blockLaneRange, color: "blue" },
             head: { lane: headLaneRange, color: "yellow" },
             crankshaft: { lane: crankshaftLaneRange, color: "green" },
           },
+          is_active: true,
         },
         warehouse: {
           position: warehousePositions,
