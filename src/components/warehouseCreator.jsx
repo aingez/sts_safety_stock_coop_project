@@ -323,7 +323,7 @@ const WarehouseLayoutEditor = () => {
         )}
       </div>
       <div className="custom-box-2">
-        <h2 className="custom-box-title-1">JSON Output</h2>
+        <h2 className="custom-box-title-1">JSON Blueprint</h2>
         <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
           {creatorJson}
         </pre>
