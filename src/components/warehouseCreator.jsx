@@ -5,10 +5,10 @@ const WarehouseLayoutEditor = () => {
   const [layoutData, setLayoutData] = useState([]);
   const [jsonOutput, setJsonOutput] = useState("");
   const [rows, setRows] = useState(2);
-  const [lanes, setLanes] = useState(2);
+  const [lanes, setLanes] = useState(5);
   const [blockLaneRange, setBlockLaneRange] = useState("1-2");
-  const [headLaneRange, setHeadLaneRange] = useState("3-4");
-  const [crankshaftLaneRange, setCrankshaftLaneRange] = useState("5-10");
+  const [headLaneRange, setHeadLaneRange] = useState("3-3");
+  const [crankshaftLaneRange, setCrankshaftLaneRange] = useState("4-5");
   const [plantType, setPlantType] = useState("Engine");
   const [plantNumber, setPlantNumber] = useState("1");
   const [creatorJson, setCreatorJson] = useState("");
@@ -100,6 +100,7 @@ const WarehouseLayoutEditor = () => {
           row: r,
           lane: l,
           piles: 1,
+          layer: 2,
         });
       }
     }
@@ -120,7 +121,7 @@ const WarehouseLayoutEditor = () => {
           .map((item) => ({
             number: item.lane,
             max_pile: item.piles,
-            max_layer: 2, // Set this value based on your requirements
+            max_layer: item.layer,
           })),
       }),
     );
@@ -134,11 +135,11 @@ const WarehouseLayoutEditor = () => {
           max_row: maxRow,
           max_lane: maxLane,
           is_active: true,
-          layout: [
-            { lane: blockLaneRange, color: "blue" },
-            { lane: headLaneRange, color: "yellow" },
-            { lane: crankshaftLaneRange, color: "green" },
-          ],
+          layout: {
+            block: { lane: blockLaneRange, color: "blue" },
+            head: { lane: headLaneRange, color: "yellow" },
+            crankshaft: { lane: crankshaftLaneRange, color: "green" },
+          },
         },
         warehouse: {
           position: warehousePositions,
@@ -250,6 +251,7 @@ const WarehouseLayoutEditor = () => {
               <th className="border border-gray-300 p-2">Row</th>
               <th className="border border-gray-300 p-2">Lane</th>
               <th className="border border-gray-300 p-2">Piles</th>
+              <th className="border border-gray-300 p-2">Layer</th>
               <th className="border border-gray-300 p-2">Action</th>
             </tr>
           </thead>
@@ -282,6 +284,16 @@ const WarehouseLayoutEditor = () => {
                     value={item.piles}
                     onChange={(e) =>
                       handleInputChange(item.id, "piles", e.target.value)
+                    }
+                    className="custom-text-input-1-small max-w-20"
+                  />
+                </td>
+                <td className="border border-gray-300 p-2">
+                  <input
+                    type="number"
+                    value={item.layer}
+                    onChange={(e) =>
+                      handleInputChange(item.id, "layer", e.target.value)
                     }
                     className="custom-text-input-1-small max-w-20"
                   />
