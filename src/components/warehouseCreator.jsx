@@ -129,21 +129,19 @@ const WarehouseLayoutEditor = () => {
     // Generate the custom JSON structure
     const customJsonData = {
       data: {
-        plant: {
-          plant_type: plantType,
-          plant_id: plantNumber,
-          max_lane: maxLane,
-          max_row: maxRow,
-          color_layout: {
-            block: { lane: blockLaneRange, color: "blue" },
-            head: { lane: headLaneRange, color: "yellow" },
-            crankshaft: { lane: crankshaftLaneRange, color: "green" },
-          },
-          is_active: true,
+        plant_type: plantType,
+        plant_id: plantNumber,
+        max_lane: maxLane,
+        max_row: maxRow,
+        color_layout: {
+          block: { lane: blockLaneRange, color: "blue" },
+          head: { lane: headLaneRange, color: "yellow" },
+          crankshaft: { lane: crankshaftLaneRange, color: "green" },
         },
-        warehouse: {
-          position: warehousePositions,
-        },
+        is_active: true,
+      },
+      warehouse: {
+        position: warehousePositions,
       },
     };
 
