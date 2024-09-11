@@ -59,13 +59,13 @@ const GenerateTable = ({ laneData }) => {
               <td key={colIndex}>
                 {pallet ? (
                   <button
-                    className={`mx-0.5 w-20 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${statusColors[pallet.color_status]}`}
+                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${statusColors[pallet.color_status]}`}
                     title={pallet.pallet_name}
                   >
                     {pallet.pallet_name}
                   </button>
                 ) : (
-                  <div className="mx-0.5 w-20 rounded-lg border-2 border-dashed border-neutral-400 py-1 text-center text-sm font-light text-neutral-400 opacity-20 dark:opacity-100">
+                  <div className="mx-0.5 w-16 rounded-lg border-2 border-dashed border-neutral-900 py-1 text-center text-sm font-light text-neutral-900 opacity-30">
                     MT
                   </div>
                 )}
@@ -117,7 +117,7 @@ const LayoutDisplayTest = ({ inputData }) => {
           <thead>
             <tr>
               <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300">
-                Row
+                {/* Row */}
               </th>
               {[...Array(max_lane)].map((_, index) => (
                 <th
@@ -133,8 +133,8 @@ const LayoutDisplayTest = ({ inputData }) => {
           <tbody>
             {Array.from({ length: max_row }).map((_, rowIndex) => (
               <tr key={rowIndex}>
-                <td className="p-3 text-center align-middle font-medium text-gray-700 dark:text-gray-300">
-                  {rowIndex + 1}
+                <td className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300">
+                  Row {rowIndex + 1}
                 </td>
                 {[...Array(max_lane)].map((_, laneIndex) => {
                   const lane = layer_1.find(

@@ -13,7 +13,7 @@ const mockData = {
   plant_type: "Engine",
   plant_number: 1,
   max_row: 2,
-  max_lane: 2,
+  max_lane: 10,
   color_layout: {
     block: { lane: "1-3", color: "blue" },
     head: { lane: "4-6", color: "yellow" },
@@ -67,6 +67,14 @@ const mockData = {
       id: 4,
       row: 2,
       lane: 2,
+      max_pile: 2,
+      max_layer: 2,
+      current_pallet: 0,
+    },
+    {
+      id: 20,
+      row: 2,
+      lane: 10,
       max_pile: 2,
       max_layer: 2,
       current_pallet: 0,
