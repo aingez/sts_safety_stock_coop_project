@@ -111,9 +111,6 @@ const generateColorLUT = (layout) => {
 
 // LayoutComp component
 const LayoutComp = ({ inputData }) => {
-  console.log("LayoutComp inputData");
-  console.log(inputData.data);
-  console.log(inputData[0].data);
   const { plant, warehouse, layout } = inputData[0].data;
   const laneColorLUT = generateColorLUT(layout);
 
