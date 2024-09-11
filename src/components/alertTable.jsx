@@ -118,6 +118,9 @@ function AlertTable({ pageSize = 10 }) {
           </select>
         </div>
       </div>
+      <p className="mb-1 text-xs font-light opacity-50">
+        Listing from earliest packed part age from each pallet.
+      </p>
 
       {loading && <div className="my-20 text-center">Loading . . .</div>}
       {error && (
