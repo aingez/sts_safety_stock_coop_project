@@ -148,7 +148,7 @@ function AlertTable({ pageSize = 10 }) {
               <th scope="col" className="px-4 py-3 sm:px-6">
                 Age Days
               </th>
-              <th
+              {/* <th
                 scope="col"
                 className="hidden px-4 py-3 sm:table-cell sm:px-6"
               >
@@ -159,7 +159,7 @@ function AlertTable({ pageSize = 10 }) {
                 className="hidden px-4 py-3 sm:table-cell sm:px-6"
               >
                 Plant ID
-              </th>
+              </th> */}
               <th
                 scope="col"
                 className="hidden px-4 py-3 sm:table-cell sm:px-6"
@@ -177,6 +177,12 @@ function AlertTable({ pageSize = 10 }) {
                 className="hidden px-4 py-3 sm:table-cell sm:px-6"
               >
                 Layer
+              </th>
+              <th
+                scope="col"
+                className="hidden px-4 py-3 sm:table-cell sm:px-6"
+              >
+                Packer
               </th>
             </tr>
           </thead>
@@ -205,12 +211,12 @@ function AlertTable({ pageSize = 10 }) {
                   {item.pack_date_formatted}
                 </td>
                 <td className="px-4 py-4 sm:px-6">{item.age_days}</td>
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                {/* <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
                   {item.plant_type}
                 </td>
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
                   {item.plant_id}
-                </td>
+                </td> */}
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
                   {item.lane}
                 </td>
@@ -219,6 +225,9 @@ function AlertTable({ pageSize = 10 }) {
                 </td>
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
                   {item.layer}
+                </td>
+                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                  {item.name}
                 </td>
               </tr>
             ))}
