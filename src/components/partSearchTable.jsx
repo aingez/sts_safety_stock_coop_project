@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Table, Spin, Alert } from "antd";
 
 function PartSearchTable({ partSerial }) {
   const [apiData, setApiData] = useState(null);
@@ -14,7 +13,7 @@ function PartSearchTable({ partSerial }) {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setApiData(data[0].data);
+        setApiData(data.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -25,84 +24,68 @@ function PartSearchTable({ partSerial }) {
     callAPI();
   }, [partSerial]);
 
-  const columns = [
-    {
-      title: "Part Type",
-      dataIndex: "type",
-      key: "type",
-    },
-    {
-      title: "Model",
-      dataIndex: "model",
-      key: "model",
-    },
-    {
-      title: "Serial Number",
-      dataIndex: "serial",
-      key: "serial",
-    },
-    {
-      title: "Pallet Number",
-      dataIndex: "pallet_name",
-      key: "pallet_name",
-    },
-    {
-      title: "Plant Type",
-      dataIndex: "plant_type",
-      key: "plant_type",
-    },
-    {
-      title: "Plant Code",
-      dataIndex: "plant_id",
-      key: "plant_id",
-    },
-    {
-      title: "Row",
-      dataIndex: "row",
-      key: "row",
-    },
-    {
-      title: "Lane",
-      dataIndex: "lane",
-      key: "lane",
-    },
-    {
-      title: "Packing Date",
-      dataIndex: "formatted_pack_date",
-      key: "formatted_pack_date",
-    },
-    {
-      title: "Packer",
-      dataIndex: "packer_id",
-      key: "packer_id",
-    },
-    {
-      title: "Un-Pack Date",
-      dataIndex: "formatted_unpack_date",
-      key: "formatted_unpack_date",
-    },
-    {
-      title: "Un-Packer",
-      dataIndex: "unpacker_id",
-      key: "unpacker_id",
-    },
-  ];
-
   if (loading) {
-    return <Spin size="large" />;
+    return (
+      <div className="flex items-center justify-center py-10">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   if (error) {
-    return <Alert message="Error" description={error} type="error" showIcon />;
+    return (
+      <div className="flex items-center justify-center py-10">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <Table
-        columns={columns}
-        dataSource={apiData ? [apiData] : []}
-        rowKey={(record) => record.serial}
-      />
+    <div className="overflow-x-auto">
+      <table className="min-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+        <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+          <tr>
+            <th className="px-4 py-4 sm:px-6">Part Type</th>
+            <th className="px-4 py-4 sm:px-6">Model</th>
+            <th className="px-4 py-4 sm:px-6">Serial Number</th>
+            <th className="px-4 py-4 sm:px-6">Pallet Number</th>
+            <th className="px-4 py-4 sm:px-6">Plant Type</th>
+            <th className="px-4 py-4 sm:px-6">Plant Code</th>
+            <th className="px-4 py-4 sm:px-6">Row</th>
+            <th className="px-4 py-4 sm:px-6">Lane</th>
+            <th className="px-4 py-4 sm:px-6">Pile</th>
+            <th className="px-4 py-4 sm:px-6">Layer</th>
+            <th className="px-4 py-4 sm:px-6">Packing Date</th>
+            <th className="px-4 py-4 sm:px-6">Packer</th>
+            <th className="px-4 py-4 sm:px-6">Un-Pack Date</th>
+            <th className="px-4 py-4 sm:px-6">Un-Packer</th>
+          </tr>
+        </thead>
+        <tbody>
+          {apiData && (
+            <tr className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-700">
+              <td className="px-4 py-4 sm:px-6">{apiData.type}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.model}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.serial}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.pallet_name}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.plant_type}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.plant_id}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.row}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.lane}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.pile}</td>
+              <td className="px-4 py-4 sm:px-6">{apiData.layer}</td>
+              <td className="px-4 py-4 sm:px-6">
+                {apiData.pack_date_formatted}
+              </td>
+              <td className="px-4 py-4 sm:px-6">{apiData.packer_name}</td>
+              <td className="px-4 py-4 sm:px-6">
+                {apiData.unpack_date_formatted}
+              </td>
+              <td className="px-4 py-4 sm:px-6">{apiData.unpacker_name}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 }

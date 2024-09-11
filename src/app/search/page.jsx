@@ -46,6 +46,7 @@ function SearchPage() {
               className="custom-text-input-1"
               placeholder="XXXXXXXXXX"
               disabled={dateRange.start || dateRange.end}
+              required
             />
           </div>
           <div className="custom-input-layout-1">
