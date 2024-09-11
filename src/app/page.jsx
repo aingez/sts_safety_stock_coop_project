@@ -7,6 +7,72 @@ import ReusableTable from "../components/alertTable";
 import WarehouseDash from "../components/warehouseDash";
 import WarehouseDisp from "../components/layoutDisp";
 import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
+import TestLayoutDisplay from "../components/testNewDisp";
+
+const mockData = {
+  plant_type: "Engine",
+  plant_number: 1,
+  max_row: 2,
+  max_lane: 2,
+  color_layout: {
+    block: { lane: "1-3", color: "blue" },
+    head: { lane: "4-6", color: "yellow" },
+    crankshaft: { lane: "7-10", color: "green" },
+  },
+  layer_1: [
+    {
+      id: 1,
+      row: 1,
+      lane: 1,
+      max_pile: 3,
+      max_layer: 2,
+      current_pallet: [
+        {
+          pile: 1,
+          layer: 1,
+          pallet_name: "BL07A",
+          color_status: "red",
+        },
+        {
+          pile: 1,
+          layer: 2,
+          pallet_name: "BL07B",
+          color_status: "yellow",
+        },
+        {
+          pile: 3,
+          layer: 1,
+          pallet_name: "BL08B",
+          color_status: "green",
+        },
+      ],
+    },
+    {
+      id: 2,
+      row: 2,
+      lane: 1,
+      max_pile: 1,
+      max_layer: 2,
+      current_pallet: 0,
+    },
+    {
+      id: 3,
+      row: 1,
+      lane: 2,
+      max_pile: 3,
+      max_layer: 3,
+      current_pallet: 0,
+    },
+    {
+      id: 4,
+      row: 2,
+      lane: 2,
+      max_pile: 2,
+      max_layer: 2,
+      current_pallet: 0,
+    },
+  ],
+};
 
 function ModelQuantityChart() {
   const [barJson, setBarJson] = useState([]);
@@ -80,6 +146,11 @@ function ModelQuantityChart() {
       <h2 className="custom-title-1">Warehouse</h2>
       <div className="custom-box-2">
         <WarehouseDisp inputData={mockWarehouseData} />
+      </div>
+
+      <h2 className="custom-title-1">Warehouse Test</h2>
+      <div className="custom-box-2">
+        <TestLayoutDisplay inputData={mockData} />
       </div>
     </div>
   );
