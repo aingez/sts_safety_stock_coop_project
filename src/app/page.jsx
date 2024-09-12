@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDisp from "../components/layoutDisp";
-import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
 import TestLayoutDisplay from "../components/testNewDisp";
+
+import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
 
 const mockData = {
   plant_type: "Engine",
