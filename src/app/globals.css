@@ -18,11 +18,11 @@
 }
 
 .custom-display-box-1 {
-    @apply rounded-lg p-5 shadow-2xl bg-amber-500 dark:bg-amber-900 text-xl font-bold dark:text-rose-700;
+    @apply rounded-lg p-5 shadow-lg bg-amber-500 dark:bg-amber-900 text-xl font-bold dark:text-rose-700;
 }
 
 .custom-display-box-2 {
-    @apply rounded-lg p-5 shadow-2xl bg-amber-300 dark:bg-amber-600 font-bold text-lg;
+    @apply rounded-lg p-5 shadow-lg bg-amber-300 dark:bg-amber-600 font-bold text-lg;
 }
 
 /* eva */

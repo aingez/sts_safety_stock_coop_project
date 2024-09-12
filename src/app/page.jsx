@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import DoughnutChart from "../components/donutDash";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
-import WarehouseDash from "../components/warehouseDash";
 import WarehouseDisp from "../components/layoutDisp";
 import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
 import TestLayoutDisplay from "../components/testNewDisp";
@@ -138,65 +136,65 @@ const mockData = {
 
     {
       id: 13,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 3,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 14,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 4,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 15,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 5,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 16,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 6,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 17,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 7,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 18,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 8,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 19,
-      row: 1,
-      lane: 10,
-      max_pile: 3,
+      row: 2,
+      lane: 9,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
     {
       id: 20,
-      row: 1,
+      row: 2,
       lane: 10,
-      max_pile: 3,
+      max_pile: 1,
       max_layer: 2,
       current_pallet: 0,
     },
