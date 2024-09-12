@@ -65,26 +65,6 @@ function AlertTable({ pageSize = 10 }) {
     currentPage * pageSize,
   );
 
-  // if (loading) {
-  //   return (
-  //     <div className="flex h-64 items-center justify-center">
-  //       <div className="loader h-32 w-32 rounded-full border-8 border-t-8 border-gray-200 ease-linear"></div>
-  //     </div>
-  //   );
-  // }
-
-  // if (error) {
-  //   return (
-  //     <div
-  //       className="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
-  //       role="alert"
-  //     >
-  //       <strong className="font-bold">Error: </strong>
-  //       <span className="block sm:inline">{error}</span>
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="overflow-x-auto">
       <div className="mb-2 flex flex-row space-x-2">
@@ -133,8 +113,8 @@ function AlertTable({ pageSize = 10 }) {
         </div>
       )}
       {!loading && error == null && (
-        <table className="min-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
-          <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+        <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
+          <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
               <th scope="col" className="px-4 py-3 sm:px-6">
                 Status
@@ -151,18 +131,6 @@ function AlertTable({ pageSize = 10 }) {
               <th scope="col" className="px-4 py-3 sm:px-6">
                 Age Days
               </th>
-              {/* <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Plant Type
-              </th>
-              <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Plant ID
-              </th> */}
               <th
                 scope="col"
                 className="hidden px-4 py-3 sm:table-cell sm:px-6"
@@ -195,11 +163,11 @@ function AlertTable({ pageSize = 10 }) {
                 key={item.pallet_id}
                 className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
               >
-                <td className="px-4 py-4 sm:px-6">
+                <td className="px-4 py-4">
                   <span
-                    className={`rounded-md px-2 py-1 text-xs font-semibold ${
+                    className={`rounded-md px-2 py-1 font-semibold ${
                       item.color_status === "red"
-                        ? "bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
+                        ? "animate-pulse bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
                         : item.color_status === "green"
                           ? "bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100"
                           : "bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100"
