@@ -72,6 +72,8 @@ const PalletEditor = () => {
                     value="REMOVE"
                     name="mode-radio"
                     onChange={() => setPalletMode("REMOVE")}
+                    className="disabled:opacity-50"
+                    disabled
                   />
                   <label htmlFor="mode-radio-remove" className="radio-label">
                     REMOVE
@@ -88,6 +90,7 @@ const PalletEditor = () => {
               <label>Pallet Name</label>
               <input
                 type="text"
+                value={palletName}
                 className="custom-text-input-1"
                 placeholder="XX-XX-X"
                 onChange={(e) => setPalletName(e.target.value)}
@@ -99,7 +102,7 @@ const PalletEditor = () => {
               <label>Capacity</label>
               <input
                 type="number"
-                // value={plantNumber}
+                value={maxCapacity}
                 onChange={(e) => setMaxCapacity(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="Pallet Capacity"
@@ -163,7 +166,12 @@ const PalletEditor = () => {
         </div>
 
         <div className="my-2 space-x-2">
-          <button type="button" size="large" className="custom-button-1-red">
+          <button
+            type="button"
+            size="large"
+            disabled
+            className="custom-button-1-red"
+          >
             REMOVE
           </button>
           <button
@@ -185,7 +193,7 @@ const PalletEditor = () => {
           </button>
           {palletMode === "REMOVE" && (
             <p className="pt-2 text-xs font-light">
-              *Able to remove only Unpacked Pallet
+              *Able to remove only Empty Pallet!
             </p>
           )}
         </div>
