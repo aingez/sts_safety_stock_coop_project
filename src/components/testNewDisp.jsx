@@ -45,7 +45,7 @@ const GenerateTable = ({ laneData }) => {
           {Array.from({ length: max_pile }).map((_, pileIndex) => (
             <th
               key={pileIndex}
-              className="text-left font-light text-gray-400 opacity-20 dark:text-gray-500"
+              className="text-left font-light text-gray-400 opacity-30 dark:text-gray-900"
             >
               {pileIndex + 1}
             </th>
@@ -65,7 +65,7 @@ const GenerateTable = ({ laneData }) => {
                     {pallet.pallet_name}
                   </button>
                 ) : (
-                  <div className="mx-0.5 w-16 rounded-lg border-2 border-dashed border-neutral-900 py-1 text-center text-sm font-light text-neutral-900 opacity-30">
+                  <div className="mx-0.5 w-10 rounded-lg border-2 border-dashed border-neutral-900 py-1 text-center text-sm font-light text-neutral-900 opacity-30">
                     MT
                   </div>
                 )}
