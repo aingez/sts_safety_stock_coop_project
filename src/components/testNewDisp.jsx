@@ -152,7 +152,7 @@ const LayoutDisplayTest = ({ inputData }) => {
                         <GenerateTable laneData={lane} />
                       ) : (
                         <div className="flex h-full items-end px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
-                          MT
+                          Unused
                         </div>
                       )}
                     </td>

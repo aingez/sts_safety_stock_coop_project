@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
 export const metadata = {
   title: "STS Safety Stock Monitor",
-  description: "Developed by STS",
+  description: "Developed by Aingthawan K.",
 };
 
 export default function RootLayout({ children }) {
