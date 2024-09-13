@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import WarehouseLayoutDisplay from "../components/layoutDisp";
+import WarehouseLayoutDisplay from "../components/testNewDisp";
 import WarehouseList from "../components/activeWarehouseList";
 
 const WarehouseLayoutEditor = () => {
   const [layoutData, setLayoutData] = useState([]);
-  const [jsonOutput, setJsonOutput] = useState("");
+  const [jsonOutput, setJsonOutput] = useState(null);
   const [rows, setRows] = useState(2);
   const [lanes, setLanes] = useState(5);
   const [blockLaneRange, setBlockLaneRange] = useState("1-2");
@@ -17,7 +17,7 @@ const WarehouseLayoutEditor = () => {
 
   const handleClear = () => {
     setLayoutData([]);
-    setJsonOutput("");
+    setJsonOutput(null);
     setCreatorJson("");
     setRows(2);
     setLanes(5);
@@ -28,25 +28,8 @@ const WarehouseLayoutEditor = () => {
     setPlantNumber("1");
   };
 
-  const handleSubmit = async () => {
-    const response = await fetch("http://127.0.0.1:8000/add/warehouse/bundle", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: creatorJson,
-    });
-
-    if (!response.ok) {
-      console.error("Failed to submit data");
-    } else {
-      console.log("Data submitted successfully");
-    }
-  };
-
   const handleInputChange = (id, field, value) => {
-    generateCustomJson();
+    // generateCustomJson();
     setLayoutData(
       layoutData.map((item) =>
         item.id === id ? { ...item, [field]: parseInt(value) || 0 } : item,
@@ -72,43 +55,32 @@ const WarehouseLayoutEditor = () => {
   const generateJson = () => {
     const maxRow = Math.max(...layoutData.map((item) => item.row), 0);
     const maxLane = Math.max(...layoutData.map((item) => item.lane), 0);
+    const maxPile = Math.max(...layoutData.map((item) => item.piles), 0);
+    const maxLayer = Math.max(...layoutData.map((item) => item.layer), 0);
+    const warehouseData = layoutData.map((item) => ({
+      id: item.id,
+      row: item.row,
+      lane: item.lane,
+      max_pile: item.piles,
+      max_layer: item.layer,
+      current_pallet: [],
+    }));
 
-    const warehouseData = {
-      rows: Array.from({ length: maxRow }, (_, rowIndex) => ({
-        row_number: rowIndex + 1,
-        lanes: layoutData
-          .filter((item) => item.row === rowIndex + 1)
-          .map((item) => ({
-            lane_number: item.lane,
-            positions: Array.from({ length: item.piles }, (_, pileIndex) => ({
-              location: {
-                pile: pileIndex + 1,
-                layer: 1,
-              },
-              pallet: generateTestPallet(item.row, item.lane, pileIndex + 1),
-            })),
-          })),
-      })),
-    };
     const jsonData = {
-      status: "success",
-      data: {
-        plant: {
-          code: plantNumber,
-          type: plantType,
-          max_row: maxRow,
-          max_lane: maxLane,
-          is_active: true,
-        },
-        layout: {
-          block: { lane: blockLaneRange, color: "blue" },
-          head: { lane: headLaneRange, color: "yellow" },
-          crankshaft: { lane: crankshaftLaneRange, color: "green" },
-        },
-        warehouse: warehouseData,
+      plat_type: plantType,
+      plant_number: plantNumber,
+      max_row: maxRow,
+      max_lane: maxLane,
+      color_layout: {
+        block: { lane: blockLaneRange, color: "blue" },
+        head: { lane: headLaneRange, color: "yellow" },
+        crankshaft: { lane: crankshaftLaneRange, color: "green" },
       },
+      layer_1: warehouseData,
     };
-    setJsonOutput(JSON.stringify([jsonData, 200], null, 2));
+    // setJsonOutput(JSON.stringify(jsonData));
+    setJsonOutput(jsonData);
+    console.log(jsonOutput);
   };
 
   useEffect(() => {
@@ -138,7 +110,6 @@ const WarehouseLayoutEditor = () => {
       }
     }
     setLayoutData(newLayoutData);
-    // generateCustomJson();
   };
 
   const generateCustomJson = async () => {
@@ -182,6 +153,7 @@ const WarehouseLayoutEditor = () => {
     // Convert to a pretty JSON string and set it to the output state
     const jsonString = JSON.stringify(customJsonData, null, 2);
     setCreatorJson(jsonString);
+    // alert(jsonString);
 
     // Submit the data to the API
     try {
@@ -212,6 +184,9 @@ const WarehouseLayoutEditor = () => {
 
   return (
     <div className="flex flex-row gap-8 p-4">
+      <div className="custom-box-2">
+        <WarehouseList key={refreshWarehouseList} />
+      </div>
       <div className="custom-box-2 flex-none">
         <h2 className="custom-box-title-1">Warehouse Layout Creator</h2>
         <div className="flex flex-row space-x-2">
@@ -382,20 +357,13 @@ const WarehouseLayoutEditor = () => {
           </div>
         )}
       </div>
-      <div className="custom-box-1">
-        {jsonOutput.length > 10 ? (
-          <div>
-            <WarehouseLayoutDisplay inputData={JSON.parse(jsonOutput)} />
-          </div>
-        ) : (
-          <div className="flex animate-spin items-center justify-center space-x-4">
-            /
-          </div>
-        )}
-      </div>
-      <div className="custom-box-2">
-        <WarehouseList key={refreshWarehouseList} />
-      </div>
+
+      {jsonOutput !== null && (
+        <WarehouseLayoutDisplay
+          key={JSON.stringify(jsonOutput)}
+          inputData={jsonOutput}
+        />
+      )}
     </div>
   );
 };
