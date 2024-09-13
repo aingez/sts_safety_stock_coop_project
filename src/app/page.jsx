@@ -5,7 +5,6 @@ import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import WarehouseDisp from "../components/layoutDisp";
 import TestLayoutDisplay from "../components/testNewDisp";
-
 import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
 
 const mockData = {
@@ -203,23 +202,10 @@ const mockData = {
 };
 
 function ModelQuantityChart() {
-  const [barJson, setBarJson] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchData() {
     try {
-      const types = ["Block", "Head", "Crankshaft", "Camshaft"];
-      const combinedData = [];
-
-      for (const type of types) {
-        const response = await fetch(`http://localhost:8000/quantity/${type}`);
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0 && data[0].type === type) {
-          combinedData.push(data[0]);
-        }
-      }
-
-      setBarJson(combinedData);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -230,26 +216,6 @@ function ModelQuantityChart() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  function transformBarJson(barJson) {
-    return barJson.map((item) => ({
-      type: item.type,
-      model: item.model.map((modelItem) => ({
-        model: modelItem.model,
-        qty: modelItem.qty,
-      })),
-    }));
-  }
-
-  function parseBarJsonData(barJson) {
-    return barJson.map((item) => ({
-      type: item.type,
-      total: item.total,
-    }));
-  }
-
-  const donutDashData = parseBarJsonData(barJson);
-  const transformedData = transformBarJson(barJson);
 
   return (
     <div className="min-h-screen pb-20">
