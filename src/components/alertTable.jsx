@@ -102,7 +102,7 @@ function AlertTable({ pageSize = 10 }) {
         Listing from earliest packed part age from each pallet.
       </p>
 
-      {loading && <div className="animate-spin">/</div>}
+      {loading && <div className="my-20 text-center">Loading . . .</div>}
       {error && (
         <div
           className="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"

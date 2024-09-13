@@ -19,7 +19,7 @@ const QuantityDisplay = () => {
   }, []);
 
   if (!data) {
-    return <div className="animate-spin">/</div>;
+    return <div>Loading...</div>;
   }
 
   const { summary, components } = data.data;
