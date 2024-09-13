@@ -13,14 +13,12 @@ function AlertTable({ pageSize = 10 }) {
     try {
       const key = await fetchPlantKey();
       setPlantKey(key);
-      console.log("Plant Key: ", key);
       const res = await fetch(`http://localhost:8000/pallet_rank/${key}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await res.json();
       setApiData(data.data);
-      console.log("Data: ", apiData);
       setError(null);
     } catch (err) {
       setError(err.message);
