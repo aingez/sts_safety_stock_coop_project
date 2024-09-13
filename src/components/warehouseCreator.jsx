@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import WarehouseLayoutDisplay from "../components/layoutDisp";
+import WarehouseList from "../components/activeWarehouseList";
 
 const WarehouseLayoutEditor = () => {
   const [layoutData, setLayoutData] = useState([]);
@@ -12,6 +13,7 @@ const WarehouseLayoutEditor = () => {
   const [plantType, setPlantType] = useState("Engine");
   const [plantNumber, setPlantNumber] = useState("1");
   const [creatorJson, setCreatorJson] = useState("");
+  const [refreshWarehouseList, setRefreshWarehouseList] = useState(0);
 
   const handleClear = () => {
     setLayoutData([]);
@@ -200,12 +202,11 @@ const WarehouseLayoutEditor = () => {
 
       console.log("Data submitted successfully");
       alert("Data submitted successfully");
-      // You might want to show a success message to the user here
+      setRefreshWarehouseList((prev) => prev + 1); // Trigger WarehouseList refresh
       handleClear(); // Only clear after successful submission
     } catch (error) {
       console.error("Failed to submit data:", error);
       alert("Failed to submit data. Please try again.");
-      // You might want to show an error message to the user here
     }
   };
 
@@ -392,18 +393,9 @@ const WarehouseLayoutEditor = () => {
           </div>
         )}
       </div>
-      {creatorJson.length > 10 ? (
-        <div className="custom-box-2">
-          <h2 className="custom-box-title-1">JSON Blueprint</h2>
-          <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
-            {creatorJson}
-          </pre>
-        </div>
-      ) : (
-        <div className="flex items-center justify-center space-x-4">
-          {/* Loading... */}
-        </div>
-      )}
+      <div className="custom-box-2">
+        <WarehouseList key={refreshWarehouseList} />
+      </div>
     </div>
   );
 };
