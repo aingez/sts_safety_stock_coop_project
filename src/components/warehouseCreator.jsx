@@ -13,7 +13,38 @@ const WarehouseLayoutEditor = () => {
   const [plantNumber, setPlantNumber] = useState("1");
   const [creatorJson, setCreatorJson] = useState("");
 
+  const handleClear = () => {
+    setLayoutData([]);
+    setJsonOutput("");
+    setCreatorJson("");
+    setRows(2);
+    setLanes(5);
+    setBlockLaneRange("1-2");
+    setHeadLaneRange("3-3");
+    setCrankshaftLaneRange("4-5");
+    setPlantType("Engine");
+    setPlantNumber("1");
+  };
+
+  const handleSubmit = async () => {
+    const response = await fetch("http://127.0.0.1:8000/add/warehouse/bundle", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: creatorJson,
+    });
+
+    if (!response.ok) {
+      console.error("Failed to submit data");
+    } else {
+      console.log("Data submitted successfully");
+    }
+  };
+
   const handleInputChange = (id, field, value) => {
+    generateCustomJson();
     setLayoutData(
       layoutData.map((item) =>
         item.id === id ? { ...item, [field]: parseInt(value) || 0 } : item,
@@ -105,9 +136,10 @@ const WarehouseLayoutEditor = () => {
       }
     }
     setLayoutData(newLayoutData);
+    // generateCustomJson();
   };
 
-  const generateCustomJson = () => {
+  const generateCustomJson = async () => {
     const maxRow = Math.max(...layoutData.map((item) => item.row), 0);
     const maxLane = Math.max(...layoutData.map((item) => item.lane), 0);
 
@@ -146,7 +178,35 @@ const WarehouseLayoutEditor = () => {
     };
 
     // Convert to a pretty JSON string and set it to the output state
-    setCreatorJson(JSON.stringify(customJsonData, null, 2));
+    const jsonString = JSON.stringify(customJsonData, null, 2);
+    setCreatorJson(jsonString);
+
+    // Submit the data to the API
+    try {
+      const response = await fetch(
+        "http://127.0.0.1:8000/add/warehouse/bundle",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: jsonString,
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      console.log("Data submitted successfully");
+      alert("Data submitted successfully");
+      // You might want to show a success message to the user here
+      handleClear(); // Only clear after successful submission
+    } catch (error) {
+      console.error("Failed to submit data:", error);
+      alert("Failed to submit data. Please try again.");
+      // You might want to show an error message to the user here
+    }
   };
 
   return (
@@ -168,7 +228,7 @@ const WarehouseLayoutEditor = () => {
           <div className="custom-input-layout-1">
             <label>Plant Number</label>
             <input
-              type="text"
+              type="number"
               className="custom-text-input-1"
               placeholder="Plant Number"
               value={plantNumber}
@@ -232,100 +292,118 @@ const WarehouseLayoutEditor = () => {
           </div>
           <div className="flex flex-col space-y-2">
             <button onClick={generateLayout} className="custom-button-1-pink">
-              Generate Layout
+              Generate
             </button>
             <button
               onClick={generateCustomJson}
               className="custom-button-1-green"
+              disabled={layoutData.length === 0}
             >
               Create Layout
             </button>
           </div>
+          {/* clear button */}
+          <button onClick={handleClear} className="custom-button-1-red">
+            Clear
+          </button>
         </div>
 
-        <table className="w-full bg-neutral-200 dark:bg-neutral-500">
-          <thead>
-            <tr>
-              <th className="border border-gray-300 p-2">Row</th>
-              <th className="border border-gray-300 p-2">Lane</th>
-              <th className="border border-gray-300 p-2">Piles</th>
-              <th className="border border-gray-300 p-2">Layer</th>
-              <th className="border border-gray-300 p-2">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {layoutData.map((item) => (
-              <tr key={item.id}>
-                <td className="border border-gray-300 p-2">
-                  <input
-                    type="number"
-                    value={item.row}
-                    onChange={(e) =>
-                      handleInputChange(item.id, "row", e.target.value)
-                    }
-                    className="custom-text-input-1-small max-w-20"
-                  />
-                </td>
-                <td className="border border-gray-300 p-2">
-                  <input
-                    type="number"
-                    value={item.lane}
-                    onChange={(e) =>
-                      handleInputChange(item.id, "lane", e.target.value)
-                    }
-                    className="custom-text-input-1-small max-w-20"
-                  />
-                </td>
-                <td className="border border-gray-300 p-2">
-                  <input
-                    type="number"
-                    value={item.piles}
-                    onChange={(e) =>
-                      handleInputChange(item.id, "piles", e.target.value)
-                    }
-                    className="custom-text-input-1-small max-w-20"
-                  />
-                </td>
-                <td className="border border-gray-300 p-2">
-                  <input
-                    type="number"
-                    value={item.layer}
-                    onChange={(e) =>
-                      handleInputChange(item.id, "layer", e.target.value)
-                    }
-                    className="custom-text-input-1-small max-w-20"
-                  />
-                </td>
-                <td className="border border-gray-300 p-2 text-center">
-                  <button
-                    onClick={() => deleteCell(item.id)}
-                    className="custom-button-1-red"
-                  >
-                    Delete
-                  </button>
-                </td>
+        {/* hide table if no data */}
+        {(layoutData.length > 0 && (
+          <table className="w-full bg-neutral-200 dark:bg-neutral-500">
+            <thead>
+              <tr>
+                <th className="border border-gray-300 p-2">Row</th>
+                <th className="border border-gray-300 p-2">Lane</th>
+                <th className="border border-gray-300 p-2">Piles</th>
+                <th className="border border-gray-300 p-2">Layer</th>
+                <th className="border border-gray-300 p-2">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {layoutData.map((item) => (
+                <tr key={item.id}>
+                  <td className="border border-gray-300 p-2">
+                    <input
+                      type="number"
+                      value={item.row}
+                      onChange={(e) =>
+                        handleInputChange(item.id, "row", e.target.value)
+                      }
+                      className="custom-text-input-1-small max-w-20"
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input
+                      type="number"
+                      value={item.lane}
+                      onChange={(e) =>
+                        handleInputChange(item.id, "lane", e.target.value)
+                      }
+                      className="custom-text-input-1-small max-w-20"
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input
+                      type="number"
+                      value={item.piles}
+                      onChange={(e) =>
+                        handleInputChange(item.id, "piles", e.target.value)
+                      }
+                      className="custom-text-input-1-small max-w-20"
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    <input
+                      type="number"
+                      value={item.layer}
+                      onChange={(e) =>
+                        handleInputChange(item.id, "layer", e.target.value)
+                      }
+                      className="custom-text-input-1-small max-w-20"
+                    />
+                  </td>
+                  <td className="border border-gray-300 p-2 text-center">
+                    <button
+                      onClick={() => deleteCell(item.id)}
+                      className="custom-button-1-red"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )) || (
+          <div className="flex items-center justify-center space-x-4">
+            {/* No data */}
+          </div>
+        )}
       </div>
-      <div className="custom-box-2">
+      <div className="custom-box-1">
         {jsonOutput.length > 10 ? (
           <div>
             <WarehouseLayoutDisplay inputData={JSON.parse(jsonOutput)} />
           </div>
         ) : (
-          <div className="flex items-center justify-center space-x-4">
-            Loading...
+          <div className="flex animate-spin items-center justify-center space-x-4">
+            /
           </div>
         )}
       </div>
-      <div className="custom-box-2">
-        <h2 className="custom-box-title-1">JSON Blueprint</h2>
-        <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
-          {creatorJson}
-        </pre>
-      </div>
+      {creatorJson.length > 10 ? (
+        <div className="custom-box-2">
+          <h2 className="custom-box-title-1">JSON Blueprint</h2>
+          <pre className="overflow-auto bg-neutral-200 p-2 dark:bg-neutral-500">
+            {creatorJson}
+          </pre>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center space-x-4">
+          {/* Loading... */}
+        </div>
+      )}
     </div>
   );
 };
