@@ -223,9 +223,7 @@ function ModelQuantityChart() {
       <div className="custom-box-2">
         <div className="flex flex-row space-x-5">
           {isLoading ? (
-            <div className="flex items-center justify-center space-x-10">
-              Loading...
-            </div>
+            <div className="animate-spin">/</div>
           ) : (
             <div className="flex-none">
               <QuantityDisplay />
