@@ -13,7 +13,7 @@ function PalletMover() {
   const [pile, setPile] = useState("");
   const [layer, setLayer] = useState("");
   const [showMove, setShowMove] = useState(false);
-  const [apiData, setApiData] = useState([]);
+  const [apiData, setApiData] = useState("");
 
   const handleClear = () => {
     setPalletName("");
@@ -24,7 +24,8 @@ function PalletMover() {
     setPile("");
     setLayer("");
     setShowMove(false);
-    setApiData([]);
+    setApiData("");
+    setLayoutApiData("");
   };
 
   const fetchLayoutData = async () => {
@@ -287,8 +288,6 @@ function PalletMover() {
                   </tbody>
                 </table>
               </div>
-              {/* )} */}
-
               <div className="animate-pulse content-center justify-center px-5 text-4xl">
                 ➡
               </div>
@@ -348,18 +347,16 @@ function PalletMover() {
           )}
         </div>
       </div>
-      <div>
-        {layoutApiData !== "" && (
-          <div>
-            <div className="custom-box-2 ml-3">
-              <TestLayoutDisplay
-                key={JSON.stringify(layoutApiData)}
-                inputData={layoutApiData}
-              />
-            </div>
+      {layoutApiData && (
+        <div>
+          <div className="custom-box-2 ml-3">
+            <TestLayoutDisplay
+              key={JSON.stringify(layoutApiData)}
+              inputData={layoutApiData}
+            />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
