@@ -74,18 +74,15 @@ function HomePage() {
           </div>
           <div className="custom-input-layout-1">
             <label htmlFor="plantId">Plant ID</label>
-            <select
+            <input
+              type="number"
               id="plantId"
               name="plantId"
               value={plantId || 1}
-              onChange={(e) => setPlantId(e.target.value)}
+              onChange={(e) => setPlantId(Number(e.target.value))}
               className="custom-text-input-1"
-            >
-              <option value="">Select Plant ID</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
+              min="1"
+            />
           </div>
         </div>
       </div>
