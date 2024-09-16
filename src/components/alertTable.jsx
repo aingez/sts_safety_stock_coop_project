@@ -156,9 +156,9 @@ function AlertTable({ pageSize = 10 }) {
             </tr>
           </thead>
           <tbody>
-            {paginatedData.map((item) => (
+            {paginatedData.map((item, index) => (
               <tr
-                key={item.pallet_id}
+                key={`${item.pallet_id}-${index}`}
                 className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
               >
                 <td className="px-4 py-4">
