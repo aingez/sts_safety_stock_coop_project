@@ -26,15 +26,13 @@ const laneColors = {
 const GenerateTable = ({ laneData }) => {
   const { max_pile, max_layer, current_pallet } = laneData;
 
-  // Create a 2D array for table representation
   const table = Array.from({ length: max_layer }, () =>
     Array(max_pile).fill(null),
   );
 
-  // Check if current_pallet is an array and populate the table accordingly
   if (Array.isArray(current_pallet)) {
-    current_pallet.forEach(({ pile, layer, pallet_name, color_status }) => {
-      table[max_layer - layer][pile - 1] = { pallet_name, color_status };
+    current_pallet.forEach(({ pile, layer, pallet_name, color }) => {
+      table[max_layer - layer][pile - 1] = { pallet_name, color };
     });
   }
 
@@ -59,7 +57,7 @@ const GenerateTable = ({ laneData }) => {
               <td key={colIndex}>
                 {pallet ? (
                   <button
-                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${statusColors[pallet.color_status]}`}
+                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${statusColors[pallet.color]}`}
                     title={pallet.pallet_name}
                   >
                     {pallet.pallet_name}

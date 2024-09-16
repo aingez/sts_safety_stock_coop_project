@@ -364,6 +364,8 @@ const WarehouseLayoutEditor = () => {
           inputData={jsonOutput}
         />
       )}
+      {/* show jsonOutput */}
+      {/* {creatorJson} */}
     </div>
   );
 };
