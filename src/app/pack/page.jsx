@@ -71,7 +71,7 @@ export default function PackPage() {
           <div className="custom-input-layout-1">
             <label>Employee ID</label>
             <input
-              type="text"
+              type="number"
               onInput={(e) => handlePalletIdChange(e)}
               className="custom-text-input-1"
               placeholder="XXXXXXXXX"
@@ -119,7 +119,7 @@ export default function PackPage() {
                 ))}
               </ul>
             </div>
-            <div className="custom-input-layout-1">
+            {/* <div className="custom-input-layout-1">
               <label>Plant Number</label>
               <ul className="custom-radio-1 grid-cols-3">
                 {radioOptionsPlantNum.map((option) => (
@@ -141,13 +141,23 @@ export default function PackPage() {
                   </li>
                 ))}
               </ul>
+            </div> */}
+            <div className="custom-input-layout-1">
+              <label>Plant Number</label>
+              <input
+                type="number"
+                onInput={(e) => handlePalletIdChange(e)}
+                className="custom-text-input-1"
+                placeholder="XX"
+                required
+              />
             </div>
           </div>
           <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
               <label>Lane</label>
               <input
-                type="text"
+                type="number"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -157,7 +167,7 @@ export default function PackPage() {
             <div className="custom-input-layout-1">
               <label>Row</label>
               <input
-                type="text"
+                type="number"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -167,7 +177,7 @@ export default function PackPage() {
             <div className="custom-input-layout-1">
               <label>Pile</label>
               <input
-                type="text"
+                type="number"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -177,7 +187,7 @@ export default function PackPage() {
             <div className="custom-input-layout-1">
               <label>Layer</label>
               <input
-                type="text"
+                type="number"
                 onInput={(e) => handlePalletIdChange(e)}
                 className="custom-text-input-1"
                 placeholder="XX"
