@@ -98,8 +98,9 @@ function HomePage() {
                 inputData={layoutApiData}
               />
             </div>
-            {/* for debug */}
-            {JSON.stringify(layoutApiData)}
+
+            {/* <div className="custom-box-title-1">for debug</div>
+            {JSON.stringify(layoutApiData)} */}
           </div>
         ) : (
           <div className="flex-none">Loading . . .</div>
