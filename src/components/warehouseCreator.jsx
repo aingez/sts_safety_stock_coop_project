@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import React, { useState, useEffect } from "react";
 import WarehouseLayoutDisplay from "../components/testNewDisp";
 import WarehouseList from "../components/activeWarehouseList";
@@ -153,7 +154,6 @@ const WarehouseLayoutEditor = () => {
     // Convert to a pretty JSON string and set it to the output state
     const jsonString = JSON.stringify(customJsonData, null, 2);
     setCreatorJson(jsonString);
-    // alert(jsonString);
 
     // Submit the data to the API
     try {
@@ -173,12 +173,12 @@ const WarehouseLayoutEditor = () => {
       }
 
       console.log("Data submitted successfully");
-      alert("Data submitted successfully");
+      toast.success("Data submitted successfully");
       setRefreshWarehouseList((prev) => prev + 1); // Trigger WarehouseList refresh
       handleClear(); // Only clear after successful submission
     } catch (error) {
       console.error("Failed to submit data:", error);
-      alert("Failed to submit data. Please try again.");
+      toast.error("Failed to submit data");
     }
   };
 

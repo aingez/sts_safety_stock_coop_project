@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
 function PalletMover() {
   const [palletName, setPalletName] = useState("");
@@ -36,7 +37,7 @@ function PalletMover() {
 
     if (!plantKeyResponse.ok) {
       console.error("Failed to fetch plant key");
-      alert("Failed to fetch plant key");
+      toast.error("Failed to fetch plant key");
       return;
     }
     const plantKeyData = await plantKeyResponse.json();
@@ -52,8 +53,8 @@ function PalletMover() {
     );
 
     if (!palletIdResponse.ok) {
-      console.error("Failed to fetch pallet ID");
-      alert("Failed to fetch pallet ID");
+      console.error("Failed to fetch pallet");
+      toast.error("Failed to fetch pallet");
       return;
     }
 
@@ -81,11 +82,11 @@ function PalletMover() {
     );
 
     if (response.ok) {
-      alert("Pallet position updated successfully");
+      toast.success("Pallet position updated successfully");
       handleClear();
     } else {
       console.error("Failed to update pallet position");
-      alert("Failed to update pallet position");
+      toast.error("Failed to update pallet position");
     }
   };
 
@@ -106,7 +107,7 @@ function PalletMover() {
       setShowMove(true);
     } else {
       console.error("Failed to fetch pallet info");
-      alert("Failed to fetch pallet info");
+      toast.error("Failed to fetch pallet info");
       setShowMove(false);
     }
   };

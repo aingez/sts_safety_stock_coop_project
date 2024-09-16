@@ -1,7 +1,8 @@
-import { Inter } from "next/font/google";
-import Nav from "../components/Nav";
-import Footer from "../components/Footer";
 import "./globals.css";
+import Nav from "../components/Nav";
+import { Inter } from "next/font/google";
+import Footer from "../components/Footer";
+import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./ThemeProviders";
 import SwitchTheme from "../components/themeSwitch";
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
               <SwitchTheme />
             </div>
             <div className="mx-20">
+              <Toaster position="bottom-center" />
               {children}
             </div>
           </ThemeProvider>

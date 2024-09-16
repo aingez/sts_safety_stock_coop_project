@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { toast } from "react-hot-toast";
 
 const PalletEditor = () => {
   const [palletMode, setPalletMode] = React.useState("CREATE");
@@ -39,7 +40,7 @@ const PalletEditor = () => {
       }),
     });
     response = await response.json();
-    alert(response.message);
+    toast.success(response.message);
   };
 
   return (
