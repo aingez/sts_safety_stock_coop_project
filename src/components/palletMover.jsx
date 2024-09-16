@@ -1,0 +1,325 @@
+"use client";
+import React, { useState, useEffect } from "react";
+
+function PalletMover() {
+  const [palletName, setPalletName] = useState("");
+  const [plantType, setPlantType] = useState("Engine");
+  const [plantNumber, setPlantNumber] = useState("");
+  const [row, setRow] = useState("");
+  const [lane, setLane] = useState("");
+  const [pile, setPile] = useState("");
+  const [layer, setLayer] = useState("");
+  const [showMove, setShowMove] = useState(false);
+  const [apiData, setApiData] = useState([]);
+
+  const handleClear = () => {
+    setPalletName("");
+    setPlantType("Engine");
+    setPlantNumber("");
+    setRow("");
+    setLane("");
+    setPile("");
+    setLayer("");
+    setShowMove(false);
+  };
+
+  const handleMove = async () => {
+    const plantKeyResponse = await fetch(
+      `http://localhost:8000/plant_id?plant_type=${plantType}&plant_code=${plantNumber}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+
+    if (!plantKeyResponse.ok) {
+      console.error("Failed to fetch plant key");
+      alert("Failed to fetch plant key");
+      return;
+    }
+    const plantKeyData = await plantKeyResponse.json();
+
+    const palletIdResponse = await fetch(
+      `http://localhost:8000/pallet_id?pallet_name=${palletName}&plant_key=${plantKeyData["id"]}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+
+    if (!palletIdResponse.ok) {
+      console.error("Failed to fetch pallet ID");
+      alert("Failed to fetch pallet ID");
+      return;
+    }
+
+    const palletIdData = await palletIdResponse.json();
+
+    const payload = {
+      plant_key: plantKeyData["id"],
+      row: parseInt(row),
+      lane: parseInt(lane),
+      pile: parseInt(pile),
+      layer: parseInt(layer),
+      pallet_id: palletIdData["id"],
+    };
+
+    const response = await fetch(
+      "http://localhost:8000/update/pallet_position",
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      },
+    );
+
+    if (response.ok) {
+      alert("Pallet position updated successfully");
+      handleClear();
+    } else {
+      console.error("Failed to update pallet position");
+      alert("Failed to update pallet position");
+    }
+  };
+
+  const handleSearch = async () => {
+    const response = await fetch(
+      `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantNumber}`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      setApiData(data);
+      setShowMove(true);
+    } else {
+      console.error("Failed to fetch pallet info");
+      alert("Failed to fetch pallet info");
+      setShowMove(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-row space-x-2">
+      <div className="custom-box-2">
+        <h1 className="custom-box-title-1">Pallet Mover</h1>
+        <div className="flex flex-col">
+          <div className="flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label>Pallet Name</label>
+              <input
+                type="text"
+                className="custom-text-input-1"
+                placeholder="XX-XX-X"
+                required
+                value={palletName}
+                onChange={(e) => setPalletName(e.target.value)}
+              />
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Plant Type</label>
+              <select
+                className="custom-text-input-1"
+                value={plantType}
+                onChange={(e) => setPlantType(e.target.value)}
+              >
+                <option value="Engine">Engine</option>
+                <option value="Casting">Casting</option>
+              </select>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Plant Number</label>
+              <input
+                type="number"
+                className="custom-text-input-1"
+                placeholder="Plant Number"
+                value={plantNumber}
+                onChange={(e) => setPlantNumber(e.target.value)}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="my-2 flex flex-row space-x-2">
+          <button
+            type="primary"
+            size="large"
+            className="custom-button-1-green w-full"
+            disabled={!palletName || !plantType || !plantNumber}
+            onClick={handleSearch}
+          >
+            Search
+          </button>
+          <button
+            type="primary"
+            size="large"
+            className="custom-button-1-pink w-full"
+            onClick={handleClear}
+          >
+            CLEAR
+          </button>
+        </div>
+      </div>
+
+      {showMove && (
+        <div className="flex flex-row">
+          <div className="custom-box-2">
+            <table className="w-full bg-neutral-200 dark:bg-neutral-500">
+              <thead>
+                <tr>
+                  <th className="border border-gray-300 p-2" colSpan="2">
+                    Current Pallet Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Pallet Name:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.data.pallet_name}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Plant Type:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.plant_type}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Plant Number:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.plant_id}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Row:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.row}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Lane:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.lane}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Pile:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.pile}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Layer:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.position.layer}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Is Pack:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.data.is_pack ? "Yes" : "No"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="border border-gray-300 p-2">
+                    <strong>Max Capacity:</strong>
+                  </td>
+                  <td className="border border-gray-300 p-2">
+                    {apiData.data.max_capacity}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          {/* )} */}
+
+          <div className="animate-pulse content-center justify-center px-5 text-4xl">
+            ➡
+          </div>
+          <div className="custom-box-2">
+            <h2 className="custom-box-title-1">Move to</h2>
+            <div className="">
+              <label>Row</label>
+              <input
+                type="number"
+                className="custom-text-input-2"
+                placeholder="Row Number"
+                value={row}
+                onChange={(e) => setRow(e.target.value)}
+              />
+            </div>
+            <div className="">
+              <label>Lane</label>
+              <input
+                type="number"
+                className="custom-text-input-2"
+                placeholder="Lane Number"
+                value={lane}
+                onChange={(e) => setLane(e.target.value)}
+              />
+            </div>
+            <div className="">
+              <label>Pile</label>
+              <input
+                type="number"
+                className="custom-text-input-2"
+                placeholder="Pile Number"
+                value={pile}
+                onChange={(e) => setPile(e.target.value)}
+              />
+            </div>
+            <div className="">
+              <label>Layer</label>
+              <input
+                type="number"
+                className="custom-text-input-2"
+                placeholder="Layer Number"
+                value={layer}
+                onChange={(e) => setLayer(e.target.value)}
+              />
+            </div>
+            <button
+              type="primary"
+              size="large"
+              className="custom-button-1-green mt-2 w-full"
+              onClick={handleMove}
+              disabled={!row || !lane || !pile || !layer}
+            >
+              M.O.V.E
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default PalletMover;

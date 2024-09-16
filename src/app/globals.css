@@ -34,7 +34,7 @@
 }
 
 .custom-box-title-1 {
-    @apply text-lg my-2;
+    @apply text-2xl my-2;
 }
 
 .custom-box-title-2 {
@@ -63,6 +63,10 @@
 
 .custom-text-input-1 {
     @apply dark:text-white grow border-2 border-neutral-200 rounded-lg p-2 block w-full bg-transparent bg-white px-4 py-2 text-lg font-normal leading-relaxed text-gray-800 focus:outline-none disabled:bg-neutral-200 dark:disabled:border-neutral-500 dark:disabled:bg-neutral-500 dark:bg-neutral-700 dark:border-neutral-700 dark:disabled:text-neutral-400 disabled:text-neutral-400;
+}
+
+.custom-text-input-2 {
+    @apply dark:text-white border-neutral-200 border-2 rounded-lg block bg-transparent bg-white text-lg font-normal px-4 py-2 focus:outline-none disabled:bg-neutral-200 dark:disabled:border-neutral-500 dark:disabled:bg-neutral-500 dark:bg-neutral-700 dark:border-neutral-700 dark:disabled:text-neutral-400 disabled:text-neutral-400;
 }
 
 .custom-text-input-1-small {

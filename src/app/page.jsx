@@ -3,10 +3,7 @@
 import React, { useState, useEffect } from "react";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
-import WarehouseDisp from "../components/layoutDisp";
 import TestLayoutDisplay from "../components/testNewDisp";
-import mockWarehouseData from "../components/testing_data/warehouseDashMock_2.json";
-import ActiveWarehouseList from "../components/activeWarehouseList";
 
 const mockData = {
   plat_type: "Engine",
@@ -74,11 +71,6 @@ function ModelQuantityChart() {
         <ReusableTable pageSize={3} />
       </div>
       <h2 className="custom-title-1">Warehouse</h2>
-      <div className="custom-box-2">
-        <WarehouseDisp inputData={mockWarehouseData} />
-      </div>
-
-      <h2 className="custom-title-1">Warehouse Test</h2>
       <div className="custom-box-2">
         <TestLayoutDisplay inputData={mockData} />
       </div>
