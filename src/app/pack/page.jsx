@@ -3,28 +3,80 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
+
   const [palletName, setPalletName] = useState("");
   const [plantType, setPlantType] = useState("");
   const [plantNum, setPlantNum] = useState("");
+  // const [palletName, setPalletName] = useState("BL01A");
+  // const [plantType, setPlantType] = useState("Engine");
+  // const [plantNum, setPlantNum] = useState("1");
+
   const [lane, setLane] = useState("");
   const [row, setRow] = useState("");
   const [pile, setPile] = useState("");
   const [layer, setLayer] = useState("");
 
-  const [divData, setDivData] = useState({
+  const [apiPalletData, setApiPalletData] = useState("");
+  const [apiPartData, setApiPartData] = useState({ data: [] });
+
+  const [divData] = useState({
     employeeId: "",
     employeeName: "",
     palletId: "",
     partType: "",
     serialNumbers: [],
   });
+
+  useEffect(() => {
+    const fetchPartonPallet = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/packed_parts/${plantType}/${plantNum}/${palletName}`,
+        );
+        if (!res.ok) {
+          toast.error("Network response was not ok");
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setApiPartData(data);
+        console.log(data);
+        toast.success("Part data fetched successfully");
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
+
+    const fetchPalletData = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantNum}`,
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        toast.success("Pallet data fetched successfully");
+        if (data.data && data.data.is_pack) {
+          await fetchPartonPallet();
+        }
+        setApiPalletData(data);
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
+
+    if (palletName.length >= 5 && plantType.length > 0 && plantNum.length > 0) {
+      fetchPalletData();
+    }
+  }, [palletName, plantType, plantNum]);
 
   const handleSerialNumberChange = (e, index) => {
     const newDateTime = new Date().toLocaleString(); // Get current date and time
@@ -34,48 +86,25 @@ export default function PackPage() {
     }));
   };
 
-  const partTypeSerialCount = {
-    Block: 6,
-    Head: 8,
-    Crankshaft: 12,
-  };
-
   const radioOptionsPlantType = [
-    { value: "engine", label: "Engine" },
-    { value: "casting", label: "Casting" },
+    { value: "Engine", label: "Engine" },
+    { value: "Casting", label: "Casting" },
   ];
 
-  const radioOptionsPlantNum = [
-    { value: "1", label: "1" },
-    { value: "2", label: "2" },
-    { value: "3", label: "3" },
-  ];
+  useEffect(() => {
+    if (apiPalletData && apiPalletData.data) {
+      const maxCapacity = apiPalletData.data.max_capacity || 0;
+      const serialNumbersArray = Array.from(
+        { length: maxCapacity },
+        (_, index) => ({
+          serialNumber: apiPartData.data[index]?.serial || "", // Use existing serial if available
+          packDate: apiPartData.data[index]?.pack_date || "", // Use existing pack date if available
+        }),
+      );
 
-  const handlePalletIdChange = (e) => {
-    const palletId = e.target.value;
-    if (palletId.length === 5) {
-      const partType = palletId.substring(0, 2);
-      const partTypeSerialCount = {
-        BL: 6,
-        HE: 8,
-        CR: 12,
-      };
-      const serialNumbers = Array(partTypeSerialCount[partType]).fill("");
-      setDivData({
-        ...divData,
-        palletId,
-        partType,
-        serialNumbers,
-      });
-    } else {
-      setDivData({
-        ...divData,
-        palletId,
-        partType: "",
-        serialNumbers: [],
-      });
+      setSerialNumbers(serialNumbersArray);
     }
-  };
+  }, [apiPalletData, apiPartData]);
 
   return (
     <div className="mb-20 flex min-h-screen flex-row space-x-10">
@@ -107,7 +136,7 @@ export default function PackPage() {
               <label>Pallet ID</label>
               <input
                 type="text"
-                onChange={(e) => setPalletName(e.target.value)}
+                onChange={(e) => setPalletName(e.target.value.toUpperCase())}
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
                 required
@@ -124,6 +153,7 @@ export default function PackPage() {
                         type="radio"
                         value={option.value}
                         name="list-radio"
+                        onChange={(e) => setPlantType(e.target.value)}
                       />
                       <label htmlFor={`plant-type-${option.value}`}>
                         {option.label}
@@ -191,46 +221,74 @@ export default function PackPage() {
             <button className="custom-button-1-pink" type="reset">
               Reset
             </button>
-            <button className="custom-button-1-green" type="submit">
+            <button
+              className="custom-button-1-green"
+              type="submit"
+              disabled={
+                employeeId.length == 0 ||
+                employeeName.length == 0 ||
+                palletName.length == 0 ||
+                plantType.length == 0 ||
+                plantNum.length == 0 ||
+                lane.length == 0 ||
+                row.length == 0 ||
+                pile.length == 0 ||
+                layer.length == 0
+              }
+            >
               Update
             </button>
           </div>
         </div>
       </form>
+      {/* Table Part */}
       <div className="min-h-full w-1/2">
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
-              <th className="px-6 py-3">Serial Number Input</th>
+              <th className="px-6 py-3">Serial Number</th>
               <th className="px-6 py-3">Pack Date Time</th>
             </tr>
           </thead>
           <tbody>
-            {divData.serialNumbers.map((item, index) => (
-              <tr
-                key={index}
-                className="border-b bg-white hover:bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
-              >
-                <td className="px-6 py-4">
-                  <input
-                    type="text"
-                    placeholder={`Serial ${index + 1}`}
-                    value={item.serialNumber}
-                    onChange={(e) => handleSerialNumberChange(e, index)}
-                    className="custom-text-input-1"
-                  />
-                </td>
-                <td className="px-6 py-4">
-                  <input
-                    type="text"
-                    placeholder="Current Date Time"
-                    value={dateTimeValues[index] || ""}
-                    disabled
-                    className="custom-text-input-1"
-                  />
-                </td>
-              </tr>
-            ))}
+            {Array.from({ length: apiPalletData.data?.max_capacity || 0 }).map(
+              (_, index) => (
+                <tr
+                  key={index}
+                  className="hoveer:bg-gray-100 border-b bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
+                >
+                  <td className="px-6 py-4">
+                    <input
+                      type="text"
+                      value={serialNumbers[index]?.serialNumber || ""}
+                      onChange={(e) => {
+                        const updatedSerialNumbers = [...serialNumbers];
+                        updatedSerialNumbers[index] = {
+                          ...updatedSerialNumbers[index],
+                          serialNumber: e.target.value,
+                        };
+                        setSerialNumbers(updatedSerialNumbers);
+                        handleSerialNumberChange(e, index);
+                      }}
+                      className="custom-text-input-1"
+                      // disabled={!!serialNumbers[index]?.serialNumber}
+                    />
+                  </td>
+                  <td className="px-6 py-4">
+                    <input
+                      type="text"
+                      value={
+                        serialNumbers[index]?.packDate ||
+                        dateTimeValues[index] ||
+                        ""
+                      }
+                      disabled
+                      className="custom-text-input-1"
+                    />
+                  </td>
+                </tr>
+              ),
+            )}
           </tbody>
         </table>
       </div>
