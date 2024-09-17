@@ -66,9 +66,11 @@ const GenerateTable = ({ laneData }) => {
                     {pallet.pallet_name}
                   </button>
                 ) : (
-                  <div className="mx-0.5 w-10 rounded-lg border-2 border-dashed border-neutral-900 py-1 text-center text-sm font-light text-neutral-900 opacity-30">
+                  <button
+                    className={`mx-0.5 w-16 rounded-lg bg-gray-300 p-1 text-sm font-normal text-white opacity-40 shadow-xl dark:opacity-20`}
+                  >
                     MT
-                  </div>
+                  </button>
                 )}
               </td>
             ))}
@@ -105,12 +107,9 @@ const LayoutDisplayTest = ({ inputData }) => {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-4">
-        <LegendItem color={laneColors.blue} label="Block Lane (Max : 2)" />
-        <LegendItem color={laneColors.yellow} label="Head Lane (Max : 2)" />
-        <LegendItem
-          color={laneColors.green}
-          label="Crankshaft Lane (Max : 2)"
-        />
+        <LegendItem color={laneColors.blue} label="BLOCK" />
+        <LegendItem color={laneColors.yellow} label="HEAD" />
+        <LegendItem color={laneColors.green} label="CRANK" />
       </div>
 
       <div className="custom-box-2 mt-5 overflow-x-auto">

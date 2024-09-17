@@ -12,7 +12,7 @@ function Nav() {
   const pathname = usePathname();
 
   return (
-    <ul className="justify-left mb-10 flex bg-black p-3 align-middle text-[35px]">
+    <ul className="justify-left mb-10 flex bg-neutral-600 p-3 align-middle text-[35px] shadow-xl dark:bg-neutral-800">
       <li
         className={`mx-2 rounded-lg text-white transition-all hover:opacity-50 ${pathname === "/" ? "shadow-lg shadow-teal-500" : ""}`}
       >
