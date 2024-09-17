@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import LayoutDisplay from "../../components/warehouseDisp";
 
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
@@ -21,6 +22,8 @@ export default function PackPage() {
 
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
+  const [layoutApiData, setLayoutApiData] = useState("");
+  const [availablePositions, setAvailablePositions] = useState([]);
 
   const [divData] = useState({
     employeeId: "",
@@ -34,6 +37,7 @@ export default function PackPage() {
     setSerialNumbers([]);
     setOriginalSerialNumbers([]);
     setDateTimeValues({});
+    setLayoutApiData("");
     // setEmployeeId("");
     // setEmployeeName("");
     setPalletName("");
@@ -45,27 +49,10 @@ export default function PackPage() {
     setLayer("");
     setApiPalletData("");
     setApiPartData({ data: [] });
+    setAvailablePositions(false);
   };
 
   useEffect(() => {
-    const fetchPartonPallet = async () => {
-      try {
-        const res = await fetch(
-          `http://localhost:8000/packed_parts/${plantType}/${plantNum}/${palletName}`,
-        );
-        if (!res.ok) {
-          toast.error("Network response was not ok");
-          throw new Error("Network response was not ok");
-        }
-        const data = await res.json();
-        setApiPartData(data);
-        console.log(data);
-        toast.success("Part data fetched successfully");
-      } catch (err) {
-        toast.error(err.message);
-      }
-    };
-
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
@@ -76,9 +63,6 @@ export default function PackPage() {
         }
         const data = await res.json();
         toast.success("Pallet data fetched successfully");
-        if (data.data && data.data.is_pack) {
-          await fetchPartonPallet();
-        }
         setApiPalletData(data);
       } catch (err) {
         toast.error(err.message);
@@ -89,6 +73,62 @@ export default function PackPage() {
       fetchPalletData();
     }
   }, [palletName, plantType, plantNum]);
+
+  useEffect(() => {
+    const fetchPartonPallet = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/packed_parts/${plantType}/${plantNum}/${palletName}`,
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setApiPartData(data);
+        toast.success("Part data fetched successfully");
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
+
+    if (apiPalletData && apiPalletData.data?.is_pack) {
+      fetchPartonPallet();
+    }
+  }, [apiPalletData, plantType, plantNum, palletName]);
+
+  useEffect(() => {
+    const fetchPositionStatus = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/is_occupied/${plantType}/${plantNum}/${row}/${lane}/${pile}/${layer}`,
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setAvailablePositions(data.data.is_occupied);
+        if (data.data.is_occupied) {
+          toast.error("Position is already occupied, please select another");
+        } else {
+          toast.success("Position is available");
+        }
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
+
+    if (
+      lane.length > 0 &&
+      row.length > 0 &&
+      pile.length > 0 &&
+      layer.length > 0 &&
+      palletName.length >= 5 &&
+      plantType.length > 0 &&
+      plantNum.length > 0
+    ) {
+      fetchPositionStatus();
+    }
+  }, [palletName, plantType, plantNum, lane, row, pile, layer]);
 
   const handleSerialNumberChange = (e, index) => {
     const newDateTime = new Date().toLocaleString(); // Get current date and time
@@ -136,8 +176,8 @@ export default function PackPage() {
   };
 
   return (
-    <div className="mb-20 flex min-h-screen flex-row space-x-10">
-      <form className="custom-box-1">
+    <div className="flex min-h-screen flex-row space-x-10">
+      <form className="custom-box-2 w-1/2">
         <div className="flex flex-col p-10">
           <h1 className="custom-title-1">Packing</h1>
           <div className="custom-input-layout-1">
@@ -258,15 +298,16 @@ export default function PackPage() {
               className="custom-button-1-green"
               type="submit"
               disabled={
-                employeeId.length == 0 ||
-                employeeName.length == 0 ||
-                palletName.length == 0 ||
-                plantType.length == 0 ||
-                plantNum.length == 0 ||
-                lane.length == 0 ||
-                row.length == 0 ||
-                pile.length == 0 ||
-                layer.length == 0
+                (employeeId.length == 0 ||
+                  employeeName.length == 0 ||
+                  palletName.length == 0 ||
+                  plantType.length == 0 ||
+                  plantNum.length == 0 ||
+                  lane.length == 0 ||
+                  row.length == 0 ||
+                  pile.length == 0 ||
+                  layer.length == 0) &&
+                !availablePositions
               }
               onClick={(e) => {
                 e.preventDefault();
@@ -277,10 +318,11 @@ export default function PackPage() {
               Update
             </button>
           </div>
+          {layoutApiData != "" && <LayoutDisplay inputData={layoutApiData} />}
         </div>
       </form>
       {/* Table Part */}
-      <div className="min-h-full w-1/2">
+      <div className="custom-box-1 min-h-full w-1/2 grow overflow-auto py-5">
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
@@ -294,7 +336,7 @@ export default function PackPage() {
               (_, index) => (
                 <tr
                   key={index}
-                  className="hoveer:bg-gray-100 border-b bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
+                  className="border-b bg-white hover:bg-gray-100 dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
                 >
                   <td className="px-6 py-4">{index + 1}</td>
                   <td className="py-4">

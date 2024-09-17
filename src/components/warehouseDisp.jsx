@@ -1,6 +1,3 @@
-// Dev: Aingthawan K.
-// Component: to display the layout of the warehouse, pallets and its status in the warehouse.
-
 import React from "react";
 
 const LegendItem = ({ color, label }) => {
@@ -112,8 +109,8 @@ const LayoutDisplayTest = ({ inputData }) => {
         <LegendItem color={laneColors.green} label="CRANK" />
       </div>
 
-      <div className="custom-box-2 mt-5 overflow-x-auto">
-        <table className="p-2">
+      <div className="custom-box-2 mt-5 max-h-screen overflow-x-auto overflow-y-auto">
+        <table className="min-w-full p-2">
           <thead>
             <tr>
               <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300">
