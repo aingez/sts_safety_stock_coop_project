@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: to display the search result of the part as a table.
+
 import React, { useEffect, useState } from "react";
 
 function PartSearchTable({ partSerial }) {

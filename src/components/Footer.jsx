@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// footer : This component is used to display the footer of the application.
+
 "use client";
 
 import React from "react";

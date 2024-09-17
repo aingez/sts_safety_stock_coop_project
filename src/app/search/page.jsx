@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// search page : This page is used to search parts by serial number.
+
 "use client";
 
 import React, { useState } from "react";

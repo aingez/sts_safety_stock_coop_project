@@ -1,3 +1,7 @@
+// Dev: Aingthawan K.
+// Component: to switch between dark and light theme.
+// currently present on bottom right of site
+
 "use client";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

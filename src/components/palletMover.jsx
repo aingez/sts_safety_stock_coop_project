@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: Pallet Move, This component is used to move the pallet to the desired location within the warehouse.
+
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";

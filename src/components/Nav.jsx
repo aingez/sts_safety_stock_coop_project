@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: Navigation bar
+
 "use client";
 
 import React from "react";

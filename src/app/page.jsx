@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
-import TestLayoutDisplay from "../components/testNewDisp";
+import LayoutDisplay from "../components/testNewDisp";
 
 function HomePage() {
   const [layoutApiData, setLayoutApiData] = useState("");
@@ -25,7 +25,7 @@ function HomePage() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log("Fetched Data:", data);
+      // console.log("Fetched Data:", data);
       setLayoutApiData(data["data"]);
     } catch (error) {
       console.error("Error fetching layout data:", error);
@@ -37,8 +37,8 @@ function HomePage() {
   }, [plantType, plantId]);
 
   useEffect(() => {
-    console.log("Updated layoutApiData:");
-    console.log(layoutApiData);
+    // console.log("Updated layoutApiData:");
+    // console.log(layoutApiData);
   }, [layoutApiData]);
 
   return (
@@ -90,7 +90,7 @@ function HomePage() {
         {layoutApiData !== "" ? (
           <div>
             <div className="flex-none">
-              <TestLayoutDisplay
+              <LayoutDisplay
                 key={JSON.stringify(layoutApiData)}
                 inputData={layoutApiData}
               />

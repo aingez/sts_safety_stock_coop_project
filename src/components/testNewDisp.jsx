@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: to display the layout of the warehouse, pallets and its status in the warehouse.
+
 import React from "react";
 
 const LegendItem = ({ color, label }) => {

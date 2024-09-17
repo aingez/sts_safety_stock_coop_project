@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: to display the overall quantity of each part in total and each model.
+
 import { useEffect, useState } from "react";
 const QuantityDisplay = () => {
   const [data, setData] = useState(null);

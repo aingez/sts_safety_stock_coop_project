@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component : For creating new warehouse with preview.
+
 import { toast } from "react-hot-toast";
 import React, { useState, useEffect } from "react";
 import WarehouseLayoutDisplay from "../components/testNewDisp";

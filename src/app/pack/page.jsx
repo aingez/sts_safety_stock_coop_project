@@ -1,9 +1,23 @@
+// Dev: Aingthawan K.
+// pack page : This page is used to display the packing input.
+
 "use client";
 
 import React, { useState } from "react";
 
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
+  const [serialNumbers, setSerialNumbers] = useState([]);
+  const [employeeId, setEmployeeId] = useState("");
+  const [employeeName, setEmployeeName] = useState("");
+  const [palletName, setPalletName] = useState("");
+  const [plantType, setPlantType] = useState("");
+  const [plantNum, setPlantNum] = useState("");
+  const [lane, setLane] = useState("");
+  const [row, setRow] = useState("");
+  const [pile, setPile] = useState("");
+  const [layer, setLayer] = useState("");
+
   const [divData, setDivData] = useState({
     employeeId: "",
     employeeName: "",
@@ -72,7 +86,7 @@ export default function PackPage() {
             <label>Employee ID</label>
             <input
               type="number"
-              onInput={(e) => handlePalletIdChange(e)}
+              onChange={(e) => setEmployeeId(e.target.value)}
               className="custom-text-input-1"
               placeholder="XXXXXXXXX"
               required
@@ -82,7 +96,7 @@ export default function PackPage() {
             <label>Name - Surname</label>
             <input
               type="text"
-              onInput={(e) => handlePalletIdChange(e)}
+              onChange={(e) => setEmployeeName(e.target.value)}
               className="custom-text-input-1"
               placeholder="Sprinter Trueno"
               required
@@ -93,7 +107,7 @@ export default function PackPage() {
               <label>Pallet ID</label>
               <input
                 type="text"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setPalletName(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
                 required
@@ -119,34 +133,12 @@ export default function PackPage() {
                 ))}
               </ul>
             </div>
-            {/* <div className="custom-input-layout-1">
-              <label>Plant Number</label>
-              <ul className="custom-radio-1 grid-cols-3">
-                {radioOptionsPlantNum.map((option) => (
-                  <li key={option.value}>
-                    <div className="radio-button-1">
-                      <input
-                        id={`plant-num-${option.value}`}
-                        type="radio"
-                        value={option.value}
-                        name="list-radio-plant-num"
-                      />
-                      <label
-                        htmlFor={`plant-num-${option.value}`}
-                        className="mx-2"
-                      >
-                        {option.label}
-                      </label>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div> */}
+
             <div className="custom-input-layout-1">
               <label>Plant Number</label>
               <input
                 type="number"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setPlantNum(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
@@ -158,7 +150,7 @@ export default function PackPage() {
               <label>Lane</label>
               <input
                 type="number"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setLane(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
@@ -168,7 +160,7 @@ export default function PackPage() {
               <label>Row</label>
               <input
                 type="number"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setRow(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
@@ -178,7 +170,7 @@ export default function PackPage() {
               <label>Pile</label>
               <input
                 type="number"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setPile(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
@@ -188,7 +180,7 @@ export default function PackPage() {
               <label>Layer</label>
               <input
                 type="number"
-                onInput={(e) => handlePalletIdChange(e)}
+                onChange={(e) => setLayer(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required

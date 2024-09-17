@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: to display ranking of pallets by earliest packing date on the pallet.
+
 import React, { useEffect, useState } from "react";
 
 function AlertTable({ pageSize = 10 }) {

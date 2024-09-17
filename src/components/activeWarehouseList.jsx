@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Component: to display list of active warehouse.
+
 "use client";
 
 import { useEffect, useState } from "react";

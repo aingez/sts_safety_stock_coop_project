@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// alert page : This page is used to display the alert table.
+
 "use client";
 
 import React, { useState, useEffect } from "react";

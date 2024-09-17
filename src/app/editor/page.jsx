@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// editor page : This page is used to display the warehouse editor tools.
+
 "use client";
 
 import React, { useState } from "react";

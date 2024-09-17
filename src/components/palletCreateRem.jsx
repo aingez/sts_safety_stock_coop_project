@@ -1,3 +1,7 @@
+// Dev: Aingthawan K.
+// Component: PalletEditor for add/remove pallet
+// Allow only create pallet for now
+
 "use client";
 import React from "react";
 import { toast } from "react-hot-toast";

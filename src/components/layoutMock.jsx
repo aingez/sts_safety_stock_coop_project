@@ -1,3 +1,7 @@
+// Dev: Aingthawan K.
+// Component: to display the layout of the warehouse.
+// Unused Compoenent
+
 import React from "react";
 
 function layoutMock({ laneNumber, rowNumber }) {

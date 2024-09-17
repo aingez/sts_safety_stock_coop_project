@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// Manage page : This page is used to display the pallet mover for now (display tools for managaing warehouse).
+
 import React from "react";
 import PalletMover from "../../components/palletMover";
 

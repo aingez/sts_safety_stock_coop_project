@@ -1,5 +1,7 @@
-// className="rounded px-2 shadow-lg shadow-indigo-500/40 hover:shadow-indigo-700/20"
-// import { React,useState } from 'react'
+// Dev: Aingthawan K.
+// Component: to display the layout of the warehouse.
+// Unused Compoenent
+
 import { React } from "react";
 import warehouseData from "../components/testing_data/warehouseDashMock.json";
 
