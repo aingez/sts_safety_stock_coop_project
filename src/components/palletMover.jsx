@@ -4,7 +4,7 @@
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import TestLayoutDisplay from "../components/testNewDisp";
+import TestLayoutDisplay from "./warehouseDisp";
 
 function PalletMover() {
   const [layoutApiData, setLayoutApiData] = useState("");

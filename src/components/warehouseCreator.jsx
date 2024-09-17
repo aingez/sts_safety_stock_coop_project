@@ -3,7 +3,7 @@
 
 import { toast } from "react-hot-toast";
 import React, { useState, useEffect } from "react";
-import WarehouseLayoutDisplay from "../components/testNewDisp";
+import WarehouseLayoutDisplay from "./warehouseDisp";
 import WarehouseList from "../components/activeWarehouseList";
 
 const WarehouseLayoutEditor = () => {

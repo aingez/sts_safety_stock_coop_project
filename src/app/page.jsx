@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
-import LayoutDisplay from "../components/testNewDisp";
+import LayoutDisplay from "../components/warehouseDisp";
 
 function HomePage() {
   const [layoutApiData, setLayoutApiData] = useState("");
