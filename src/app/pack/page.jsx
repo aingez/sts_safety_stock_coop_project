@@ -1,6 +1,3 @@
-// Dev: Aingthawan K.
-// pack page : This page is used to display the packing input.
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -9,15 +6,13 @@ import { toast } from "react-hot-toast";
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
+  const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
 
   const [palletName, setPalletName] = useState("");
   const [plantType, setPlantType] = useState("");
   const [plantNum, setPlantNum] = useState("");
-  // const [palletName, setPalletName] = useState("BL01A");
-  // const [plantType, setPlantType] = useState("Engine");
-  // const [plantNum, setPlantNum] = useState("1");
 
   const [lane, setLane] = useState("");
   const [row, setRow] = useState("");
@@ -34,6 +29,23 @@ export default function PackPage() {
     partType: "",
     serialNumbers: [],
   });
+
+  const handleReset = () => {
+    setSerialNumbers([]);
+    setOriginalSerialNumbers([]);
+    setDateTimeValues({});
+    // setEmployeeId("");
+    // setEmployeeName("");
+    setPalletName("");
+    setPlantType("");
+    setPlantNum("");
+    setLane("");
+    setRow("");
+    setPile("");
+    setLayer("");
+    setApiPalletData("");
+    setApiPartData({ data: [] });
+  };
 
   useEffect(() => {
     const fetchPartonPallet = async () => {
@@ -97,14 +109,31 @@ export default function PackPage() {
       const serialNumbersArray = Array.from(
         { length: maxCapacity },
         (_, index) => ({
-          serialNumber: apiPartData.data[index]?.serial || "", // Use existing serial if available
-          packDate: apiPartData.data[index]?.pack_date || "", // Use existing pack date if available
+          // Use existing if available
+          serialNumber: apiPartData.data[index]?.serial || "",
+          packDate: apiPartData.data[index]?.pack_date || "",
         }),
       );
 
       setSerialNumbers(serialNumbersArray);
+      setOriginalSerialNumbers(serialNumbersArray);
     }
   }, [apiPalletData, apiPartData]);
+
+  const getNewSerialNumbersWithPackDates = () => {
+    const result = serialNumbers
+      .map((serial, index) => ({
+        serialNumber: serial.serialNumber,
+        packDate: dateTimeValues[index] || serial.packDate,
+      }))
+      .filter(
+        (serial, index) =>
+          serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
+      );
+
+    console.log(result);
+    return result;
+  };
 
   return (
     <div className="mb-20 flex min-h-screen flex-row space-x-10">
@@ -218,7 +247,11 @@ export default function PackPage() {
             </div>
           </div>
           <div className="my-4 flex flex-row space-x-2">
-            <button className="custom-button-1-pink" type="reset">
+            <button
+              className="custom-button-1-pink"
+              type="reset"
+              onClick={handleReset}
+            >
               Reset
             </button>
             <button
@@ -235,6 +268,11 @@ export default function PackPage() {
                 pile.length == 0 ||
                 layer.length == 0
               }
+              onClick={(e) => {
+                e.preventDefault();
+                const newSerials = getNewSerialNumbersWithPackDates();
+                console.log(newSerials);
+              }}
             >
               Update
             </button>
@@ -246,6 +284,7 @@ export default function PackPage() {
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
+              <th className="px-6 py-3">Index</th>
               <th className="px-6 py-3">Serial Number</th>
               <th className="px-6 py-3">Pack Date Time</th>
             </tr>
@@ -257,7 +296,8 @@ export default function PackPage() {
                   key={index}
                   className="hoveer:bg-gray-100 border-b bg-white dark:border-neutral-700 dark:bg-neutral-800 dark:hover:bg-neutral-600"
                 >
-                  <td className="px-6 py-4">
+                  <td className="px-6 py-4">{index + 1}</td>
+                  <td className="py-4">
                     <input
                       type="text"
                       value={serialNumbers[index]?.serialNumber || ""}
@@ -271,7 +311,6 @@ export default function PackPage() {
                         handleSerialNumberChange(e, index);
                       }}
                       className="custom-text-input-1"
-                      // disabled={!!serialNumbers[index]?.serialNumber}
                     />
                   </td>
                   <td className="px-6 py-4">
