@@ -23,7 +23,7 @@ export default function PackPage() {
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [layoutApiData, setLayoutApiData] = useState("");
-  const [availablePositions, setAvailablePositions] = useState([]);
+  const [availablePositions, setAvailablePositions] = useState(false);
 
   const [divData] = useState({
     employeeId: "",
@@ -50,6 +50,7 @@ export default function PackPage() {
     setApiPalletData("");
     setApiPartData({ data: [] });
     setAvailablePositions(false);
+    setLayoutApiData("");
   };
 
   useEffect(() => {

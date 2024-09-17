@@ -45,10 +45,8 @@ function HomePage() {
     <div className="min-h-screen pb-20">
       <h2 className="custom-title-1">Overview</h2>
       <div className="custom-box-1">
-        <div className="custom-box-2">
-          <div className="flex-none">
-            <QuantityDisplay />
-          </div>
+        <div className="flex-none">
+          <QuantityDisplay />
         </div>
       </div>
       <h2 className="custom-title-1">Reminder</h2>

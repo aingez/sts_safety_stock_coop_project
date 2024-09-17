@@ -109,7 +109,7 @@ const LayoutDisplayTest = ({ inputData }) => {
         <LegendItem color={laneColors.green} label="CRANK" />
       </div>
 
-      <div className="custom-box-2 mt-5 max-h-screen overflow-x-auto overflow-y-auto">
+      <div className="mt-5 max-h-screen overflow-x-auto overflow-y-auto">
         <table className="min-w-full p-2">
           <thead>
             <tr>
@@ -131,7 +131,7 @@ const LayoutDisplayTest = ({ inputData }) => {
             {Array.from({ length: max_row }).map((_, rowIndex) => (
               <tr key={rowIndex}>
                 <td className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300">
-                  Row {rowIndex + 1}
+                  {rowIndex + 1}
                 </td>
                 {[...Array(max_lane)].map((_, laneIndex) => {
                   const lane = layer_1.find(
