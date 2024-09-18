@@ -7,6 +7,7 @@ import React, { useState } from "react";
 // import LayoutMock from "../../components/layoutMock";
 import WhCreator from "../../components/warehouseCreator";
 import PalletCreateRemover from "../../components/palletCreateRem";
+import PartList from "../../components/activePartModelList";
 
 const WarehouseEditor = () => {
   return (
@@ -20,6 +21,13 @@ const WarehouseEditor = () => {
       <h2 className="custom-subtitle-2">Warehouse Editor</h2>
       <div className="custom-box-1 overflow-x-auto">
         <WhCreator />
+      </div>
+
+      <h2 className="custom-subtitle-2">Parts Editor</h2>
+      <div className="custom-box-1 overflow-x-auto">
+        <div className="custom-box-2 m-4">
+          <PartList />
+        </div>
       </div>
     </div>
   );

@@ -1,17 +1,19 @@
 // Dev: Aingthawan K.
-// Component: to display list of active warehouse.
+// Component: to display list of part type and model in production.
 
 "use client";
 
 import { useEffect, useState } from "react";
 
-const ActiveWarehouseList = () => {
+const ActivePartList = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/list_warehouse");
+        const response = await fetch(
+          "http://localhost:8000/parts_in_production",
+        );
         const result = await response.json();
         setData(result);
       } catch (error) {
@@ -26,31 +28,31 @@ const ActiveWarehouseList = () => {
     <div>
       {data ? (
         <div>
-          <h1 className="custom-box-title-1">Active Warehouse</h1>
+          <h1 className="custom-box-title-1">Active Parts</h1>
           <div className="max-h-96 overflow-auto">
             <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
               <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
                 <tr>
                   <th scope="col" className="px-4 py-3 sm:px-6">
-                    Key
+                    ID
                   </th>
                   <th scope="col" className="px-4 py-3 sm:px-6">
                     Type
                   </th>
                   <th scope="col" className="px-4 py-3 sm:px-6">
-                    ID
+                    Model
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {data.data.map((warehouse) => (
+                {data.data.map((parts) => (
                   <tr
-                    key={warehouse.plant_key}
+                    key={parts.model}
                     className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    <td className="px-4 py-4">{warehouse.plant_key}</td>
-                    <td className="px-4 py-4">{warehouse.plant_type}</td>
-                    <td className="px-4 py-4">{warehouse.plant_id}</td>
+                    <td className="px-4 py-4">{parts.id}</td>
+                    <td className="px-4 py-4">{parts.type}</td>
+                    <td className="px-4 py-4">{parts.model}</td>
                   </tr>
                 ))}
               </tbody>
@@ -64,4 +66,4 @@ const ActiveWarehouseList = () => {
   );
 };
 
-export default ActiveWarehouseList;
+export default ActivePartList;
