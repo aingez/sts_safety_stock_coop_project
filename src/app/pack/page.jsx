@@ -1,3 +1,6 @@
+// Dev: Aingthawan K.
+// pack page : This page is used to display the packing field.
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -26,14 +29,6 @@ export default function PackPage() {
   const [availablePositions, setAvailablePositions] = useState(false);
 
   const [loadingTable, setLoadingTable] = useState(false);
-
-  const [divData] = useState({
-    employeeId: "",
-    employeeName: "",
-    palletId: "",
-    partType: "",
-    serialNumbers: [],
-  });
 
   const handleReset = () => {
     setSerialNumbers([]);
