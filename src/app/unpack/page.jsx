@@ -229,7 +229,18 @@ export default function UnPackPage() {
             >
               Reset
             </button>
-            <button className="custom-button-1-green">Update</button>
+            <button
+              className="custom-button-1-green"
+              disabled={
+                palletName.length < 5 ||
+                plantType.length === 0 ||
+                plantNum.length === 0 ||
+                apiPalletData.length === 0 ||
+                apiPartData.length === 0
+              }
+            >
+              Update
+            </button>
           </div>
 
           <div className="custom-input-layout-1">
@@ -240,6 +251,7 @@ export default function UnPackPage() {
               onChange={(e) => setSerialInput(e.target.value)}
               className="custom-text-input-1"
               placeholder="Input Serial Number"
+              disabled={apiPalletData.length === 0}
               required
             />
           </div>
