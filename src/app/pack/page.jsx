@@ -25,6 +25,8 @@ export default function PackPage() {
   const [layoutApiData, setLayoutApiData] = useState("");
   const [availablePositions, setAvailablePositions] = useState(false);
 
+  const [loadingTable, setLoadingTable] = useState(false);
+
   const [divData] = useState({
     employeeId: "",
     employeeName: "",
@@ -37,9 +39,6 @@ export default function PackPage() {
     setSerialNumbers([]);
     setOriginalSerialNumbers([]);
     setDateTimeValues({});
-    setLayoutApiData("");
-    // setEmployeeId("");
-    // setEmployeeName("");
     setPalletName("");
     setPlantType("");
     setPlantNum("");
@@ -51,9 +50,11 @@ export default function PackPage() {
     setApiPartData({ data: [] });
     setAvailablePositions(false);
     setLayoutApiData("");
+    setLoadingTable(false);
   };
 
   useEffect(() => {
+    setLoadingTable(true);
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
@@ -73,9 +74,36 @@ export default function PackPage() {
     if (palletName.length >= 5 && plantType.length > 0 && plantNum.length > 0) {
       fetchPalletData();
     }
+    setLoadingTable(false);
   }, [palletName, plantType, plantNum]);
 
   useEffect(() => {
+    setLoadingTable(true);
+    const fetchLayoutData = async () => {
+      try {
+        const res = await fetch(
+          `http://localhost:8000/warehouse_layout/${plantType}/${plantNum}`,
+        );
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await res.json();
+        setLayoutApiData(data["data"]);
+        toast.success("Layout data fetched successfully");
+      } catch (err) {
+        toast.error(err.message);
+      }
+    };
+
+    if (plantType.length > 0 && plantNum.length > 0) {
+      fetchLayoutData();
+    }
+    setLoadingTable(false);
+  }, [plantType, plantNum]);
+
+  useEffect(() => {
+    setLoadingTable(true);
+    setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
@@ -95,9 +123,11 @@ export default function PackPage() {
     if (apiPalletData && apiPalletData.data?.is_pack) {
       fetchPartonPallet();
     }
+    setLoadingTable(false);
   }, [apiPalletData, plantType, plantNum, palletName]);
 
   useEffect(() => {
+    setLoadingTable(true);
     const fetchPositionStatus = async () => {
       try {
         const res = await fetch(
@@ -107,11 +137,12 @@ export default function PackPage() {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        setAvailablePositions(data.data.is_occupied);
-        if (data.data.is_occupied) {
-          toast.error("Position is already occupied, please select another");
-        } else {
+        if (data["available"]) {
+          setAvailablePositions(true);
           toast.success("Position is available");
+        } else {
+          setAvailablePositions(false);
+          toast.error("Position not available, please select another");
         }
       } catch (err) {
         toast.error(err.message);
@@ -129,6 +160,7 @@ export default function PackPage() {
     ) {
       fetchPositionStatus();
     }
+    setLoadingTable(false);
   }, [palletName, plantType, plantNum, lane, row, pile, layer]);
 
   const handleSerialNumberChange = (e, index) => {
@@ -172,7 +204,6 @@ export default function PackPage() {
           serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
       );
 
-    console.log(result);
     return result;
   };
 
@@ -247,20 +278,20 @@ export default function PackPage() {
           </div>
           <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
-              <label>Lane</label>
+              <label>Row</label>
               <input
                 type="number"
-                onChange={(e) => setLane(e.target.value)}
+                onChange={(e) => setRow(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
               />
             </div>
             <div className="custom-input-layout-1">
-              <label>Row</label>
+              <label>Lane</label>
               <input
                 type="number"
-                onChange={(e) => setRow(e.target.value)}
+                onChange={(e) => setLane(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
                 required
@@ -298,27 +329,16 @@ export default function PackPage() {
             <button
               className="custom-button-1-green"
               type="submit"
-              disabled={
-                (employeeId.length == 0 ||
-                  employeeName.length == 0 ||
-                  palletName.length == 0 ||
-                  plantType.length == 0 ||
-                  plantNum.length == 0 ||
-                  lane.length == 0 ||
-                  row.length == 0 ||
-                  pile.length == 0 ||
-                  layer.length == 0) &&
-                !availablePositions
-              }
+              disabled={!availablePositions}
               onClick={(e) => {
                 e.preventDefault();
                 const newSerials = getNewSerialNumbersWithPackDates();
-                console.log(newSerials);
               }}
             >
               Update
             </button>
           </div>
+          {loadingTable && <div className="animate-pulse">Loading . . .</div>}
           {layoutApiData != "" && <LayoutDisplay inputData={layoutApiData} />}
         </div>
       </form>
