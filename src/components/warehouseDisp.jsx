@@ -102,6 +102,9 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
               <thead className="custom-table-2">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Index
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Serial
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
@@ -121,6 +124,9 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
               <tbody className="divide-y divide-gray-200 bg-neutral-200">
                 {modalData.data.map((item, index) => (
                   <tr key={index}>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {index + 1}
+                    </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                       {item.serial}
                     </td>
