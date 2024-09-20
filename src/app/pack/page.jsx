@@ -48,6 +48,41 @@ export default function PackPage() {
     setLoadingTable(false);
   };
 
+  const handleUpdate = () => {
+    const newSerialList = getNewSerialNumbersWithPackDates();
+    // pass data to api
+    fetch("http://localhost:8000/part/pack/bundle", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        pallet_name: palletName,
+        plant_type: plantType,
+        plant_id: parseInt(plantNum, 10),
+        row: parseInt(row, 10),
+        lane: parseInt(lane, 10),
+        pile: parseInt(pile, 10),
+        layer: parseInt(layer, 10),
+        new_part: newSerialList,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        toast.success("Data updated successfully");
+        console.log(data);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
   useEffect(() => {
     setLoadingTable(true);
     const fetchPalletData = async () => {
@@ -199,7 +234,20 @@ export default function PackPage() {
           serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
       );
 
+    console.log(result);
     return result;
+  };
+
+  const formatDate = (date) => {
+    const options = {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+    return new Date(date).toLocaleString("en-GB", options);
   };
 
   return (
@@ -327,7 +375,7 @@ export default function PackPage() {
               disabled={!availablePositions}
               onClick={(e) => {
                 e.preventDefault();
-                const newSerials = getNewSerialNumbersWithPackDates();
+                handleUpdate();
               }}
             >
               Update
