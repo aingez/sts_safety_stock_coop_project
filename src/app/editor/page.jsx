@@ -24,9 +24,7 @@ const WarehouseEditor = () => {
 
       <h2 className="custom-subtitle-2">Parts Editor</h2>
       <div className="custom-box-1 overflow-x-auto">
-        <div className="custom-box-2 m-4">
-          <PartList />
-        </div>
+        <div className="custom-box-2 m-4"><PartList /></div>
       </div>
     </div>
   );

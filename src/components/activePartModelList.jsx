@@ -12,7 +12,7 @@ const ActivePartList = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/parts/in_production",
+          "http://localhost:8000/part/in_production",
         );
         const result = await response.json();
         setData(result);
@@ -45,16 +45,18 @@ const ActivePartList = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.data.map((parts) => (
-                  <tr
-                    key={parts.model}
-                    className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    <td className="px-4 py-4">{parts.id}</td>
-                    <td className="px-4 py-4">{parts.type}</td>
-                    <td className="px-4 py-4">{parts.model}</td>
-                  </tr>
-                ))}
+                {data &&
+                  data.data &&
+                  data.data.map((parts) => (
+                    <tr
+                      key={parts.model}
+                      className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      <td className="px-4 py-4">{parts.id}</td>
+                      <td className="px-4 py-4">{parts.type}</td>
+                      <td className="px-4 py-4">{parts.model}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
