@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import ModalComponent from "../components/Modal";
 
 const LegendItem = ({ color, label }) => {
   return (
@@ -23,8 +24,24 @@ const laneColors = {
   green: "bg-[#75ffbc]",
 };
 
-const GenerateTable = ({ laneData }) => {
+const GenerateTable = ({ laneData, plantType, plantNumber }) => {
   const { max_pile, max_layer, current_pallet } = laneData;
+  const [enableModal, setEnableModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  const fetchModalData = async (plantType, plantNumber, palletName) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
+      );
+      const data = await response.json();
+      setModalData(data);
+      console.log("Modal data:", data);
+      setEnableModal(true);
+    } catch (error) {
+      console.error("Error fetching modal data:", error);
+    }
+  };
 
   const table = Array.from({ length: max_layer }, () =>
     Array(max_pile).fill(null),
@@ -57,14 +74,17 @@ const GenerateTable = ({ laneData }) => {
               <td key={colIndex}>
                 {pallet ? (
                   <button
-                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl ${statusColors[pallet.color]}`}
+                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
                     title={pallet.pallet_name}
+                    onClick={() =>
+                      fetchModalData(plantType, plantNumber, pallet.pallet_name)
+                    }
                   >
                     {pallet.pallet_name}
                   </button>
                 ) : (
                   <button
-                    className={`mx-0.5 w-16 rounded-lg bg-gray-300 p-1 text-sm font-normal text-white opacity-40 shadow-xl dark:opacity-20`}
+                    className={`disable mx-0.5 w-16 cursor-not-allowed rounded-lg bg-gray-300 p-1 text-sm font-normal text-white opacity-40 shadow-xl dark:opacity-20`}
                   >
                     MT
                   </button>
@@ -74,6 +94,55 @@ const GenerateTable = ({ laneData }) => {
           </tr>
         ))}
       </tbody>
+      {enableModal && modalData && (
+        <ModalComponent onClose={() => setEnableModal(false)}>
+          <div className="p-5">
+            <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
+            <table>
+              <thead className="custom-table-2">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Serial
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Type
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Model
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Pack Date
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                    Age (days)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-neutral-200">
+                {modalData.data.map((item, index) => (
+                  <tr key={index}>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {item.serial}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {item.type}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {item.model}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {item.formatted_pack_date}
+                    </td>
+                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
+                      {item.age_days}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </ModalComponent>
+      )}
     </table>
   );
 };
@@ -146,7 +215,11 @@ const LayoutDisplayTest = ({ inputData }) => {
                       className={`p-2 ${laneColor} space-y-1 border-2 border-gray-300 align-bottom dark:border-gray-500 dark:bg-opacity-60`}
                     >
                       {lane ? (
-                        <GenerateTable laneData={lane} />
+                        <GenerateTable
+                          laneData={lane}
+                          plantType={plant_type}
+                          plantNumber={plant_number}
+                        />
                       ) : (
                         <div className="flex h-full items-end px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
                           Unused

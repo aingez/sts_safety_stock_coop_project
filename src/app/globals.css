@@ -5,6 +5,10 @@
 /* .custom-box-1 {
     @apply flex flex-row space-x-5 px-5 shadow-2xl dark:border-2 dark:border-amber-500 dark:text-amber-500 rounded-lg dark:bg-neutral-800 ;
 } */
+.custom-modal-box-1 {
+    @apply flex flex-row space-x-5 px-5 rounded-lg bg-neutral-100 shadow-2xl dark:bg-neutral-500;
+}
+
 .custom-box-1 {
     @apply flex flex-row space-x-5 px-5 rounded-lg shadow-2xl dark:bg-neutral-600;
 }

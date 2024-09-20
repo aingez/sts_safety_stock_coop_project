@@ -16,7 +16,6 @@ function AlertTable({ pageSize = 10 }) {
     try {
       const key = await fetchPlantKey();
       setPlantKey(key);
-      console.log("key", key);
       const res = await fetch(`http://localhost:8000/pallet/rank/${key}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
