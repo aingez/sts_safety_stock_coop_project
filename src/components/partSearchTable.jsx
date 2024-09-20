@@ -11,7 +11,9 @@ function PartSearchTable({ partSerial }) {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/search/${partSerial}`);
+        const res = await fetch(
+          `http://localhost:8000/search/bundle/${partSerial}`,
+        );
         if (!res.ok) {
           throw new Error("Network response was not ok");
         }

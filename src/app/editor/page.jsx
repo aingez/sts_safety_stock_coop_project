@@ -4,7 +4,6 @@
 "use client";
 
 import React, { useState } from "react";
-// import LayoutMock from "../../components/layoutMock";
 import WhCreator from "../../components/warehouseCreator";
 import PalletCreateRemover from "../../components/palletCreateRem";
 import PartList from "../../components/activePartModelList";

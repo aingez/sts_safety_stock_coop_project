@@ -8,9 +8,7 @@ const QuantityDisplay = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:8000/current_part/counts",
-        );
+        const response = await fetch("http://localhost:8000/part/status");
         const result = await response.json();
         setData(result);
       } catch (error) {

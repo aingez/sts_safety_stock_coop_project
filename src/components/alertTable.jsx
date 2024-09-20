@@ -16,7 +16,8 @@ function AlertTable({ pageSize = 10 }) {
     try {
       const key = await fetchPlantKey();
       setPlantKey(key);
-      const res = await fetch(`http://localhost:8000/pallet_rank/${key}`);
+      console.log("key", key);
+      const res = await fetch(`http://localhost:8000/pallet/rank/${key}`);
       if (!res.ok) {
         throw new Error("Network response was not ok");
       }
@@ -33,7 +34,7 @@ function AlertTable({ pageSize = 10 }) {
   const fetchPlantKey = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8000/plant_id?plant_type=${plantType}&plant_code=${plantId}`,
+        `http://localhost:8000/warehouse/id/${plantType}/${plantId}`,
       );
       if (!res.ok) {
         throw new Error("Network response was not ok");

@@ -12,7 +12,7 @@ const ActivePartList = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/parts_in_production",
+          "http://localhost:8000/parts/in_production",
         );
         const result = await response.json();
         setData(result);

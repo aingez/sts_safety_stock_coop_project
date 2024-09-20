@@ -96,7 +96,7 @@ export default function UnPackPage() {
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/packed_parts/${plantType}/${plantNum}/${palletName}`,
+          `http://localhost:8000/part/pack/${plantType}/${plantNum}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");

@@ -34,7 +34,7 @@ function PalletMover() {
   const fetchLayoutData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/warehouse_layout/${plantType}/${plantNumber}`,
+        `http://localhost:8000/warehouse/layout/${plantType}/${plantNumber}`,
         {
           method: "GET",
           headers: {
@@ -55,7 +55,7 @@ function PalletMover() {
 
   const handleMove = async () => {
     const plantKeyResponse = await fetch(
-      `http://localhost:8000/plant_id?plant_type=${plantType}&plant_code=${plantNumber}`,
+      `http://localhost:8000/warehouse/id/${plantType}/${plantNumber}`,
       {
         method: "GET",
         headers: {
@@ -72,7 +72,7 @@ function PalletMover() {
     const plantKeyData = await plantKeyResponse.json();
 
     const palletIdResponse = await fetch(
-      `http://localhost:8000/pallet_id?pallet_name=${palletName}&plant_key=${plantKeyData["id"]}`,
+      `http://localhost:8000/pallet/id/${palletName}/${plantKeyData["id"]}`,
       {
         method: "GET",
         headers: {
@@ -99,7 +99,7 @@ function PalletMover() {
     };
 
     const response = await fetch(
-      "http://localhost:8000/update/pallet_position",
+      "http://localhost:8000/pallet/update/position",
       {
         method: "PUT",
         headers: {

@@ -11,7 +11,7 @@ const ActiveWarehouseList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/list_warehouse");
+        const response = await fetch("http://localhost:8000/warehouse/list");
         const result = await response.json();
         setData(result);
       } catch (error) {

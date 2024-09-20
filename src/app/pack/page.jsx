@@ -77,7 +77,7 @@ export default function PackPage() {
     const fetchLayoutData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/warehouse_layout/${plantType}/${plantNum}`,
+          `http://localhost:8000/warehouse/layout/${plantType}/${plantNum}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -102,7 +102,7 @@ export default function PackPage() {
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/packed_parts/${plantType}/${plantNum}/${palletName}`,
+          `http://localhost:8000/part/pack/${plantType}/${plantNum}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -126,7 +126,7 @@ export default function PackPage() {
     const fetchPositionStatus = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/is_occupied/${plantType}/${plantNum}/${row}/${lane}/${pile}/${layer}`,
+          `http://localhost:8000/warehouse/is_occupied/${plantType}/${plantNum}/${row}/${lane}/${pile}/${layer}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");

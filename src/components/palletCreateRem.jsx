@@ -30,7 +30,7 @@ const PalletEditor = () => {
   };
 
   const submitCreate = async () => {
-    let response = await fetch("http://localhost:8000/add/pallet/bundle", {
+    let response = await fetch("http://localhost:8000/pallet/add/bundle", {
       method: "POST",
       headers: {
         accept: "application/json",

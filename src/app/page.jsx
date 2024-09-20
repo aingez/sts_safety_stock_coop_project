@@ -13,7 +13,7 @@ function HomePage() {
   const fetchLayoutData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/warehouse_layout/${plantType}/${plantId}`,
+        `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
         {
           method: "GET",
           headers: {
