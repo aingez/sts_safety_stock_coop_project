@@ -58,6 +58,7 @@ export default function PackPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        packer_id: employeeId,
         pallet_name: palletName,
         plant_type: plantType,
         plant_id: parseInt(plantNum, 10),
