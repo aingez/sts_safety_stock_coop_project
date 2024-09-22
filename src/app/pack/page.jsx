@@ -288,7 +288,7 @@ export default function PackPage() {
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <ul className="custom-radio-1 grid-cols-2">
+              <ul className="custom-text-input-1-radio">
                 {radioOptionsPlantType.map((option) => (
                   <li key={option.value}>
                     <div className="radio-button-1">
