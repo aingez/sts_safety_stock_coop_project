@@ -372,7 +372,10 @@ export default function PackPage() {
             <button
               className="custom-button-1-green"
               type="submit"
-              disabled={!availablePositions}
+              disabled={
+                !availablePositions ||
+                getNewSerialNumbersWithPackDates().length === 0
+              }
               onClick={(e) => {
                 e.preventDefault();
                 handleUpdate();
