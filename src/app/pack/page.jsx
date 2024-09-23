@@ -29,6 +29,7 @@ export default function PackPage() {
   const [availablePositions, setAvailablePositions] = useState(false);
 
   const [loadingTable, setLoadingTable] = useState(false);
+  const [layoutUpdated, setLayoutUpdated] = useState(false);
 
   const handleReset = () => {
     setSerialNumbers([]);
@@ -49,6 +50,20 @@ export default function PackPage() {
   };
 
   const handleUpdate = () => {
+    const employeeIdInput = document.querySelector(
+      'input[placeholder="XXXXXXXXX"]',
+    );
+    const employeeNameInput = document.querySelector(
+      'input[placeholder="Sprinter Trueno"]',
+    );
+
+    const updatedEmployeeId = employeeIdInput
+      ? employeeIdInput.value
+      : employeeId;
+    const updatedEmployeeName = employeeNameInput
+      ? employeeNameInput.value
+      : employeeName;
+
     const newSerialList = getNewSerialNumbersWithPackDates();
     // pass data to api
     fetch("http://localhost:8000/part/pack/bundle", {
@@ -59,6 +74,7 @@ export default function PackPage() {
       },
       body: JSON.stringify({
         packer_id: employeeId,
+        packer_name: employeeName,
         pallet_name: palletName,
         plant_type: plantType,
         plant_id: parseInt(plantNum, 10),
@@ -77,12 +93,36 @@ export default function PackPage() {
       })
       .then((data) => {
         toast.success("Data updated successfully");
-        console.log(data);
+        setLayoutUpdated(true); // Trigger layout update
       })
       .catch((error) => {
         toast.error(error.message);
       });
   };
+
+  useEffect(() => {
+    if (layoutUpdated) {
+      // Fetch the updated layout data after an update
+      const fetchLayoutData = async () => {
+        try {
+          const res = await fetch(
+            `http://localhost:8000/warehouse/layout/${plantType}/${plantNum}`,
+          );
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          const data = await res.json();
+          setLayoutApiData(data["data"]);
+          toast.success("Layout data refreshed successfully");
+        } catch (err) {
+          toast.error(err.message);
+        }
+      };
+
+      fetchLayoutData();
+      setLayoutUpdated(false); // Reset the flag after fetching
+    }
+  }, [layoutUpdated, plantType, plantNum]);
 
   useEffect(() => {
     setLoadingTable(true);
@@ -234,8 +274,6 @@ export default function PackPage() {
         (serial, index) =>
           serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
       );
-
-    console.log(result);
     return result;
   };
 
