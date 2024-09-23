@@ -7,9 +7,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 export default function UnPackPage() {
-  const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
-  const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
 
@@ -17,15 +15,8 @@ export default function UnPackPage() {
   const [plantType, setPlantType] = useState("");
   const [plantNum, setPlantNum] = useState("");
 
-  const [lane, setLane] = useState("");
-  const [row, setRow] = useState("");
-  const [pile, setPile] = useState("");
-  const [layer, setLayer] = useState("");
-
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
-  const [layoutApiData, setLayoutApiData] = useState("");
-  const [availablePositions, setAvailablePositions] = useState(false);
 
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
   const [unpackDateTimes, setUnpackDateTimes] = useState({});
@@ -151,6 +142,42 @@ export default function UnPackPage() {
     return new Date(date).toLocaleString("en-GB", options);
   };
 
+  const handleUnpack = () => {
+    const unpackedSerialNumbersList = checkedSerialNumbers.map((index) => ({
+      serialNumber: serialNumbers[index].serialNumber,
+      unpackDateTime: unpackDateTimes[index],
+    }));
+    // console.log(unpackedSerialNumbersList);
+    fetch("http://localhost:8000/part/unpack/bundle", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        packer_id: employeeId,
+        packer_name: employeeName,
+        pallet_name: palletName,
+        plant_type: plantType,
+        plant_id: plantNum,
+        unpack_part: unpackedSerialNumbersList,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        toast.success("Unpacked successfully");
+        handleReset();
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
   return (
     <div className="mb-20 flex min-h-screen flex-row space-x-10">
       <form className="custom-box-1">
@@ -232,6 +259,8 @@ export default function UnPackPage() {
             </button>
             <button
               className="custom-button-1-green"
+              type="button"
+              onClick={handleUnpack}
               disabled={
                 palletName.length < 5 ||
                 plantType.length === 0 ||
@@ -240,7 +269,7 @@ export default function UnPackPage() {
                 apiPartData.length === 0
               }
             >
-              Update
+              Unpack
             </button>
           </div>
 
@@ -253,7 +282,6 @@ export default function UnPackPage() {
               className="custom-text-input-1"
               placeholder="Input Serial Number"
               disabled={apiPalletData.length === 0}
-              required
             />
           </div>
         </div>

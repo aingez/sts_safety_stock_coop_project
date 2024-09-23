@@ -132,9 +132,11 @@ function PalletMover() {
 
     if (response.ok) {
       const data = await response.json();
+      console.log("Fetched Data:", data);
       setApiData(data);
-      setShowMove(true);
+
       fetchLayoutData();
+      setShowMove(true);
     } else {
       console.error("Failed to fetch pallet info");
       toast.error("Failed to fetch pallet info");
@@ -229,7 +231,9 @@ function PalletMover() {
                         <strong>Plant Type:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.plant_type}
+                        {apiData.position
+                          ? apiData.position.plant_type
+                          : plantType}
                       </td>
                     </tr>
                     <tr>
@@ -237,7 +241,9 @@ function PalletMover() {
                         <strong>Plant Number:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.plant_id}
+                        {apiData.position
+                          ? apiData.position.plant_id
+                          : plantNumber}
                       </td>
                     </tr>
                     <tr>
@@ -245,7 +251,7 @@ function PalletMover() {
                         <strong>Row:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.row}
+                        {apiData.position ? apiData.position.row : "-"}
                       </td>
                     </tr>
                     <tr>
@@ -253,7 +259,7 @@ function PalletMover() {
                         <strong>Lane:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.lane}
+                        {apiData.position ? apiData.position.lane : "-"}
                       </td>
                     </tr>
                     <tr>
@@ -261,7 +267,7 @@ function PalletMover() {
                         <strong>Pile:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.pile}
+                        {apiData.position ? apiData.position.pile : "-"}
                       </td>
                     </tr>
                     <tr>
@@ -269,7 +275,7 @@ function PalletMover() {
                         <strong>Layer:</strong>
                       </td>
                       <td className="border border-gray-300 p-2">
-                        {apiData.position.layer}
+                        {apiData.position ? apiData.position.layer : "-"}
                       </td>
                     </tr>
                     <tr>
