@@ -217,21 +217,23 @@ const LayoutDisplayTest = ({ inputData }) => {
             <LegendItem color={laneColors.green} label="CRANK" />
           </div>
         </div>
-        <div className="custom-display-box-3">
-          <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
-            <PackageOpen size={24} />
-            <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
+        {wander_pallet != null && (
+          <div className="custom-display-box-3">
+            <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
+              <PackageOpen size={24} />
+              <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
+            </div>
+            <div className="grid grid-cols-10 gap-2">
+              {wander_pallet.map(({ pallet_name, color }) => (
+                <GenerateUnpositionedTable
+                  key={pallet_name}
+                  pallet_name={pallet_name}
+                  pallet_color={color}
+                />
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-10 gap-2">
-            {wander_pallet.map(({ pallet_name, color }) => (
-              <GenerateUnpositionedTable
-                key={pallet_name}
-                pallet_name={pallet_name}
-                pallet_color={color}
-              />
-            ))}
-          </div>
-        </div>
+        )}
         <div className="custom-display-box-3">
           <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
           <div className="grid grid-cols-10 gap-2">
