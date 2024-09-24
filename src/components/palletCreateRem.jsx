@@ -44,7 +44,12 @@ const PalletEditor = () => {
       }),
     });
     response = await response.json();
-    toast.success(response.message);
+    if (response.status === 400) {
+      toast.error("Pallet may already exist!");
+    }
+    if (response.status === 200) {
+      toast.success("Pallet created successfully!");
+    }
   };
 
   return (
