@@ -63,15 +63,17 @@ function HomePage() {
 
   return (
     <div className="min-h-screen pb-20">
-      <h2 className="custom-title-1">Overview</h2>
-      <div className="custom-box-1">
-        <div className="flex-none">
-          <QuantityDisplay />
+      <div className="flex flex-row space-x-5">
+        <div className="flex-0 custom-box-3 flex flex-col">
+          <h2 className="custom-title-1">Overview</h2>
+          <div className="flex-none">
+            <QuantityDisplay />
+          </div>
         </div>
-      </div>
-      <h2 className="custom-title-1">Reminder</h2>
-      <div className="custom-box-2">
-        <ReusableTable pageSize={3} />
+        <div className="custom-box-3 flex w-full flex-col">
+          <h2 className="custom-title-1">Reminder</h2>
+          <ReusableTable pageSize={3} />
+        </div>
       </div>
       <div className="flex flex-row space-x-10">
         <div className="custom-box-1 mb-2 py-2">
