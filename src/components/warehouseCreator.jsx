@@ -75,6 +75,8 @@ const WarehouseLayoutEditor = () => {
       plant_number: plantNumber,
       max_row: maxRow,
       max_lane: maxLane,
+      wander_pallet: [],
+      free_pallet: [],
       color_layout: {
         block: { lane: blockLaneRange, color: "blue" },
         head: { lane: headLaneRange, color: "yellow" },
