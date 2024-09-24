@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ModalComponent from "../components/Modal";
+import { PackageOpen } from "lucide-react";
 
 const LegendItem = ({ color, label }) => {
   return (
@@ -19,9 +20,31 @@ const statusColors = {
 };
 
 const laneColors = {
-  blue: "bg-[#DFF5FF]",
-  yellow: "bg-[#FEECB3]",
-  green: "bg-[#75ffbc]",
+  blue: "bg-sky-200 dark:bg-sky-600",
+  yellow: "bg-amber-200 dark:bg-yellow-600",
+  green: "bg-lime-200 dark:bg-emerald-600",
+};
+
+const GenerateUnpositionedTable = ({ pallet_name, pallet_color }) => {
+  return (
+    <button
+      className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
+      title={pallet_name}
+    >
+      <div className="-rotate-45 transform">{pallet_name}</div>
+    </button>
+  );
+};
+
+const GenerateEmptyPallet = ({ pallet_name }) => {
+  return (
+    <button
+      disabled
+      className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200`}
+    >
+      <div className="-rotate-45 transform">{pallet_name}</div>
+    </button>
+  );
 };
 
 const GenerateTable = ({ laneData, plantType, plantNumber }) => {
@@ -60,7 +83,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
           {Array.from({ length: max_pile }).map((_, pileIndex) => (
             <th
               key={pileIndex}
-              className="text-left font-light text-gray-400 opacity-30 dark:text-gray-900"
+              className="text-center font-light text-neutral-800 opacity-30 dark:text-gray-100"
             >
               {pileIndex + 1}
             </th>
@@ -71,22 +94,25 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
         {table.map((row, rowIndex) => (
           <tr key={rowIndex}>
             {row.map((pallet, colIndex) => (
-              <td key={colIndex}>
+              <td key={colIndex} className="text-left">
                 {pallet ? (
                   <button
-                    className={`mx-0.5 w-16 rounded-lg p-1 text-sm font-normal text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
+                    className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
                     title={pallet.pallet_name}
                     onClick={() =>
                       fetchModalData(plantType, plantNumber, pallet.pallet_name)
                     }
                   >
-                    {pallet.pallet_name}
+                    <div style={{ transform: "rotate(-45deg)" }}>
+                      {pallet.pallet_name}
+                    </div>
                   </button>
                 ) : (
                   <button
-                    className={`disable mx-0.5 w-16 cursor-not-allowed rounded-lg bg-gray-300 p-1 text-sm font-normal text-white opacity-40 shadow-xl dark:opacity-20`}
+                    disabled
+                    className={`h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-60 shadow-xl dark:bg-neutral-300 dark:opacity-20`}
                   >
-                    MT
+                    <div style={{ transform: "rotate(-45deg)" }}>MT</div>
                   </button>
                 )}
               </td>
@@ -165,23 +191,58 @@ const generateColorLUT = (layout) => {
 };
 
 const LayoutDisplayTest = ({ inputData }) => {
-  const { plant_type, plant_number, max_row, max_lane, color_layout, layer_1 } =
-    inputData;
+  const {
+    plant_type,
+    plant_number,
+    max_row,
+    max_lane,
+    color_layout,
+    layer_1,
+    wander_pallet,
+    free_pallet,
+  } = inputData;
   const laneColorLUT = generateColorLUT(color_layout);
 
   return (
     <div className="flex flex-col p-4 md:p-10">
-      <div>
-        <h1 className="custom-box-title-2">Safety Stock :</h1>
-        <p className="custom-box-title-4">
-          {plant_type} Plant {plant_number}
-        </p>
-      </div>
-
-      <div className="mt-6 flex flex-wrap gap-4">
-        <LegendItem color={laneColors.blue} label="BLOCK" />
-        <LegendItem color={laneColors.yellow} label="HEAD" />
-        <LegendItem color={laneColors.green} label="CRANK" />
+      <div className="flex flex-row space-x-10">
+        <div className="flex flex-col">
+          <h1 className="custom-box-title-2">Safety Stock :</h1>
+          <p className="custom-box-title-4">
+            {plant_type} Plant No.{plant_number}
+          </p>
+          <div className="mt-6 flex flex-wrap gap-4">
+            <LegendItem color={laneColors.blue} label="BLOCK" />
+            <LegendItem color={laneColors.yellow} label="HEAD" />
+            <LegendItem color={laneColors.green} label="CRANK" />
+          </div>
+        </div>
+        <div className="custom-display-box-3">
+          <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
+            <PackageOpen size={24} />
+            <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
+          </div>
+          <div className="grid grid-cols-10 gap-2">
+            {wander_pallet.map(({ pallet_name, color }) => (
+              <GenerateUnpositionedTable
+                key={pallet_name}
+                pallet_name={pallet_name}
+                pallet_color={color}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="custom-display-box-3">
+          <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
+          <div className="grid grid-cols-10 gap-2">
+            {free_pallet.map(({ pallet_name }) => (
+              <GenerateEmptyPallet
+                key={pallet_name}
+                pallet_name={pallet_name}
+              />
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="mt-5 max-h-screen overflow-x-auto overflow-y-auto">

@@ -29,6 +29,10 @@
     @apply rounded-lg p-5 shadow-lg bg-amber-300 dark:bg-amber-600 font-bold text-lg;
 }
 
+.custom-display-box-3 {
+    @apply rounded-lg dark:bg-neutral-500 bg-neutral-300 p-5 text-center shadow-inner dark:shadow-neutral-700 overflow-auto;
+}
+
 /* eva */
 /* .custom-title-1 {
     @apply dark:border-2 dark:border-amber-500 text-4xl font-normal py-5 dark:text-amber-500 rounded-lg dark:bg-neutral-800 dark:pl-5;

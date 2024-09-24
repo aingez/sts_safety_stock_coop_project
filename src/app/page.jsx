@@ -84,6 +84,7 @@ function HomePage() {
           </div>
         </div>
       </div>
+      {/* <div className="custom-box-2"> */}
       <div className="custom-box-2">
         {layoutApiData !== "" ? (
           <div>

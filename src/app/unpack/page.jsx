@@ -10,34 +10,22 @@ export default function UnPackPage() {
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
-
   const [palletName, setPalletName] = useState("");
   const [plantType, setPlantType] = useState("");
   const [plantNum, setPlantNum] = useState("");
-
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
-
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
   const [unpackDateTimes, setUnpackDateTimes] = useState({});
-
   const [serialInput, setSerialInput] = useState("");
 
   const handleReset = () => {
     setSerialNumbers([]);
-    setOriginalSerialNumbers([]);
-    setDateTimeValues({});
     setPalletName("");
     setPlantType("");
     setPlantNum("");
-    setLane("");
-    setRow("");
-    setPile("");
-    setLayer("");
     setApiPalletData("");
     setApiPartData({ data: [] });
-    setAvailablePositions(false);
-    setLayoutApiData("");
     setCheckedSerialNumbers([]);
     setUnpackDateTimes({});
     setSerialInput("");
@@ -56,7 +44,6 @@ export default function UnPackPage() {
       );
 
       setSerialNumbers(serialNumbersArray);
-      setOriginalSerialNumbers(serialNumbersArray);
     }
   }, [apiPalletData, apiPartData]);
 
