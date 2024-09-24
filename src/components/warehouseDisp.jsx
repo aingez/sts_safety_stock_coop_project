@@ -205,7 +205,7 @@ const LayoutDisplayTest = ({ inputData }) => {
 
   return (
     <div className="flex flex-col p-4 md:p-10">
-      <div className="flex flex-row space-x-10">
+      <div className="flex flex-row space-x-5">
         <div className="flex flex-col">
           <h1 className="custom-box-title-2">Safety Stock :</h1>
           <p className="custom-box-title-4">
@@ -218,12 +218,12 @@ const LayoutDisplayTest = ({ inputData }) => {
           </div>
         </div>
         {wander_pallet != null && (
-          <div className="custom-display-box-3">
+          <div className="custom-display-box-3 grow">
             <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
               <PackageOpen size={24} />
               <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
             </div>
-            <div className="grid grid-cols-10 gap-2">
+            <div className="flex flex-row space-x-2">
               {wander_pallet.map(({ pallet_name, color }) => (
                 <GenerateUnpositionedTable
                   key={pallet_name}
@@ -234,9 +234,9 @@ const LayoutDisplayTest = ({ inputData }) => {
             </div>
           </div>
         )}
-        <div className="custom-display-box-3">
+        <div className="custom-display-box-3 grow">
           <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
-          <div className="grid grid-cols-10 gap-2">
+          <div className="flex flex-row space-x-2">
             {free_pallet.map(({ pallet_name }) => (
               <GenerateEmptyPallet
                 key={pallet_name}
