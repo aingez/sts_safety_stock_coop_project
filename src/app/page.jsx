@@ -7,8 +7,20 @@ import LayoutDisplay from "../components/warehouseDisp";
 
 function HomePage() {
   const [layoutApiData, setLayoutApiData] = useState("");
-  const [plantType, setPlantType] = useState("Engine");
-  const [plantId, setPlantId] = useState(1);
+  const [plantType, setPlantType] = useState(() => {
+    // Initialize from localStorage if available, otherwise use default
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
+    }
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    // Initialize from localStorage if available, otherwise use default
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
 
   const fetchLayoutData = async () => {
     try {
@@ -25,7 +37,6 @@ function HomePage() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      // console.log("Fetched Data:", data);
       setLayoutApiData(data["data"]);
     } catch (error) {
       console.error("Error fetching layout data:", error);
@@ -37,9 +48,18 @@ function HomePage() {
   }, [plantType, plantId]);
 
   useEffect(() => {
-    // console.log("Updated layoutApiData:");
-    // console.log(layoutApiData);
-  }, [layoutApiData]);
+    // Save to localStorage whenever plantType or plantId changes
+    localStorage.setItem("plantType", plantType);
+    localStorage.setItem("plantId", plantId.toString());
+  }, [plantType, plantId]);
+
+  const handlePlantTypeChange = (e) => {
+    setPlantType(e.target.value);
+  };
+
+  const handlePlantIdChange = (e) => {
+    setPlantId(Number(e.target.value));
+  };
 
   return (
     <div className="min-h-screen pb-20">
@@ -61,8 +81,8 @@ function HomePage() {
             <select
               id="plantType"
               name="plantType"
-              value={plantType || "Engine"}
-              onChange={(e) => setPlantType(e.target.value)}
+              value={plantType}
+              onChange={handlePlantTypeChange}
               className="custom-text-input-1"
             >
               <option value="">Select Plant Type</option>
@@ -76,15 +96,14 @@ function HomePage() {
               type="number"
               id="plantId"
               name="plantId"
-              value={plantId || 1}
-              onChange={(e) => setPlantId(Number(e.target.value))}
+              value={plantId}
+              onChange={handlePlantIdChange}
               className="custom-text-input-1"
               min="1"
             />
           </div>
         </div>
       </div>
-      {/* <div className="custom-box-2"> */}
       <div className="custom-box-2">
         {layoutApiData !== "" ? (
           <div>
