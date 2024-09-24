@@ -98,6 +98,7 @@ function PalletMover() {
       pallet_id: palletIdData["id"],
     };
 
+    console.log("Payload:", payload);
     const response = await fetch(
       "http://localhost:8000/pallet/update/position",
       {
@@ -180,7 +181,12 @@ function PalletMover() {
                   className="custom-text-input-1"
                   placeholder="Plant Number"
                   value={plantNumber}
-                  onChange={(e) => setPlantNumber(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value === "" || Number(value) > 0) {
+                      setPlantNumber(value);
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -309,7 +315,12 @@ function PalletMover() {
                     className="custom-text-input-2"
                     placeholder="Row Number"
                     value={row}
-                    onChange={(e) => setRow(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || Number(value) > 0) {
+                        setRow(value);
+                      }
+                    }}
                   />
                 </div>
                 <div>
@@ -319,7 +330,12 @@ function PalletMover() {
                     className="custom-text-input-2"
                     placeholder="Lane Number"
                     value={lane}
-                    onChange={(e) => setLane(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || Number(value) > 0) {
+                        setLane(value);
+                      }
+                    }}
                   />
                 </div>
                 <div>
@@ -329,7 +345,12 @@ function PalletMover() {
                     className="custom-text-input-2"
                     placeholder="Pile Number"
                     value={pile}
-                    onChange={(e) => setPile(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || Number(value) > 0) {
+                        setPile(value);
+                      }
+                    }}
                   />
                 </div>
                 <div>
@@ -339,7 +360,12 @@ function PalletMover() {
                     className="custom-text-input-2"
                     placeholder="Layer Number"
                     value={layer}
-                    onChange={(e) => setLayer(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      if (value === "" || Number(value) > 0) {
+                        setLayer(value);
+                      }
+                    }}
                   />
                 </div>
                 <button

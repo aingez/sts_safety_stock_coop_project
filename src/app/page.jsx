@@ -75,38 +75,38 @@ function HomePage() {
           <ReusableTable pageSize={3} />
         </div>
       </div>
-      <div className="flex flex-row space-x-10">
-        <div className="custom-box-1 mb-2 py-2">
+      <div className="custom-box-2">
+        <div className="flex flex-row space-x-10">
           <h2 className="custom-title-1">Warehouse</h2>
-          <div className="custom-input-layout-1">
-            <label htmlFor="plantType">Plant Type</label>
-            <select
-              id="plantType"
-              name="plantType"
-              value={plantType}
-              onChange={handlePlantTypeChange}
-              className="custom-text-input-1"
-            >
-              <option value="">Select Plant Type</option>
-              <option value="Engine">Engine</option>
-              <option value="Casting">Casting</option>
-            </select>
-          </div>
-          <div className="custom-input-layout-1">
-            <label htmlFor="plantId">Plant ID</label>
-            <input
-              type="number"
-              id="plantId"
-              name="plantId"
-              value={plantId}
-              onChange={handlePlantIdChange}
-              className="custom-text-input-1"
-              min="1"
-            />
+          <div className="flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label htmlFor="plantType">Plant Type</label>
+              <select
+                id="plantType"
+                name="plantType"
+                value={plantType}
+                onChange={handlePlantTypeChange}
+                className="custom-text-input-1"
+              >
+                <option value="">Select Plant Type</option>
+                <option value="Engine">Engine</option>
+                <option value="Casting">Casting</option>
+              </select>
+            </div>
+            <div className="custom-input-layout-1">
+              <label htmlFor="plantId">Plant ID</label>
+              <input
+                type="number"
+                id="plantId"
+                name="plantId"
+                value={plantId}
+                onChange={handlePlantIdChange}
+                className="custom-text-input-1"
+                min="1"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="custom-box-2">
         {layoutApiData !== "" ? (
           <div>
             <div className="flex-none">
