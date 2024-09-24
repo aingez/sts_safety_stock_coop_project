@@ -30,7 +30,7 @@
 }
 
 .custom-display-box-3 {
-    @apply rounded-lg dark:bg-neutral-500 bg-neutral-300 p-5 text-center shadow-inner dark:shadow-neutral-700 overflow-auto;
+    @apply rounded-lg h-full dark:bg-neutral-500 bg-neutral-300 p-5 text-center shadow-inner dark:shadow-neutral-700 overflow-x-auto ;
 }
 
 /* eva */
