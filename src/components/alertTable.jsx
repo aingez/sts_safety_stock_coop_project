@@ -13,6 +13,7 @@ function AlertTable({ pageSize = 10 }) {
   const [plantType, setPlantType] = useState("Engine");
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const key = await fetchPlantKey();
       setPlantKey(key);
@@ -190,13 +191,13 @@ function AlertTable({ pageSize = 10 }) {
                   {item.plant_id}
                 </td> */}
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.lane}
+                  {item.lane || "Dock"}
+                </td>
+                <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
+                  {item.row || "Dock"}
                 </td>
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.row}
-                </td>
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.layer}
+                  {item.layer || "Dock"}
                 </td>
                 <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
                   {item.name}
