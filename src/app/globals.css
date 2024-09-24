@@ -6,11 +6,11 @@
     @apply flex flex-row space-x-5 px-5 shadow-2xl dark:border-2 dark:border-amber-500 dark:text-amber-500 rounded-lg dark:bg-neutral-800 ;
 } */
 .custom-modal-box-1 {
-    @apply flex flex-row space-x-5 px-5 rounded-lg bg-neutral-100 shadow-2xl dark:bg-neutral-500;
+    @apply flex flex-row space-x-5 px-5 rounded-lg bg-neutral-100 shadow-lg dark:bg-neutral-500;
 }
 
 .custom-box-1 {
-    @apply flex flex-row space-x-5 px-5 rounded-lg shadow-2xl dark:bg-neutral-600;
+    @apply flex flex-row space-x-5 px-5 rounded-lg shadow-lg dark:bg-neutral-600;
 }
 
 /* eva */
@@ -18,15 +18,19 @@
     @apply p-5 shadow-2xl my-5 dark:border-2 dark:border-amber-500 dark:text-amber-500 rounded-lg dark:bg-neutral-800 ;
 } */
 .custom-box-2 {
-    @apply rounded-lg p-5 shadow-2xl mb-5 dark:bg-neutral-600;
+    @apply rounded-lg p-5 shadow-lg mb-5 dark:bg-neutral-600;
+}
+
+.custom-box-3 {
+    @apply rounded-lg p-5 shadow-lg mb-5 dark:bg-neutral-600;
 }
 
 .custom-display-box-1 {
-    @apply rounded-lg p-5 shadow-lg bg-amber-500 dark:bg-amber-900 text-xl font-bold dark:text-rose-700;
+    @apply w-full rounded-lg p-5 shadow-lg bg-amber-300 text-sky-800 dark:bg-amber-600 font-bold text-lg dark:text-black;
 }
 
 .custom-display-box-2 {
-    @apply rounded-lg p-5 shadow-lg bg-amber-300 dark:bg-amber-600 font-bold text-lg;
+    @apply w-full p-5 shadow-lg bg-amber-300 dark:bg-amber-600 font-bold text-lg;
 }
 
 .custom-display-box-3 {
