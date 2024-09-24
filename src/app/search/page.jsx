@@ -8,24 +8,25 @@ import ReusableTable from "../../components/partSearchTable";
 
 function SearchPage() {
   const [serialInput, setSerialInput] = useState("");
+  const [sendSerial, setSendSerial] = useState("");
   const [tableKey, setTableKey] = useState(0);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
+  const [showTable, setShowTable] = useState(false);
 
   const handleSerialChange = (e) => {
     setSerialInput(e.target.value);
-    console.log("serial " + e.target.value);
   };
 
   const handleDateChange = (e) => {
     const { name, value } = e.target;
     setDateRange((prevRange) => ({ ...prevRange, [name]: value }));
-    console.log(`${name} date: ${value}`);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSendSerial(serialInput);
     setTableKey((prevKey) => prevKey + 1);
-    console.log("Searching for serial: " + serialInput);
+    setShowTable(true);
   };
 
   const handleReset = (e) => {
@@ -33,6 +34,7 @@ function SearchPage() {
     setSerialInput("");
     setDateRange({ start: "", end: "" });
     setTableKey(0);
+    setShowTable(false);
   };
 
   return (
@@ -94,10 +96,10 @@ function SearchPage() {
           )}
         </form>
       </div>
-      {tableKey > 0 && (
+      {showTable && (
         <div className="custom-box-2">
           <h3 className="custom-box-title-1">Results</h3>
-          <ReusableTable key={tableKey} partSerial={serialInput} />
+          <ReusableTable key={tableKey} partSerial={sendSerial} />
         </div>
       )}
     </div>
