@@ -26,10 +26,11 @@ const QuantityDisplay = () => {
   const { summary, components } = data.data;
 
   return (
-    <div className="space-y-4 overflow-x-auto p-4">
+    <div className="space-y-4 p-4">
       {Object.keys(summary).map((key) => (
         <div key={key} className="space-y-2">
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5">
+          {/* <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5"> */}
+          <div className="flex flex-row space-x-2">
             <div
               className="custom-display-box-1"
               style={{
