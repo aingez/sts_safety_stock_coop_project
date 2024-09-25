@@ -223,7 +223,7 @@ const LayoutDisplayTest = ({ inputData }) => {
               <PackageOpen size={24} />
               <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
             </div>
-            <div className="flex flex-row space-x-2">
+            <div className="inline-grid grid-cols-8 gap-2">
               {wander_pallet.map(({ pallet_name, color }) => (
                 <GenerateUnpositionedTable
                   key={pallet_name}
@@ -236,7 +236,7 @@ const LayoutDisplayTest = ({ inputData }) => {
         )}
         <div className="custom-display-box-3 grow">
           <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
-          <div className="flex flex-row space-x-2">
+          <div className="inline-grid grid-cols-10 gap-2">
             {free_pallet.map(({ pallet_name }) => (
               <GenerateEmptyPallet
                 key={pallet_name}
