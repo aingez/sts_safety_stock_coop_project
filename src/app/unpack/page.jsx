@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
+import { ScanQrCode } from "lucide-react";
 
 export default function UnPackPage() {
   const [serialNumbers, setSerialNumbers] = useState([]);
@@ -17,6 +18,7 @@ export default function UnPackPage() {
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
   const [unpackDateTimes, setUnpackDateTimes] = useState({});
+
   const [serialInput, setSerialInput] = useState("");
 
   const handleReset = () => {
@@ -260,8 +262,8 @@ export default function UnPackPage() {
             </button>
           </div>
 
-          <div className="custom-input-layout-1">
-            <label>Unpack Serial</label>
+          <div className="flex flex-row space-x-2 align-middle">
+            <ScanQrCode size={50} />
             <input
               type="text"
               value={serialInput}
