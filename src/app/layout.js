@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
             <div className="fixed bottom-4 right-4">
               <SwitchTheme />
             </div>
-            <div className="mx-20">
+            <div className="md:mx-20 sm:mx-10 mx-5">
               <Toaster position="bottom-center" />
               {children}
             </div>
