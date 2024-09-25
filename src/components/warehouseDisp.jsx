@@ -217,7 +217,7 @@ const LayoutDisplayTest = ({ inputData }) => {
             <LegendItem color={laneColors.green} label="CRANK" />
           </div>
         </div>
-        {wander_pallet != null && (
+        {wander_pallet && wander_pallet.length > 0 && (
           <div className="custom-display-box-3 grow">
             <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
               <PackageOpen size={24} />
@@ -234,17 +234,19 @@ const LayoutDisplayTest = ({ inputData }) => {
             </div>
           </div>
         )}
-        <div className="custom-display-box-3 grow">
-          <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
-          <div className="inline-grid grid-cols-10 gap-2">
-            {free_pallet.map(({ pallet_name }) => (
-              <GenerateEmptyPallet
-                key={pallet_name}
-                pallet_name={pallet_name}
-              />
-            ))}
+        {free_pallet && free_pallet.length > 0 && (
+          <div className="custom-display-box-3 grow">
+            <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
+            <div className="inline-grid grid-cols-10 gap-2">
+              {free_pallet.map(({ pallet_name }) => (
+                <GenerateEmptyPallet
+                  key={pallet_name}
+                  pallet_name={pallet_name}
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       <div className="mt-5 max-h-screen overflow-x-auto overflow-y-auto">
