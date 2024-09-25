@@ -290,9 +290,9 @@ export default function PackPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-row space-x-10">
-      <form className="custom-box-2 w-1/2">
-        <div className="flex flex-col p-10">
+    <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">
+      <form className="custom-box-2 w-full md:w-1/2">
+        <div className="flex flex-col p-4 md:p-10">
           <h1 className="custom-title-1">Packing</h1>
           <div className="custom-input-layout-1">
             <label>Employee ID</label>
@@ -314,7 +314,7 @@ export default function PackPage() {
               required
             />
           </div>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
             <div className="custom-input-layout-1">
               <label>Pallet ID</label>
               <input
@@ -358,7 +358,7 @@ export default function PackPage() {
               />
             </div>
           </div>
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
             <div className="custom-input-layout-1">
               <label>Row</label>
               <input
@@ -400,7 +400,7 @@ export default function PackPage() {
               />
             </div>
           </div>
-          <div className="my-4 flex flex-row space-x-2">
+          <div className="my-4 flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
             <button
               className="custom-button-1-pink"
               type="reset"
@@ -428,7 +428,7 @@ export default function PackPage() {
         </div>
       </form>
       {/* Table Part */}
-      <div className="custom-box-1 min-h-full w-1/2 grow overflow-auto py-5">
+      <div className="custom-box-1 min-h-full w-full grow overflow-auto py-5 md:w-1/2">
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
