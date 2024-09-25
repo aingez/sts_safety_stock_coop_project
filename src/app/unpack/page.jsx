@@ -12,8 +12,18 @@ export default function UnPackPage() {
   const [employeeId, setEmployeeId] = useState("");
   const [employeeName, setEmployeeName] = useState("");
   const [palletName, setPalletName] = useState("");
-  const [plantType, setPlantType] = useState("");
-  const [plantNum, setPlantNum] = useState("");
+  const [plantType, setPlantType] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
+    }
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
@@ -25,7 +35,7 @@ export default function UnPackPage() {
     setSerialNumbers([]);
     setPalletName("");
     setPlantType("");
-    setPlantNum("");
+    setPlantId("");
     setApiPalletData("");
     setApiPartData({ data: [] });
     setCheckedSerialNumbers([]);
@@ -53,7 +63,7 @@ export default function UnPackPage() {
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantNum}`,
+          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -66,17 +76,17 @@ export default function UnPackPage() {
       }
     };
 
-    if (palletName.length >= 5 && plantType.length > 0 && plantNum.length > 0) {
+    if (palletName.length >= 5 && plantType.length > 0 && plantId.length > 0) {
       fetchPalletData();
     }
-  }, [palletName, plantType, plantNum]);
+  }, [palletName, plantType, plantId]);
 
   useEffect(() => {
     setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/part/pack/${plantType}/${plantNum}/${palletName}`,
+          `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -94,11 +104,11 @@ export default function UnPackPage() {
       apiPalletData.data?.is_pack &&
       palletName.length >= 5 &&
       plantType.length > 0 &&
-      plantNum.length > 0
+      plantId.length > 0
     ) {
       fetchPartonPallet();
     }
-  }, [apiPalletData, plantType, plantNum, palletName]);
+  }, [apiPalletData, plantType, plantId, palletName]);
 
   useEffect(() => {
     // check if serialInput in serialNumbers
@@ -148,7 +158,7 @@ export default function UnPackPage() {
         packer_name: employeeName,
         pallet_name: palletName,
         plant_type: plantType,
-        plant_id: plantNum,
+        plant_id: plantId,
         unpack_part: unpackedSerialNumbersList,
       }),
     })
@@ -212,7 +222,7 @@ export default function UnPackPage() {
                       <input
                         id={`plant-type-${option.value}`}
                         type="radio"
-                        value={option.value}
+                        defaultChecked={plantType === option.value}
                         name="list-radio"
                         onChange={(e) => setPlantType(e.target.value)}
                       />
@@ -231,9 +241,11 @@ export default function UnPackPage() {
               <label>Plant Number</label>
               <input
                 type="number"
-                onChange={(e) => setPlantNum(e.target.value)}
+                value={plantId}
+                onChange={(e) => setPlantId(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
@@ -253,7 +265,7 @@ export default function UnPackPage() {
               disabled={
                 palletName.length < 5 ||
                 plantType.length === 0 ||
-                plantNum.length === 0 ||
+                plantId.length === 0 ||
                 apiPalletData.length === 0 ||
                 apiPartData.length === 0
               }
