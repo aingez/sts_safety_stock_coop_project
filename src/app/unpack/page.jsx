@@ -178,31 +178,33 @@ export default function UnPackPage() {
   };
 
   return (
-    <div className="mb-20 flex min-h-screen flex-row space-x-10">
-      <form className="custom-box-1">
-        <div className="flex flex-col p-10">
+    <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">
+      <form className="custom-box-2 w-full md:w-1/2">
+        <div className="flex flex-col p-4 md:p-10">
           <h1 className="custom-title-1">Un-Packing</h1>
-          <div className="custom-input-layout-1">
-            <label>Employee ID</label>
-            <input
-              type="integer"
-              onChange={(e) => setEmployeeId(e.target.value)}
-              className="custom-text-input-1"
-              placeholder="XXXXXXXXX"
-              required
-            ></input>
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+            <div className="custom-input-layout-1">
+              <label>Employee ID</label>
+              <input
+                type="integer"
+                onChange={(e) => setEmployeeId(e.target.value)}
+                className="custom-text-input-1"
+                placeholder="XXXXXXXXX"
+                required
+              ></input>
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Name - Surname</label>
+              <input
+                type="text"
+                onChange={(e) => setEmployeeName(e.target.value)}
+                className="custom-text-input-1"
+                placeholder="Sprinter Levin"
+                required
+              ></input>
+            </div>
           </div>
-          <div className="custom-input-layout-1">
-            <label>Name - Surname</label>
-            <input
-              type="text"
-              onChange={(e) => setEmployeeName(e.target.value)}
-              className="custom-text-input-1"
-              placeholder="Sprinter Levin"
-              required
-            ></input>
-          </div>
-          <div className="flex flex-row space-x-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
             <div className="custom-input-layout-1">
               <label>Pallet Name</label>
               <input
@@ -274,7 +276,7 @@ export default function UnPackPage() {
             </button>
           </div>
 
-          <div className="flex flex-row space-x-2 align-middle">
+          <div className="flex gap-2">
             <ScanQrCode size={50} />
             <input
               type="text"

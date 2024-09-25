@@ -305,29 +305,31 @@ export default function PackPage() {
       <form className="custom-box-2 w-full md:w-1/2">
         <div className="flex flex-col p-4 md:p-10">
           <h1 className="custom-title-1">Packing</h1>
-          <div className="custom-input-layout-1">
-            <label>Employee ID</label>
-            <input
-              type="number"
-              onChange={(e) => setEmployeeId(e.target.value)}
-              className="custom-text-input-1"
-              placeholder="XXXXXXXXX"
-              required
-            />
-          </div>
-          <div className="custom-input-layout-1">
-            <label>Name - Surname</label>
-            <input
-              type="text"
-              onChange={(e) => setEmployeeName(e.target.value)}
-              className="custom-text-input-1"
-              placeholder="Sprinter Trueno"
-              required
-            />
-          </div>
-          <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             <div className="custom-input-layout-1">
-              <label>Pallet ID</label>
+              <label>Employee ID</label>
+              <input
+                type="number"
+                onChange={(e) => setEmployeeId(e.target.value)}
+                className="custom-text-input-1"
+                placeholder="XXXXXXXXX"
+                required
+              />
+            </div>
+            <div className="custom-input-layout-1">
+              <label>Name - Surname</label>
+              <input
+                type="text"
+                onChange={(e) => setEmployeeName(e.target.value)}
+                className="custom-text-input-1"
+                placeholder="Sprinter Trueno"
+                required
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-3">
+            <div className="custom-input-layout-1">
+              <label>Pallet Name</label>
               <input
                 type="text"
                 onChange={(e) => setPalletName(e.target.value.toUpperCase())}
