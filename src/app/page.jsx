@@ -47,20 +47,6 @@ function HomePage() {
     fetchLayoutData();
   }, [plantType, plantId]);
 
-  useEffect(() => {
-    // Save to localStorage whenever plantType or plantId changes
-    localStorage.setItem("plantType", plantType);
-    localStorage.setItem("plantId", plantId.toString());
-  }, [plantType, plantId]);
-
-  const handlePlantTypeChange = (e) => {
-    setPlantType(e.target.value);
-  };
-
-  const handlePlantIdChange = (e) => {
-    setPlantId(Number(e.target.value));
-  };
-
   return (
     <div className="min-h-screen pb-20">
       <div className="flex flex-row space-x-5">

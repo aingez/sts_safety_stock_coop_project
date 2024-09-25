@@ -15,8 +15,19 @@ export default function PackPage() {
   const [employeeName, setEmployeeName] = useState("");
 
   const [palletName, setPalletName] = useState("");
-  const [plantType, setPlantType] = useState("");
-  const [plantNum, setPlantNum] = useState("");
+
+  const [plantType, setPlantType] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
+    }
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
 
   const [lane, setLane] = useState("");
   const [row, setRow] = useState("");
@@ -37,7 +48,7 @@ export default function PackPage() {
     setDateTimeValues({});
     setPalletName("");
     setPlantType("");
-    setPlantNum("");
+    setPlantId("");
     setLane("");
     setRow("");
     setPile("");
@@ -77,7 +88,7 @@ export default function PackPage() {
         packer_name: employeeName,
         pallet_name: palletName,
         plant_type: plantType,
-        plant_id: parseInt(plantNum, 10),
+        plant_id: parseInt(plantId, 10),
         row: parseInt(row, 10),
         lane: parseInt(lane, 10),
         pile: parseInt(pile, 10),
@@ -96,7 +107,7 @@ export default function PackPage() {
         setLayoutUpdated(true); // Trigger layout update
       })
       .catch((error) => {
-        toast.error(error.message);
+        // toast.error(error.message);
       });
   };
 
@@ -106,7 +117,7 @@ export default function PackPage() {
       const fetchLayoutData = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8000/warehouse/layout/${plantType}/${plantNum}`,
+            `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
           );
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -115,21 +126,21 @@ export default function PackPage() {
           setLayoutApiData(data["data"]);
           toast.success("Layout data refreshed successfully");
         } catch (err) {
-          toast.error(err.message);
+          // toast.error(err.message);
         }
       };
 
       fetchLayoutData();
       setLayoutUpdated(false); // Reset the flag after fetching
     }
-  }, [layoutUpdated, plantType, plantNum]);
+  }, [layoutUpdated, plantType, plantId]);
 
   useEffect(() => {
     setLoadingTable(true);
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantNum}`,
+          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -138,22 +149,22 @@ export default function PackPage() {
         toast.success("Pallet data fetched successfully");
         setApiPalletData(data);
       } catch (err) {
-        toast.error(err.message);
+        // toast.error(err.message);
       }
     };
 
-    if (palletName.length >= 5 && plantType.length > 0 && plantNum.length > 0) {
+    if (palletName.length >= 5 && plantType.length > 0 && plantId.length > 0) {
       fetchPalletData();
     }
     setLoadingTable(false);
-  }, [palletName, plantType, plantNum]);
+  }, [palletName, plantType, plantId]);
 
   useEffect(() => {
     setLoadingTable(true);
     const fetchLayoutData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/warehouse/layout/${plantType}/${plantNum}`,
+          `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -162,15 +173,15 @@ export default function PackPage() {
         setLayoutApiData(data["data"]);
         toast.success("Layout data fetched successfully");
       } catch (err) {
-        toast.error(err.message);
+        // toast.error(err.message);
       }
     };
 
-    if (plantType.length > 0 && plantNum.length > 0) {
+    if (plantType.length > 0 && plantId.length > 0) {
       fetchLayoutData();
     }
     setLoadingTable(false);
-  }, [plantType, plantNum]);
+  }, [plantType, plantId]);
 
   useEffect(() => {
     setLoadingTable(true);
@@ -178,7 +189,7 @@ export default function PackPage() {
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/part/pack/${plantType}/${plantNum}/${palletName}`,
+          `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -195,14 +206,14 @@ export default function PackPage() {
       fetchPartonPallet();
     }
     setLoadingTable(false);
-  }, [apiPalletData, plantType, plantNum, palletName]);
+  }, [apiPalletData, plantType, plantId, palletName]);
 
   useEffect(() => {
     setLoadingTable(true);
     const fetchPositionStatus = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/warehouse/is_occupied/${plantType}/${plantNum}/${row}/${lane}/${pile}/${layer}`,
+          `http://localhost:8000/warehouse/is_occupied/${plantType}/${plantId}/${row}/${lane}/${pile}/${layer}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -227,12 +238,12 @@ export default function PackPage() {
       layer.length > 0 &&
       palletName.length >= 5 &&
       plantType.length > 0 &&
-      plantNum.length > 0
+      plantId.length > 0
     ) {
       fetchPositionStatus();
     }
     setLoadingTable(false);
-  }, [palletName, plantType, plantNum, lane, row, pile, layer]);
+  }, [palletName, plantType, plantId, lane, row, pile, layer]);
 
   const handleSerialNumberChange = (e, index) => {
     const newDateTime = new Date().toLocaleString(); // Get current date and time
@@ -334,7 +345,7 @@ export default function PackPage() {
                       <input
                         id={`plant-type-${option.value}`}
                         type="radio"
-                        value={option.value}
+                        defaultChecked={plantType === option.value}
                         name="list-radio"
                         onChange={(e) => setPlantType(e.target.value)}
                       />
@@ -351,9 +362,11 @@ export default function PackPage() {
               <label>Plant Number</label>
               <input
                 type="number"
-                onChange={(e) => setPlantNum(e.target.value)}
+                value={plantId}
+                onChange={(e) => setPlantId(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
@@ -366,6 +379,7 @@ export default function PackPage() {
                 onChange={(e) => setRow(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
@@ -376,6 +390,7 @@ export default function PackPage() {
                 onChange={(e) => setLane(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
@@ -386,6 +401,7 @@ export default function PackPage() {
                 onChange={(e) => setPile(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
@@ -396,6 +412,7 @@ export default function PackPage() {
                 onChange={(e) => setLayer(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
+                min="1"
                 required
               />
             </div>
