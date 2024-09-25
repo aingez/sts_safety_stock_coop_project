@@ -40,7 +40,7 @@ const GenerateEmptyPallet = ({ pallet_name }) => {
   return (
     <button
       disabled
-      className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200`}
+      className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200 shadow-inner shadow-neutral-700`}
     >
       <div className="-rotate-45 transform">{pallet_name}</div>
     </button>
