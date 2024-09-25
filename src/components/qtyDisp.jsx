@@ -26,21 +26,23 @@ const QuantityDisplay = () => {
   const { summary, components } = data.data;
 
   return (
-    <div className="space-y-4 p-4">
+    <div className="mt-5 grid grid-cols-2 gap-4">
       {Object.keys(summary).map((key) => (
-        <div key={key} className="space-y-2">
-          {/* <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5"> */}
-          <div className="flex flex-row space-x-2">
-            <div
-              className="custom-display-box-1"
-              style={{
-                background: "linear-gradient(to right, #f59e0b, #fbbf24)",
-              }}
-            >
+        <div
+          key={key}
+          className="rounded-lg border-neutral-900 bg-neutral-300 p-4 shadow-inner dark:border-neutral-200 dark:bg-neutral-700 dark:shadow-lg"
+        >
+          <div className="mb-2 text-lg font-semibold">
+            <div className="rounded-md bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 text-neutral-800">
               {key} : {summary[key]}
             </div>
+          </div>
+          <div className="space-y-2">
             {components[key].map((model) => (
-              <div key={model.model} className="custom-display-box-2">
+              <div
+                key={model.model}
+                className="rounded-full bg-gradient-to-r from-rose-400 to-yellow-500 py-1 text-center text-neutral-600"
+              >
                 {model.model} : {model.qty}
               </div>
             ))}
