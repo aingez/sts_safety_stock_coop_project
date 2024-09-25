@@ -3,12 +3,11 @@
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import {
-  Wrench,
   Settings,
   Package,
   PackageOpen,
@@ -18,11 +17,19 @@ import {
 
 function Nav() {
   const pathname = usePathname();
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  let timeoutId;
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const handleMouseEnter = () => {
+    clearTimeout(timeoutId);
+    setDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutId = setTimeout(() => {
+      setDropdownVisible(false);
+    }, 300); // Adjust the delay time as needed
   };
 
   return (
@@ -78,28 +85,29 @@ function Nav() {
       </li>
       <div className="mx-2 border-r border-white" />
 
-      <li className="relative mx-2 text-white transition-all">
+      <li
+        className="group relative mx-2 text-white transition-all"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <span
           className={`cursor-pointer ${pathname === "/editor" || pathname === "/manage" ? "font-bold text-yellow-500" : ""}`}
-          onClick={toggleDropdown}
         >
           <Settings size={50} />
-          {/* <Wrench size={50} /> */}
         </span>
-        {dropdownOpen && (
-          <ul className="absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg">
-            <li className="px-4 py-2 hover:bg-neutral-700">
-              <Link href="/manage" onClick={toggleDropdown}>
-                Manage
-              </Link>
-            </li>
-            <li className="px-4 py-2 hover:bg-neutral-700">
-              <Link href="/editor" onClick={toggleDropdown}>
-                Edit
-              </Link>
-            </li>
-          </ul>
-        )}
+        <ul
+          className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
+        >
+          <li className="px-4 py-2 hover:bg-neutral-700">
+            <Link href="/manage">Manage</Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-neutral-700">
+            <Link href="/editor">Edit</Link>
+          </li>
+          <li className="px-4 py-2 hover:bg-neutral-700">
+            <Link href="/option">Option</Link>
+          </li>
+        </ul>
       </li>
     </ul>
   );

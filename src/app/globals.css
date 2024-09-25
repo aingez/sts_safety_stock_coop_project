@@ -45,6 +45,10 @@
     @apply text-4xl font-normal py-5;
 }
 
+.custom-title-2 {
+    @apply text-4xl font-normal;
+}
+
 .custom-box-title-1 {
     @apply text-2xl my-2;
 }

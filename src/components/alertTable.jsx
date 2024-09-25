@@ -1,6 +1,3 @@
-// Dev: Aingthawan K.
-// Component: to display ranking of pallets by earliest packing date on the pallet.
-
 import React, { useEffect, useState } from "react";
 
 function AlertTable({ pageSize = 10 }) {
@@ -8,29 +5,20 @@ function AlertTable({ pageSize = 10 }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [plantKey, setPlantKey] = useState();
-  const [plantId, setPlantId] = useState(1);
-  const [plantType, setPlantType] = useState("Engine");
+  const [plantKey, setPlantKey] = useState(null);
   const [filter, setFilter] = useState("");
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const key = await fetchPlantKey();
-      setPlantKey(key);
-      const res = await fetch(`http://localhost:8000/pallet/rank/${key}`);
-      if (!res.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await res.json();
-      setApiData(data.data);
-      setError(null);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+  const [plantType, setPlantType] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
     }
-  };
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
 
   const fetchPlantKey = async () => {
     try {
@@ -49,8 +37,40 @@ function AlertTable({ pageSize = 10 }) {
     }
   };
 
-  // refresh interval
+  const fetchData = async () => {
+    if (apiData.length === 0) {
+      setLoading(true);
+    }
+    const storedPlantType = localStorage.getItem("plantType");
+    const storedPlantId = localStorage.getItem("plantId");
+    setPlantType(storedPlantType);
+    setPlantId(storedPlantId);
+    try {
+      let key = plantKey;
+      if (!key) {
+        key = await fetchPlantKey();
+        setPlantKey(key);
+      }
+      const res = await fetch(`http://localhost:8000/pallet/rank/${key}`);
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setApiData(data.data);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    // get data from local storage
+    // setPlantType(localStorage.getItem("plantType") || "Engine");
+    // setPlantId(localStorage.getItem("plantId") || "1");
+    // console.log("plantType", plantType);
+    // console.log("plantId", plantId);
     fetchData();
     const intervalId = setInterval(() => {
       fetchData();
@@ -71,33 +91,7 @@ function AlertTable({ pageSize = 10 }) {
   return (
     <div className="overflow-x-auto">
       <div className="mb-2 flex flex-row space-x-2">
-        <div className="custom-input-layout-1">
-          <label htmlFor="plantType">Plant Type</label>
-          <select
-            id="plantType"
-            name="plantType"
-            value={plantType || "Engine"}
-            onChange={(e) => setPlantType(e.target.value)}
-            className="custom-text-input-1"
-          >
-            <option value="">Select Plant Type</option>
-            <option value="Engine">Engine</option>
-            <option value="Casting">Casting</option>
-          </select>
-        </div>
-        <div className="custom-input-layout-1">
-          <label htmlFor="plantId">Plant ID</label>
-          <input
-            type="number"
-            id="plantId"
-            name="plantId"
-            value={plantId}
-            onChange={(e) => setPlantId(e.target.value)}
-            className="custom-text-input-1"
-            min="1"
-          />
-        </div>
-        {!loading && error == null && (
+        {!loading && !error && (
           <div className="custom-input-layout-1">
             <label htmlFor="filter">Filter Part Type</label>
             <select
@@ -133,7 +127,7 @@ function AlertTable({ pageSize = 10 }) {
           <span className="block sm:inline">{error}</span>
         </div>
       )}
-      {!loading && error == null && (
+      {!loading && !error && (
         <>
           <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
