@@ -11,6 +11,7 @@ function AlertTable({ pageSize = 10 }) {
   const [plantKey, setPlantKey] = useState();
   const [plantId, setPlantId] = useState(1);
   const [plantType, setPlantType] = useState("Engine");
+  const [filter, setFilter] = useState("");
 
   const fetchData = async () => {
     setLoading(true);
@@ -48,12 +49,12 @@ function AlertTable({ pageSize = 10 }) {
     }
   };
 
+  // refresh interval
   useEffect(() => {
     fetchData();
-
     const intervalId = setInterval(() => {
       fetchData();
-    }, 30000);
+    }, 10 * 60000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -86,19 +87,37 @@ function AlertTable({ pageSize = 10 }) {
         </div>
         <div className="custom-input-layout-1">
           <label htmlFor="plantId">Plant ID</label>
-          <select
+          <input
+            type="number"
             id="plantId"
             name="plantId"
-            value={plantId || 1}
+            value={plantId}
             onChange={(e) => setPlantId(e.target.value)}
             className="custom-text-input-1"
-          >
-            <option value="">Select Plant ID</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
+            min="1"
+          />
         </div>
+        {!loading && error == null && (
+          <div className="custom-input-layout-1">
+            <label htmlFor="filter">Filter Part Type</label>
+            <select
+              id="filter"
+              name="filter"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="custom-text-input-1"
+            >
+              <option value="">All</option>
+              {Array.from(new Set(apiData.map((item) => item.type))).map(
+                (type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ),
+              )}
+            </select>
+          </div>
+        )}
       </div>
       <p className="mb-1 text-xs font-light opacity-50">
         Listing from earliest packed part age from each pallet.
@@ -115,97 +134,113 @@ function AlertTable({ pageSize = 10 }) {
         </div>
       )}
       {!loading && error == null && (
-        <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
-          <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
-            <tr>
-              <th scope="col" className="px-4 py-3 sm:px-6">
-                Status
-              </th>
-              <th scope="col" className="px-4 py-3 sm:px-6">
-                Part Type
-              </th>
-              <th scope="col" className="px-4 py-3 sm:px-6">
-                Pallet Number
-              </th>
-              <th scope="col" className="px-4 py-3 sm:px-6">
-                Packing Date
-              </th>
-              <th scope="col" className="px-4 py-3 sm:px-6">
-                Age Days
-              </th>
-              <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Lane
-              </th>
-              <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Row
-              </th>
-              <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Layer
-              </th>
-              <th
-                scope="col"
-                className="hidden px-4 py-3 sm:table-cell sm:px-6"
-              >
-                Packer
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedData.map((item, index) => (
-              <tr
-                key={`${item.pallet_id}-${index}`}
-                className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
-              >
-                <td className="px-4 py-4">
-                  <span
-                    className={`rounded-md px-2 py-1 font-semibold ${
-                      item.color_status === "red"
-                        ? "animate-pulse bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
-                        : item.color_status === "green"
-                          ? "bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100"
-                          : "bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100"
-                    }`}
-                  >
-                    {item.color_status.toUpperCase()}
-                  </span>
-                </td>
-                <td className="px-4 py-4 sm:px-6">{item.type}</td>
-                <td className="px-4 py-4 sm:px-6">{item.pallet_name}</td>
-                <td className="px-4 py-4 sm:px-6">
-                  {item.pack_date_formatted}
-                </td>
-                <td className="px-4 py-4 sm:px-6">{item.age_days}</td>
-                {/* <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.plant_type}
-                </td>
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.plant_id}
-                </td> */}
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.lane || "Dock"}
-                </td>
-                <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
-                  {item.row || "Dock"}
-                </td>
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.layer || "Dock"}
-                </td>
-                <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                  {item.name}
-                </td>
+        <>
+          <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+              <tr>
+                <th scope="col" className="px-4 py-3 sm:px-6">
+                  Status
+                </th>
+                <th scope="col" className="px-4 py-3 sm:px-6">
+                  Part Type
+                </th>
+                <th scope="col" className="px-4 py-3 sm:px-6">
+                  Pallet Number
+                </th>
+                <th scope="col" className="px-4 py-3 sm:px-6">
+                  Packing Date
+                </th>
+                <th scope="col" className="px-4 py-3 sm:px-6">
+                  Age Days
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Plant
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Lane
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Row
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Pile
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Layer
+                </th>
+                <th
+                  scope="col"
+                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
+                >
+                  Packer
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {paginatedData
+                .filter((item) => (filter ? item.type === filter : true))
+                .map((item, index) => (
+                  <tr
+                    key={`${item.pallet_id}-${index}`}
+                    className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
+                  >
+                    <td className="px-4 py-4">
+                      <span
+                        className={`rounded-md px-2 py-1 font-semibold ${
+                          item.color_status === "red"
+                            ? "animate-pulse bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
+                            : item.color_status === "green"
+                              ? "bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100"
+                              : "bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100"
+                        }`}
+                      >
+                        {item.color_status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4 sm:px-6">{item.type}</td>
+                    <td className="px-4 py-4 sm:px-6">{item.pallet_name}</td>
+                    <td className="px-4 py-4 sm:px-6">
+                      {item.pack_date_formatted}
+                    </td>
+                    <td className="px-4 py-4 sm:px-6">{item.age_days}</td>
+                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                      {item.plant_type} No.{item.plant_id}
+                    </td>
+                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                      {item.lane || "Dock"}
+                    </td>
+                    <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
+                      {item.row || "Dock"}
+                    </td>
+                    <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
+                      {item.pile || "Dock"}
+                    </td>
+                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                      {item.layer || "Dock"}
+                    </td>
+                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                      {item.name}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </>
       )}
       {/* Pagination Controls */}
       <div className="mt-4 flex flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
