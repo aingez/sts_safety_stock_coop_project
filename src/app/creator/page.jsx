@@ -11,18 +11,18 @@ import PartList from "../../components/activePartModelList";
 const WarehouseEditor = () => {
   return (
     <div className="min-h-screen pb-20">
-      <h1 className="custom-title-1">Data Editor</h1>
-      <h2 className="custom-subtitle-2">Pallet Editor</h2>
+      <h1 className="custom-title-1">Create Master</h1>
+      <h2 className="custom-subtitle-2">Pallet Creator</h2>
       <div className="custom-box-1 py-4">
         <PalletCreateRemover />
       </div>
 
-      <h2 className="custom-subtitle-2">Warehouse Editor</h2>
+      <h2 className="custom-subtitle-2">Warehouse Creator</h2>
       <div className="custom-box-1 overflow-x-auto">
         <WhCreator />
       </div>
 
-      <h2 className="custom-subtitle-2">Parts Editor</h2>
+      <h2 className="custom-subtitle-2">Parts Creator</h2>
       <div className="custom-box-1 overflow-x-auto">
         <div className="custom-box-2 m-4">
           <PartList />

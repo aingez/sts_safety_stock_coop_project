@@ -102,7 +102,7 @@ function Nav() {
             <Link href="/manage">Manage</Link>
           </li>
           <li className="px-4 py-2 hover:bg-neutral-700">
-            <Link href="/editor">Edit</Link>
+            <Link href="/creator">Create</Link>
           </li>
           <li className="px-4 py-2 hover:bg-neutral-700">
             <Link href="/option">Option</Link>
