@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import ReusableTable from "../../components/partSearchTable";
+import { ArrowBigRight, ArrowBigDown } from "lucide-react";
 
 function SearchPage() {
   const [serialInput, setSerialInput] = useState("");
@@ -38,7 +39,7 @@ function SearchPage() {
   };
 
   return (
-    <div className="mx-20 flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col sm:mx-0 md:mx-20">
       <h1 className="custom-title-1">Part Search</h1>
       <div className="custom-box-2">
         <form onSubmit={handleSubmit}>
@@ -56,25 +57,32 @@ function SearchPage() {
           </div>
           <div className="custom-input-layout-1">
             <label>Search Date Range</label>
-            <div className="flex space-x-2">
-              <input
-                type="date"
-                name="start"
-                value={dateRange.start}
-                onChange={handleDateChange}
-                placeholder="Start Date"
-                className="custom-date-input-1"
-                disabled={serialInput.length > 0}
-              />
-              <span>→</span>
-              <input
-                type="date"
-                name="end"
-                value={dateRange.end}
-                onChange={handleDateChange}
-                className="custom-date-input-1"
-                disabled={serialInput.length > 0 || dateRange.start === ""}
-              />
+            <div className="flex flex-col md:flex-row">
+              <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+                <input
+                  type="date"
+                  name="start"
+                  value={dateRange.start}
+                  onChange={handleDateChange}
+                  placeholder="Start Date"
+                  className="custom-date-input-1"
+                  disabled={serialInput.length > 0}
+                />
+                <div className="hidden md:block">
+                  <ArrowBigRight size={40} />
+                </div>
+                <div className="hidden text-center sm:block md:hidden">
+                  <ArrowBigDown size={40} />
+                </div>
+                <input
+                  type="date"
+                  name="end"
+                  value={dateRange.end}
+                  onChange={handleDateChange}
+                  className="custom-date-input-1"
+                  disabled={serialInput.length > 0 || dateRange.start === ""}
+                />
+              </div>
             </div>
           </div>
           <div className="my-2 space-x-2">
