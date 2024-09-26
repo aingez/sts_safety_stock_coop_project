@@ -14,6 +14,7 @@ import {
   ClockAlert,
   Search,
   Menu,
+  House,
   X,
 } from "lucide-react";
 
@@ -62,26 +63,35 @@ function Nav() {
   );
 
   return (
-    <nav className="bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
-      <div className="flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/">
-          <Image
-            src={"/images/dx_logo.png"}
-            alt="Dx Logo"
-            width={50}
-            height={50}
-            className="p-1"
-          />
-        </Link>
-
-        {/* Hamburger Menu for Mobile */}
+    <nav className="mb-10 bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
+      <div
+        className={`flex items-center ${typeof window !== "undefined" && window.innerWidth <= 768 ? "justify-between" : "justify-start"}`}
+      >
         <button className="text-white md:hidden" onClick={toggleMenu}>
-          {isOpen ? <X size={30} /> : <Menu size={30} />}
+          {isOpen ? (
+            <X size={30} />
+          ) : (
+            <Image
+              src={"/images/dx_logo.png"}
+              alt="Dx Logo"
+              width={50}
+              height={50}
+              className="mx-2 hover:opacity-50"
+            />
+          )}
         </button>
 
         {/* Menu for larger screens */}
         <ul className="hidden items-center space-x-4 text-[25px] md:flex">
+          <Link href="/">
+            <Image
+              src={"/images/dx_logo.png"}
+              alt="Dx Logo"
+              width={50}
+              height={50}
+              className="mx-2 hover:opacity-50"
+            />
+          </Link>
           <NavItem href="/pack" icon={Package} />
           <NavItem href="/unpack" icon={PackageOpen} />
           <NavItem href="/alert" icon={ClockAlert} />
@@ -116,6 +126,7 @@ function Nav() {
       {/* Mobile Menu */}
       {isOpen && (
         <ul className="mt-4 flex flex-col items-start space-y-4 text-[20px] md:hidden">
+          <NavItem href="/" icon={House} label="Home" />
           <NavItem href="/pack" icon={Package} label="Pack" />
           <NavItem href="/unpack" icon={PackageOpen} label="Unpack" />
           <NavItem href="/alert" icon={ClockAlert} label="Alert" />
