@@ -28,7 +28,7 @@ export default function PackPage() {
     }
     return 1;
   });
-
+  const [isMobile, setIsMobile] = useState(false);
   const [lane, setLane] = useState("");
   const [row, setRow] = useState("");
   const [pile, setPile] = useState("");
@@ -110,6 +110,16 @@ export default function PackPage() {
         // toast.error(error.message);
       });
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     if (layoutUpdated) {
@@ -301,8 +311,11 @@ export default function PackPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">
-      <form className="custom-box-2 w-full md:w-1/2">
+    // <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">
+    <div
+      className={`flex min-h-screen pb-20 ${isMobile ? "flex-col space-x-0" : "w-full flex-row space-x-10"}`}
+    >
+      <form className={`custom-box-2 ${isMobile ? "w-full" : "w-1/2"}`}>
         <div className="flex flex-col p-4 md:p-10">
           <h1 className="custom-title-1">Packing</h1>
           <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
@@ -447,7 +460,9 @@ export default function PackPage() {
         </div>
       </form>
       {/* Table Part */}
-      <div className="custom-box-1 min-h-full w-full grow overflow-auto py-5 md:w-1/2">
+      <div
+        className={`custom-box-1 overflow-auto py-5 ${isMobile ? "w-full" : "w-1/2"}`}
+      >
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
