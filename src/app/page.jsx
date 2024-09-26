@@ -65,7 +65,7 @@ function HomePage() {
       >
         <div className={`custom-box-3`}>
           <h2 className="custom-title-2">Overview</h2>
-          <div className="flex-none">
+          <div className="flex-none overflow-scroll">
             <QuantityDisplay />
           </div>
         </div>

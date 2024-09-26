@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 
 const QuantityDisplay = () => {
   const [data, setData] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1440);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1440);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +42,11 @@ const QuantityDisplay = () => {
   const { summary, components } = data.data;
 
   return (
-    <div className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}>
+    <div
+      // className={`mt-5 ${isMobile ? "grid grid-cols-2 grid-rows-2 gap-4" : "flex flex-col gap-4"}`}
+      className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}
+      // className={`mt-5 grid gap-4`}
+    >
       {Object.keys(summary).map((key) => (
         <div
           key={key}

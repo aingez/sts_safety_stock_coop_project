@@ -197,7 +197,7 @@ const LayoutDisplayTest = ({ inputData }) => {
   const laneColorLUT = generateColorLUT(color_layout);
 
   return (
-    <div className="flex flex-col p-4 md:p-10">
+    <div className="flex flex-col gap-2 p-4 md:p-10">
       <div className="flex flex-row space-x-5">
         <div className="flex flex-col">
           <h1 className="custom-box-title-2">Safety Stock :</h1>
@@ -210,36 +210,6 @@ const LayoutDisplayTest = ({ inputData }) => {
             <LegendItem color={laneColors.green} label="CRANK" />
           </div>
         </div>
-        {wander_pallet && wander_pallet.length > 0 && (
-          <div className="custom-display-box-3 grow">
-            <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
-              <PackageOpen size={24} />
-              <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
-            </div>
-            <div className="inline-grid grid-cols-8 gap-2">
-              {wander_pallet.map(({ pallet_name, color }) => (
-                <GenerateUnpositionedTable
-                  key={pallet_name}
-                  pallet_name={pallet_name}
-                  pallet_color={color}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        {free_pallet && free_pallet.length > 0 && (
-          <div className="custom-display-box-3 grow">
-            <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
-            <div className="inline-grid grid-cols-10 gap-2">
-              {free_pallet.map(({ pallet_name }) => (
-                <GenerateEmptyPallet
-                  key={pallet_name}
-                  pallet_name={pallet_name}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       <div className="mt-5 max-h-screen overflow-x-auto overflow-y-auto">
@@ -297,6 +267,36 @@ const LayoutDisplayTest = ({ inputData }) => {
           </tbody>
         </table>
       </div>
+      {wander_pallet && wander_pallet.length > 0 && (
+        <div className="custom-display-box-3 grow">
+          <div className="flex flex-row space-x-2 overflow-auto overflow-scroll">
+            <PackageOpen size={24} />
+            <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
+          </div>
+          <div className="flex flex-row gap-2">
+            {wander_pallet.map(({ pallet_name, color }) => (
+              <GenerateUnpositionedTable
+                key={pallet_name}
+                pallet_name={pallet_name}
+                pallet_color={color}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+      {free_pallet && free_pallet.length > 0 && (
+        <div className="custom-display-box-3 grow">
+          <h2 className="pb-2 text-left text-lg font-bold">Free Pallet</h2>
+          <div className="flex flex-row gap-2">
+            {free_pallet.map(({ pallet_name }) => (
+              <GenerateEmptyPallet
+                key={pallet_name}
+                pallet_name={pallet_name}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
