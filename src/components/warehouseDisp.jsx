@@ -59,7 +59,6 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
       );
       const data = await response.json();
       setModalData(data);
-      console.log("Modal data:", data);
       setEnableModal(true);
     } catch (error) {
       console.error("Error fetching modal data:", error);
@@ -77,49 +76,55 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
   }
 
   return (
-    <table className="min-w-full">
-      <thead>
-        <tr>
-          {Array.from({ length: max_pile }).map((_, pileIndex) => (
-            <th
-              key={pileIndex}
-              className="text-center font-light text-neutral-800 opacity-30 dark:text-gray-100"
-            >
-              {pileIndex + 1}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {table.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            {row.map((pallet, colIndex) => (
-              <td key={colIndex} className="text-left">
-                {pallet ? (
-                  <button
-                    className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
-                    title={pallet.pallet_name}
-                    onClick={() =>
-                      fetchModalData(plantType, plantNumber, pallet.pallet_name)
-                    }
-                  >
-                    <div style={{ transform: "rotate(-45deg)" }}>
-                      {pallet.pallet_name}
-                    </div>
-                  </button>
-                ) : (
-                  <button
-                    disabled
-                    className={`h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-60 shadow-xl dark:bg-neutral-300 dark:opacity-20`}
-                  >
-                    <div style={{ transform: "rotate(-45deg)" }}>MT</div>
-                  </button>
-                )}
-              </td>
+    <>
+      <table className="min-w-full">
+        <thead>
+          <tr>
+            {Array.from({ length: max_pile }).map((_, pileIndex) => (
+              <th
+                key={pileIndex}
+                className="text-center font-light text-neutral-800 opacity-30 dark:text-gray-100"
+              >
+                {pileIndex + 1}
+              </th>
             ))}
           </tr>
-        ))}
-      </tbody>
+        </thead>
+        <tbody>
+          {table.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              {row.map((pallet, colIndex) => (
+                <td key={colIndex} className="text-left">
+                  {pallet ? (
+                    <button
+                      className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
+                      title={pallet.pallet_name}
+                      onClick={() =>
+                        fetchModalData(
+                          plantType,
+                          plantNumber,
+                          pallet.pallet_name,
+                        )
+                      }
+                    >
+                      <div style={{ transform: "rotate(-45deg)" }}>
+                        {pallet.pallet_name}
+                      </div>
+                    </button>
+                  ) : (
+                    <button
+                      disabled
+                      className={`h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-60 shadow-xl dark:bg-neutral-300 dark:opacity-20`}
+                    >
+                      <div style={{ transform: "rotate(-45deg)" }}>MT</div>
+                    </button>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
       {enableModal && modalData && (
         <ModalComponent onClose={() => setEnableModal(false)}>
           <div className="p-5">
@@ -128,16 +133,10 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
               <thead className="custom-table-2">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Index
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Serial
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Type
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Model
+                    Type: Model
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                     Pack Date
@@ -151,16 +150,10 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
                 {modalData.data.map((item, index) => (
                   <tr key={index}>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {index + 1}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                       {item.serial}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.type}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.model}
+                      {item.type}: {item.model}
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
                       {item.formatted_pack_date}
@@ -175,7 +168,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
           </div>
         </ModalComponent>
       )}
-    </table>
+    </>
   );
 };
 
