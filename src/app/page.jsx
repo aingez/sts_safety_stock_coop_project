@@ -50,7 +50,7 @@ function HomePage() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1600);
+      setIsMobile(window.innerWidth < 1440);
     };
 
     handleResize();
@@ -69,7 +69,7 @@ function HomePage() {
             <QuantityDisplay />
           </div>
         </div>
-        <div className="custom-box-3 flex w-full flex-col">
+        <div className="custom-box-3 flex flex-col overflow-scroll">
           <h2 className="custom-title-2">
             Reminder :
             <p className="custom-box-title-2">

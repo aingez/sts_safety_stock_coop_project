@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const QuantityDisplay = () => {
   const [data, setData] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1600);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1440);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,7 +23,7 @@ const QuantityDisplay = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1600);
+      setIsMobile(window.innerWidth < 1440);
     };
 
     handleResize();
