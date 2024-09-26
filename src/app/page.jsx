@@ -6,6 +6,7 @@ import ReusableTable from "../components/alertTable";
 import LayoutDisplay from "../components/warehouseDisp";
 
 function HomePage() {
+  const [isMobile, setIsMobile] = useState(false);
   const [layoutApiData, setLayoutApiData] = useState("");
   const [plantType, setPlantType] = useState(() => {
     // Initialize from localStorage if available, otherwise use default
@@ -47,10 +48,22 @@ function HomePage() {
     fetchLayoutData();
   }, [plantType, plantId]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1600);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="min-h-screen pb-20">
-      <div className="flex flex-row space-x-5">
-        <div className="flex-0 custom-box-3 flex flex-col">
+      <div
+        className={`flex ${isMobile ? "flex-col space-x-0" : "flex-row space-x-5"}`}
+      >
+        <div className={`custom-box-3`}>
           <h2 className="custom-title-2">Overview</h2>
           <div className="flex-none">
             <QuantityDisplay />
