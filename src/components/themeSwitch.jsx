@@ -27,9 +27,20 @@ const SwitchTheme = () => {
   };
 
   return (
-    <button className="mr-5 text-2xl font-bold" onClick={handleSwitchTheme}>
-      🌓
-    </button>
+    <div className="custom-box-2 flex-0 flex items-center justify-center text-center">
+      <div className="space-y-5">
+        <h2 className="text-lg font-bold">Toggle Theme</h2>
+        <button
+          className="transform text-6xl font-bold transition-transform duration-300 hover:scale-110 hover:opacity-80 active:opacity-60"
+          onClick={handleSwitchTheme}
+        >
+          {theme === "dark" ? "☀️" : "🌙"}
+        </button>
+        <div className="flex flex-col text-center">
+          current theme: <span className="font-bold">{theme}</span>
+        </div>
+      </div>
+    </div>
   );
 };
 
