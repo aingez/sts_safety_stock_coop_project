@@ -37,7 +37,8 @@ function SetPlant() {
   };
 
   return (
-    <div className="inline-flex flex-col space-y-2 rounded-lg bg-neutral-400 p-4 shadow-md dark:bg-neutral-800">
+    <div className="custom-box-2 space-y-2">
+      <h2 className="custom-box-title-1">Set Plant</h2>
       <div className="flex flex-col">
         <label htmlFor="plantType" className="dark:text-white">
           Plant Type
