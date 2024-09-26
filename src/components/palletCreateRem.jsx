@@ -53,7 +53,7 @@ const PalletEditor = () => {
   };
 
   return (
-    <div className="custom-box-1">
+    <div className="flex flex-row gap-2">
       <div className="custom-box-2">
         <h1 className="custom-box-title-1">Pallet Create/Remove</h1>
         <div>
