@@ -22,22 +22,22 @@ function Nav() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   let timeoutId;
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setIsOpen(false); // Close the menu on larger screens
-      }
+      setIsMobile(window.innerWidth <= 768);
     };
 
+    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen); // Toggle mobile menu
+    setIsOpen(!isOpen);
   };
 
   const handleMouseEnter = () => {
@@ -65,7 +65,7 @@ function Nav() {
   return (
     <nav className="mb-10 bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
       <div
-        className={`flex items-center ${typeof window !== "undefined" && window.innerWidth <= 768 ? "justify-between" : "justify-start"}`}
+        className={`flex items-center ${isMobile ? "justify-between" : "justify-start"}`}
       >
         <button className="text-white md:hidden" onClick={toggleMenu}>
           {isOpen ? (
@@ -74,8 +74,10 @@ function Nav() {
             <Image
               src={"/images/dx_logo.png"}
               alt="Dx Logo"
-              width={50}
-              height={50}
+              width="0"
+              height="0"
+              sizes="8vw"
+              style={{ width: "100%", height: "auto" }}
               className="mx-2 hover:opacity-50"
             />
           )}
@@ -83,12 +85,14 @@ function Nav() {
 
         {/* Menu for larger screens */}
         <ul className="hidden items-center space-x-4 text-[25px] md:flex">
-          <Link href="/">
+          <Link href="/" className="mr-5">
             <Image
               src={"/images/dx_logo.png"}
               alt="Dx Logo"
-              width={50}
-              height={50}
+              width="0"
+              height="0"
+              sizes="2vw"
+              style={{ width: "100%", height: "auto" }}
               className="mx-2 hover:opacity-50"
             />
           </Link>
