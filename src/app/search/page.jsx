@@ -55,7 +55,7 @@ function SearchPage() {
               required
             />
           </div>
-          <div className="custom-input-layout-1">
+          {/* <div className="custom-input-layout-1">
             <label>Search Date Range</label>
             <div className="flex flex-col md:flex-row">
               <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
@@ -84,7 +84,7 @@ function SearchPage() {
                 />
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="my-2 space-x-2">
             <button type="submit" className="custom-button-1-green">
               SEARCH
@@ -97,11 +97,11 @@ function SearchPage() {
               CLEAR
             </button>
           </div>
-          {serialInput.length < 1 && !dateRange.start && !dateRange.end && (
+          {/* {serialInput.length < 1 && !dateRange.start && !dateRange.end && (
             <h2 className="custom-box-title-2">
               Input the serial number or search by date range to find the part
             </h2>
-          )}
+          )} */}
         </form>
       </div>
       {showTable && (
