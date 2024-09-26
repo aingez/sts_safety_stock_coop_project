@@ -7,6 +7,7 @@ function SetPlant() {
   const [plantType, setPlantType] = useState("");
   const [plantId, setPlantId] = useState("");
   const [plantExist, setPlantExist] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const storedPlantType = localStorage.getItem("plantType");
@@ -29,6 +30,7 @@ function SetPlant() {
 
   useEffect(() => {
     if (plantType && plantId) {
+      setIsLoading(true);
       fetch(`http://localhost:8000/warehouse/id/${plantType}/${plantId}`, {
         headers: {
           accept: "application/json",
@@ -38,15 +40,16 @@ function SetPlant() {
         .then((data) => {
           if (data.status == 200) {
             setPlantExist(true);
-            console.log(plantExist);
           } else {
             setPlantExist(false);
-            console.log(plantExist);
           }
         })
         .catch((error) => {
           console.error("Error fetching plant data:", error);
           setPlantExist(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [plantType, plantId]);
@@ -104,7 +107,8 @@ function SetPlant() {
           className="rounded bg-green-500 px-4 py-2 font-bold uppercase text-white shadow-xl hover:bg-green-600 disabled:opacity-50 dark:bg-green-500 dark:text-white"
           disabled={!plantExist}
         >
-          Update
+          {isLoading && <div className="spinner">Loading...</div>}
+          {!isLoading && <div>Update</div>}
         </button>
       </div>
     </div>
