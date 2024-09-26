@@ -95,7 +95,7 @@ const PalletEditor = () => {
         </div>
 
         <div className="flex flex-col">
-          <div className="flex flex-row space-x-2">
+          <div className="mb-2 grid grid-cols-2 gap-2">
             <div className="custom-input-layout-1">
               <label>Pallet Name</label>
               <input
@@ -119,11 +119,9 @@ const PalletEditor = () => {
                 required
               />
             </div>
-          </div>
-          <div className="flex flex-row space-x-2">
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <ul className="custom-radio-1 grid-cols-2">
+              <ul className="custom-radio-1 grid-cols-1">
                 <li className="radio-item">
                   <div className="radio-button-1">
                     <input
