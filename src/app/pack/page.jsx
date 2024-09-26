@@ -462,7 +462,7 @@ export default function PackPage() {
       </form>
       {/* Table Part */}
       <div
-        className={`custom-box-1 overflow-auto py-5 ${isMobile ? "w-full" : "w-1/2"}`}
+        className={`custom-box-3 overflow-auto py-5 ${isMobile ? "w-full" : "w-1/2"}`}
       >
         <table className="w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
