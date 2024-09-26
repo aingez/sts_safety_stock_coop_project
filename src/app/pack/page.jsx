@@ -57,6 +57,32 @@ export default function PackPage() {
     setLoadingTable(false);
   };
 
+  const handleSerialNumberChange = (e, index) => {
+    const newDateTime = new Date().toLocaleString(); // Get current date and time
+    setDateTimeValues((prev) => ({
+      ...prev,
+      [index]: newDateTime,
+    }));
+  };
+
+  const radioOptionsPlantType = [
+    { value: "Engine", label: "Engine" },
+    { value: "Casting", label: "Casting" },
+  ];
+
+  const getNewSerialNumbersWithPackDates = () => {
+    const result = serialNumbers
+      .map((serial, index) => ({
+        serialNumber: serial.serialNumber,
+        packDate: dateTimeValues[index] || serial.packDate,
+      }))
+      .filter(
+        (serial, index) =>
+          serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
+      );
+    return result;
+  };
+
   const handleUpdate = () => {
     const employeeIdInput = document.querySelector(
       'input[placeholder="XXXXXXXXX"]',
@@ -137,7 +163,7 @@ export default function PackPage() {
       };
 
       fetchLayoutData();
-      setLayoutUpdated(false); // Reset the flag after fetching
+      setLayoutUpdated(false);
     }
   }, [layoutUpdated, plantType, plantId]);
 
@@ -159,7 +185,7 @@ export default function PackPage() {
       }
     };
 
-    if (palletName.length >= 5 && plantType.length > 0 && plantId.length > 0) {
+    if (palletName.length >= 5 && plantType.length > 0 && plantId != 0) {
       fetchPalletData();
     }
     setLoadingTable(false);
@@ -183,7 +209,7 @@ export default function PackPage() {
       }
     };
 
-    if (plantType.length > 0 && plantId.length > 0) {
+    if (plantType.length > 0 && plantId != 0) {
       fetchLayoutData();
     }
     setLoadingTable(false);
@@ -251,19 +277,6 @@ export default function PackPage() {
     setLoadingTable(false);
   }, [palletName, plantType, plantId, lane, row, pile, layer]);
 
-  const handleSerialNumberChange = (e, index) => {
-    const newDateTime = new Date().toLocaleString(); // Get current date and time
-    setDateTimeValues((prev) => ({
-      ...prev,
-      [index]: newDateTime,
-    }));
-  };
-
-  const radioOptionsPlantType = [
-    { value: "Engine", label: "Engine" },
-    { value: "Casting", label: "Casting" },
-  ];
-
   useEffect(() => {
     if (apiPalletData && apiPalletData.data) {
       const maxCapacity = apiPalletData.data.max_capacity || 0;
@@ -281,30 +294,17 @@ export default function PackPage() {
     }
   }, [apiPalletData, apiPartData]);
 
-  const getNewSerialNumbersWithPackDates = () => {
-    const result = serialNumbers
-      .map((serial, index) => ({
-        serialNumber: serial.serialNumber,
-        packDate: dateTimeValues[index] || serial.packDate,
-      }))
-      .filter(
-        (serial, index) =>
-          serial.serialNumber !== originalSerialNumbers[index]?.serialNumber,
-      );
-    return result;
-  };
-
-  const formatDate = (date) => {
-    const options = {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      hour12: false,
-    };
-    return new Date(date).toLocaleString("en-GB", options);
-  };
+  // const formatDate = (date) => {
+  //   const options = {
+  //     day: "2-digit",
+  //     month: "short",
+  //     year: "numeric",
+  //     hour: "2-digit",
+  //     minute: "2-digit",
+  //     hour12: false,
+  //   };
+  //   return new Date(date).toLocaleString("en-GB", options);
+  // };
 
   return (
     // <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">

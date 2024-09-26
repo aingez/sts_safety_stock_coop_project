@@ -44,6 +44,7 @@ export default function UnPackPage() {
 
   useEffect(() => {
     if (apiPalletData && apiPalletData.data) {
+      console.log("apiPalletData");
       const maxCapacity = apiPalletData.data.max_capacity || 0;
       const serialNumbersArray = Array.from(
         { length: maxCapacity },
@@ -60,6 +61,7 @@ export default function UnPackPage() {
 
   useEffect(() => {
     const fetchPalletData = async () => {
+      console.log("fetchPalletData");
       try {
         const res = await fetch(
           `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
@@ -75,6 +77,12 @@ export default function UnPackPage() {
       }
     };
 
+    console.log(palletName, plantType, plantId);
+    console.log(
+      palletName.length >= 5,
+      plantType.length > 0,
+      plantId.length != "",
+    );
     if (palletName.length >= 5 && plantType.length > 0 && plantId.length > 0) {
       fetchPalletData();
     }
@@ -83,6 +91,7 @@ export default function UnPackPage() {
   useEffect(() => {
     setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
+      console.log("fetchPartonPallet");
       try {
         const res = await fetch(
           `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
@@ -116,6 +125,7 @@ export default function UnPackPage() {
     );
     // if found, check the checkbox
     if (serialNumberIndex !== -1) {
+      console.log("found", serialNumberIndex);
       const checkbox = document.getElementById(`checkbox-${serialNumberIndex}`);
       checkbox.click();
       setSerialInput("");
