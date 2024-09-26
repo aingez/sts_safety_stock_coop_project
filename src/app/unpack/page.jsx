@@ -35,8 +35,6 @@ export default function UnPackPage() {
   const handleReset = () => {
     setSerialNumbers([]);
     setPalletName("");
-    setPlantType("");
-    setPlantId("");
     setApiPalletData("");
     setApiPartData({ data: [] });
     setCheckedSerialNumbers([]);
@@ -304,7 +302,7 @@ export default function UnPackPage() {
       </form>
 
       {/* Table Part */}
-      <div className="custom-box-1 min-h-full overflow-auto py-5">
+      <div className="custom-box-3 min-h-full overflow-auto py-5">
         <table className="text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
             <tr>
