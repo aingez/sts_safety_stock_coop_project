@@ -47,8 +47,6 @@ export default function PackPage() {
     setOriginalSerialNumbers([]);
     setDateTimeValues({});
     setPalletName("");
-    setPlantType("");
-    setPlantId("");
     setLane("");
     setRow("");
     setPile("");
@@ -56,7 +54,6 @@ export default function PackPage() {
     setApiPalletData("");
     setApiPartData({ data: [] });
     setAvailablePositions(false);
-    setLayoutApiData("");
     setLoadingTable(false);
   };
 
@@ -104,11 +101,10 @@ export default function PackPage() {
       })
       .then((data) => {
         toast.success("Data updated successfully");
-        setLayoutUpdated(true); // Trigger layout update
+        setLayoutUpdated(true);
+        handleReset();
       })
-      .catch((error) => {
-        // toast.error(error.message);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -345,6 +341,7 @@ export default function PackPage() {
               <label>Pallet Name</label>
               <input
                 type="text"
+                value={palletName}
                 onChange={(e) => setPalletName(e.target.value.toUpperCase())}
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
@@ -391,6 +388,7 @@ export default function PackPage() {
               <label>Row</label>
               <input
                 type="number"
+                value={row}
                 onChange={(e) => setRow(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -402,6 +400,7 @@ export default function PackPage() {
               <label>Lane</label>
               <input
                 type="number"
+                value={lane}
                 onChange={(e) => setLane(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -413,6 +412,7 @@ export default function PackPage() {
               <label>Pile</label>
               <input
                 type="number"
+                value={pile}
                 onChange={(e) => setPile(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
@@ -424,6 +424,7 @@ export default function PackPage() {
               <label>Layer</label>
               <input
                 type="number"
+                value={layer}
                 onChange={(e) => setLayer(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX"
