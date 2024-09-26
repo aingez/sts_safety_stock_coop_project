@@ -76,7 +76,7 @@ function HomePage() {
               {plantType} Plant No. {plantId}
             </p>
           </h2>
-          <ReusableTable pageSize={3} />
+          <ReusableTable pageSize={5} />
         </div>
       </div>
       <div className="custom-box-2">
