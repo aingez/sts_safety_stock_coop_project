@@ -86,7 +86,6 @@ const WarehouseLayoutEditor = () => {
     };
     // setJsonOutput(JSON.stringify(jsonData));
     setJsonOutput(jsonData);
-    console.log(jsonOutput);
   };
 
   useEffect(() => {
@@ -176,8 +175,6 @@ const WarehouseLayoutEditor = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      console.log("Data submitted successfully");
       toast.success("Data submitted successfully");
       setRefreshWarehouseList((prev) => prev + 1); // Trigger WarehouseList refresh
       handleClear(); // Only clear after successful submission
