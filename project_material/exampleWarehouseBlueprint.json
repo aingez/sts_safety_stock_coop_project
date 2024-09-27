@@ -1,0 +1,89 @@
+{
+  "data": {
+    "plant": {
+      "code": "1",
+      "type": "Engine",
+      "max_row": 2,
+      "max_lane": 5,
+      "is_active": true,
+      "layout": [
+        {
+          "lane": "1-2",
+          "color": "blue"
+        },
+        {
+          "lane": "3-3",
+          "color": "yellow"
+        },
+        {
+          "lane": "4-5",
+          "color": "green"
+        }
+      ]
+    },
+    "warehouse": {
+      "position": [
+        {
+          "row": 1,
+          "lanes": [
+            {
+              "number": 1,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 2,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 3,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 4,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 5,
+              "max_pile": 1,
+              "max_layer": 2
+            }
+          ]
+        },
+        {
+          "row": 2,
+          "lanes": [
+            {
+              "number": 1,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 2,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 3,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 4,
+              "max_pile": 1,
+              "max_layer": 2
+            },
+            {
+              "number": 5,
+              "max_pile": 1,
+              "max_layer": 2
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

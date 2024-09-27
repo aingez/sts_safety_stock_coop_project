@@ -1,0 +1,82 @@
+// visualize on www.dbdiagram.io
+
+Table current_part {
+  serial varchar(255) [pk]
+  type int [ref: > part_list.id]
+  pallet_id integer [not null]
+  pack_date timestamp [not null]
+  packer_id integer [not null]
+}
+
+Table history {
+  id serial [pk]
+  type int [ref: > part_list.id]
+  serial varchar(255) [unique, not null]
+  pack_location int [not null]
+  pack_date timestamp [not null]
+  packer_id integer [not null]
+  unpack_date timestamp [not null]
+  unpacker_id integer [not null]
+  pallet_id integer
+}
+
+Table pallet_status {
+  id serial [pk]
+  pallet_name varchar(255) [not null]
+  position int
+  plant_key int [not null]
+  is_pack boolean [not null]
+  max_capacity int [not null]
+}
+
+Table staff {
+  id int [pk]
+  name varchar(255) [not null]
+  is_active boolean [not null]
+}
+
+Table warehouse_list {
+  plant_key serial [pk]
+  plant_type varchar(255) [not null]
+  plant_id integer [not null]
+  max_lane integer [not null]
+  max_row integer [not null]
+  color_layout json
+  is_active boolean [not null]
+}
+
+Table pallet_position_layer_1 {
+  id serial [pk]
+  plant_key int [not null]
+  row int [not null]
+  lane int [not null]
+  max_pile int [not null]
+  max_layer int [not null]
+}
+
+
+Table pallet_position_layer_2 {
+  id serial [pk]
+  pile int [not null]
+  layer int [not null]
+  layer1_id int [not null]
+  is_occupied bool [not null]
+}
+
+Table part_list {
+  id serial [pk]
+  type enum [not null]
+  model enum [not null]
+  in_production bool [not null]
+  prefix json [not null]
+}
+
+Ref: current_part.packer_id > staff.id
+Ref: current_part.pallet_id > pallet_status.id
+Ref: history.packer_id > staff.id
+Ref: history.unpacker_id > staff.id
+Ref: pallet_status.plant_key > warehouse_list.plant_key
+Ref: history.pack_location > pallet_position_layer_2.id
+Ref: pallet_status.position - pallet_position_layer_2.id
+Ref: pallet_position_layer_1.plant_key > warehouse_list.plant_key
+Ref: pallet_position_layer_1.id < pallet_position_layer_2.layer1_id
