@@ -159,9 +159,8 @@ export default function PackPage() {
           }
           const data = await res.json();
           setLayoutApiData(data["data"]);
-          toast.success("Layout data refreshed successfully");
         } catch (err) {
-          // toast.error(err.message);
+          raiseError(err.message);
         }
       };
 
@@ -206,7 +205,7 @@ export default function PackPage() {
         }
         const data = await res.json();
         setLayoutApiData(data["data"]);
-        toast.success("Layout data fetched successfully");
+        // toast.success("Layout data fetched successfully");
       } catch (err) {
         // toast.error(err.message);
       }
