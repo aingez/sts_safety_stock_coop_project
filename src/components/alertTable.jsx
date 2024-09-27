@@ -195,18 +195,16 @@ function AlertTable({ pageSize = 10 }) {
                     key={`${item.pallet_id}-${index}`}
                     className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    <td className="px-4 py-4">
+                    <td className="px-8 py-4">
                       <span
-                        className={`rounded-md px-2 py-1 font-semibold ${
+                        className={`inline-block h-8 w-8 rounded-full shadow-inner shadow-neutral-900 ${
                           item.color_status === "red"
-                            ? "animate-pulse bg-red-200 text-red-800 dark:bg-red-500 dark:text-red-100"
+                            ? "animate-pulse bg-[#FF1700]"
                             : item.color_status === "green"
-                              ? "bg-green-200 text-green-800 dark:bg-green-500 dark:text-green-100"
-                              : "bg-yellow-200 text-yellow-800 dark:bg-yellow-500 dark:text-yellow-100"
+                              ? "bg-[#84cc16]"
+                              : "bg-[#f59e0b]"
                         }`}
-                      >
-                        {item.color_status.toUpperCase()}
-                      </span>
+                      ></span>
                     </td>
                     <td className="px-4 py-4 sm:px-6">{item.type}</td>
                     <td className="px-4 py-4 sm:px-6">{item.pallet_name}</td>
