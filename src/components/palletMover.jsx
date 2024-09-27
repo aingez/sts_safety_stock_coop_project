@@ -34,7 +34,7 @@ function PalletMover() {
   const fetchLayoutData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/warehouse/layout/${plantType}/${plantNumber}`,
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantNumber}`,
         {
           method: "GET",
           headers: {
@@ -55,7 +55,7 @@ function PalletMover() {
 
   const handleMove = async () => {
     const plantKeyResponse = await fetch(
-      `http://localhost:8000/warehouse/id/${plantType}/${plantNumber}`,
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/id/${plantType}/${plantNumber}`,
       {
         method: "GET",
         headers: {
@@ -72,7 +72,7 @@ function PalletMover() {
     const plantKeyData = await plantKeyResponse.json();
 
     const palletIdResponse = await fetch(
-      `http://localhost:8000/pallet/id/${palletName}/${plantKeyData["id"]}`,
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/id/${palletName}/${plantKeyData["id"]}`,
       {
         method: "GET",
         headers: {
@@ -100,7 +100,7 @@ function PalletMover() {
 
     console.log("Payload:", payload);
     const response = await fetch(
-      "http://localhost:8000/pallet/update/position",
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/update/position`,
       {
         method: "PUT",
         headers: {
@@ -122,7 +122,7 @@ function PalletMover() {
 
   const handleSearch = async () => {
     const response = await fetch(
-      `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantNumber}`,
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet_info/user/${palletName}/${plantType}/${plantNumber}`,
       {
         method: "GET",
         headers: {

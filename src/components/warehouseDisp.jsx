@@ -55,7 +55,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
   const fetchModalData = async (plantType, plantNumber, palletName) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
       );
       const data = await response.json();
       setModalData(data);

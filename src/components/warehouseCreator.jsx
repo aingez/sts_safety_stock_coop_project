@@ -162,7 +162,7 @@ const WarehouseLayoutEditor = () => {
     // Submit the data to the API
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/add/warehouse/bundle",
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/add/warehouse/bundle`,
         {
           method: "POST",
           headers: {

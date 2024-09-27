@@ -31,11 +31,14 @@ function SetPlant() {
   useEffect(() => {
     if (plantType && plantId) {
       setIsLoading(true);
-      fetch(`http://localhost:8000/warehouse/id/${plantType}/${plantId}`, {
-        headers: {
-          accept: "application/json",
+      fetch(
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/id/${plantType}/${plantId}`,
+        {
+          headers: {
+            accept: "application/json",
+          },
         },
-      })
+      )
         .then((response) => response.json())
         .then((data) => {
           if (data.status == 200) {

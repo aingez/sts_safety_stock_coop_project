@@ -12,7 +12,7 @@ function PartSearchTable({ partSerial }) {
     const callAPI = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/search/bundle/${partSerial}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/search/bundle/${partSerial}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");

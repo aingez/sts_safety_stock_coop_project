@@ -30,19 +30,22 @@ const PalletEditor = () => {
   };
 
   const submitCreate = async () => {
-    let response = await fetch("http://localhost:8000/pallet/add/bundle", {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
+    let response = await fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/add/bundle`,
+      {
+        method: "POST",
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          pallet_name: palletName,
+          pallet_max_cap: maxCapacity,
+          plant_type: plantType,
+          plant_id: plantNumber,
+        }),
       },
-      body: JSON.stringify({
-        pallet_name: palletName,
-        pallet_max_cap: maxCapacity,
-        plant_type: plantType,
-        plant_id: plantNumber,
-      }),
-    });
+    );
     response = await response.json();
     if (response.status === 400) {
       toast.error("Pallet may already exist!");

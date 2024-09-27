@@ -9,10 +9,11 @@ const ActivePartList = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
+    // console.log(process.env.NEXR_PUBLIC_STS_SAFETY_STOCK_FAST_API);
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/part/in_production",
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/in_production`,
         );
         const result = await response.json();
         setData(result);
