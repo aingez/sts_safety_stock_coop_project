@@ -1,6 +1,3 @@
-// Dev: Aingthawan K.
-// Component: to display the overall quantity of each part in total and each model.
-
 import { useEffect, useState } from "react";
 
 const QuantityDisplay = () => {
@@ -41,14 +38,17 @@ const QuantityDisplay = () => {
     return <div>Loading...</div>;
   }
 
-  const { summary, components } = data.data;
+  const { summary, components } = data.data || { summary: {}, components: {} };
+
+  if (
+    Object.keys(summary).length === 0 &&
+    Object.keys(components).length === 0
+  ) {
+    return <div>No data available</div>;
+  }
 
   return (
-    <div
-      // className={`mt-5 ${isMobile ? "grid grid-cols-2 grid-rows-2 gap-4" : "flex flex-col gap-4"}`}
-      className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}
-      // className={`mt-5 grid gap-4`}
-    >
+    <div className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}>
       {Object.keys(summary).map((key) => (
         <div
           key={key}
