@@ -30,7 +30,7 @@ const ActiveWarehouseList = () => {
         <div>
           <h1 className="custom-box-title-1">Active Warehouse</h1>
           <div className="max-h-96 overflow-auto">
-            {data.data.length > 0 ? (
+            {data && data.data && data.data.length > 0 ? (
               <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
                 <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
                   <tr>
