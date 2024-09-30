@@ -40,8 +40,8 @@ function page() {
   }, [isInitialized, plantType, plantId]);
 
   return (
-    <div className="rounded-lg bg-neutral-800 p-6 shadow-md">
-      <h1 className="mb-4 text-2xl font-bold">Latest Unpack Parts</h1>
+    <div className="custom-box-2">
+      <h1 className="mb-4 text-2xl font-bold">Latest Pack Parts</h1>
       <div className="max-h-96 overflow-y-auto">
         <table className="min-w-full bg-neutral-700">
           <thead>

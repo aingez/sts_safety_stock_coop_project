@@ -21,7 +21,7 @@ function page() {
   useEffect(() => {
     if (isInitialized) {
       fetch(
-        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/search/latest/pack/${plantType}/${plantId}`,
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/search/latest/unpack/${plantType}/${plantId}`,
         {
           method: "GET",
           headers: {
@@ -40,36 +40,41 @@ function page() {
   }, [isInitialized, plantType, plantId]);
 
   return (
-    <div className="rounded-lg bg-neutral-800 p-6 shadow-md">
+    <div className="custom-box-2">
       <h1 className="mb-4 text-2xl font-bold">Latest Unpack Parts</h1>
       <div className="max-h-96 overflow-y-auto">
         <table className="min-w-full bg-neutral-700">
           <thead>
             <tr>
-              {["Serial", "Type and Model", "Pallet Name", "Pack Date"].map(
-                (header) => (
-                  <th
-                    key={header}
-                    className="border-b border-gray-800 px-4 py-2"
-                  >
-                    {header}
-                  </th>
-                ),
-              )}
+              {[
+                "Serial",
+                "Type and Model",
+                "Pallet Name",
+                "Pack Date",
+                "Unpack Date",
+              ].map((header) => (
+                <th
+                  key={header}
+                  className="border-b border-gray-800 px-4 py-2 text-xs sm:text-base"
+                >
+                  {header}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {data.slice(0, 10).map((item, rowIndex) => (
+            {data.map((item, rowIndex) => (
               <tr key={rowIndex}>
                 {[
                   item.serial,
                   `${item.type}: ${item.model}`,
                   item.pallet_name,
                   item.pack_date_formatted,
+                  item.unpack_date_formatted,
                 ].map((value, index) => (
                   <td
                     key={index}
-                    className="border-b border-gray-800 px-4 py-2"
+                    className="border-b border-gray-800 px-4 py-2 text-xs sm:text-base"
                   >
                     {value}
                   </td>

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import QuantityDisplay from "../components/qtyDisp";
 import ReusableTable from "../components/alertTable";
 import LayoutDisplay from "../components/warehouseDisp";
+import LatestUnpack from "../components/latestUnpack";
+import LatestPack from "../components/latestPack";
 
 function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -13,7 +15,6 @@ function HomePage() {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    // Initialize from localStorage if available, otherwise use default
     if (typeof window !== "undefined") {
       const storedPlantType = localStorage.getItem("plantType") || "Engine";
       const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
@@ -26,7 +27,7 @@ function HomePage() {
   const fetchLayoutData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantId}`,
         {
           method: "GET",
           headers: {
@@ -95,13 +96,18 @@ function HomePage() {
                 inputData={layoutApiData}
               />
             </div>
-
             {/* <div className="custom-box-title-1">for debug</div>
             {JSON.stringify(layoutApiData)} */}
           </div>
         ) : (
           <div className="flex-none">Loading . . .</div>
         )}
+      </div>
+      <div
+        className={`custom-box-3 flex ${isMobile ? "flex-col space-x-0" : "flex-row space-x-5"}`}
+      >
+        <LatestUnpack />
+        <LatestPack />
       </div>
     </div>
   );
