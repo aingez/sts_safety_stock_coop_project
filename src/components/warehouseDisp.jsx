@@ -25,6 +25,46 @@ const laneColors = {
   green: "bg-lime-200 dark:bg-emerald-600",
 };
 
+const ModalContent = ({ data }) => (
+  <div className="p-5">
+    <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
+    <table>
+      <thead className="custom-table-2">
+        <tr>
+          {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
+            (header) => (
+              <th
+                key={header}
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
+                {header}
+              </th>
+            ),
+          )}
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-200 bg-neutral-200">
+        {data?.map(
+          ({ serial, type, model, formatted_pack_date, age_days }, index) => (
+            <tr key={index}>
+              {[serial, `${type}: ${model}`, formatted_pack_date, age_days].map(
+                (value, i) => (
+                  <td
+                    key={i}
+                    className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
+                  >
+                    {value}
+                  </td>
+                ),
+              )}
+            </tr>
+          ),
+        )}
+      </tbody>
+    </table>
+  </div>
+);
+
 const GenerateUnpositionedTable = ({
   pallet_name,
   pallet_color,
@@ -57,49 +97,7 @@ const GenerateUnpositionedTable = ({
       <div>
         {enableModal && modalData && (
           <ModalComponent onClose={() => setEnableModal(false)}>
-            <div className="p-5">
-              <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
-              <table>
-                <thead className="custom-table-2">
-                  <tr>
-                    {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
-                      (header) => (
-                        <th
-                          key={header}
-                          className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                        >
-                          {header}
-                        </th>
-                      ),
-                    )}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-neutral-200">
-                  {modalData.data.map(
-                    (
-                      { serial, type, model, formatted_pack_date, age_days },
-                      index,
-                    ) => (
-                      <tr key={index}>
-                        {[
-                          serial,
-                          `${type}: ${model}`,
-                          formatted_pack_date,
-                          age_days,
-                        ].map((value, i) => (
-                          <td
-                            key={i}
-                            className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
-                          >
-                            {value}
-                          </td>
-                        ))}
-                      </tr>
-                    ),
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <ModalContent data={modalData.data} />
           </ModalComponent>
         )}
       </div>
@@ -198,49 +196,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
       </table>
       {enableModal && modalData && (
         <ModalComponent onClose={() => setEnableModal(false)}>
-          <div className="p-5">
-            <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
-            <table>
-              <thead className="custom-table-2">
-                <tr>
-                  {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
-                    (header) => (
-                      <th
-                        key={header}
-                        className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                      >
-                        {header}
-                      </th>
-                    ),
-                  )}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 bg-neutral-200">
-                {modalData.data.map(
-                  (
-                    { serial, type, model, formatted_pack_date, age_days },
-                    index,
-                  ) => (
-                    <tr key={index}>
-                      {[
-                        serial,
-                        `${type}: ${model}`,
-                        formatted_pack_date,
-                        age_days,
-                      ].map((value, i) => (
-                        <td
-                          key={i}
-                          className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
-                        >
-                          {value}
-                        </td>
-                      ))}
-                    </tr>
-                  ),
-                )}
-              </tbody>
-            </table>
-          </div>
+          <ModalContent data={modalData.data} />
         </ModalComponent>
       )}
     </>
