@@ -3,19 +3,33 @@
 // Allow only create pallet for now
 
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 
 const PalletEditor = () => {
   const [palletMode, setPalletMode] = React.useState("CREATE");
-  const [plantType, setPlantType] = React.useState("engine");
-  const [plantNumber, setPlantNumber] = React.useState(0);
   const [palletName, setPalletName] = React.useState("");
   const [maxCapacity, setMaxCapacity] = React.useState(0);
+  const [plantType, setPlantType] = useState("Engine");
+  const [plantNumber, setPlantNumber] = useState(1);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedPlantType =
+        Number(localStorage.getItem("plantType")) || "Engine";
+      setPlantType(storedPlantType);
+    }
+  }, []);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
+      setPlantNumber(storedPlantId);
+    }
+  }, []);
 
   const radioMode = [
-    { value: "CREATE", label: "Engine" },
-    { value: "REMOVE", label: "Casting" },
+    { value: "CREATE", label: "Create" },
+    { value: "REMOVE", label: "Remove" },
   ];
 
   const radioOptionsPlantType = [
@@ -24,15 +38,8 @@ const PalletEditor = () => {
   ];
 
   const handleClear = () => {
-    setPlantNumber(0);
     setPalletName("");
     setMaxCapacity(0);
-
-    // Clear radio buttons
-    document.getElementById("mode-radio-create").checked = false;
-    document.getElementById("mode-radio-remove").checked = false;
-    document.getElementById("plant-type-radio-engine").checked = false;
-    document.getElementById("plant-type-radio-casting").checked = false;
   };
 
   const submitCreate = async () => {
@@ -59,6 +66,7 @@ const PalletEditor = () => {
     if (response.status === 200) {
       toast.success("Pallet created successfully!");
     }
+    handleClear();
   };
 
   return (
@@ -67,40 +75,27 @@ const PalletEditor = () => {
         <h1 className="custom-box-title-1">Pallet Create/Remove</h1>
         <div>
           <label>Mode</label>
-          <div>
-            <ul className="custom-radio-1 grid-cols-2">
-              <li className="radio-item">
+          <ul className="custom-text-input-1-radio">
+            {radioMode.map((radio) => (
+              <li key={radio.value}>
                 <div className="radio-button-1">
                   <input
-                    id="mode-radio-create"
+                    id={`mode-radio-${radio.value}`}
                     type="radio"
-                    value="CREATE"
+                    defaultChecked={radio.value === "CREATE"}
                     name="mode-radio"
-                    onChange={() => setPalletMode("CREATE")}
+                    onChange={() => setPalletMode(radio.value)}
                   />
-                  <label htmlFor="mode-radio-create" className="radio-label">
-                    CREATE
+                  <label
+                    htmlFor={`mode-radio-${radio.value}`}
+                    className="radio-label"
+                  >
+                    {radio.label}
                   </label>
                 </div>
               </li>
-              <li className="radio-item">
-                <div className="radio-button-1">
-                  <input
-                    id="mode-radio-remove"
-                    type="radio"
-                    value="REMOVE"
-                    name="mode-radio"
-                    onChange={() => setPalletMode("REMOVE")}
-                    className="disabled:opacity-50"
-                    disabled
-                  />
-                  <label htmlFor="mode-radio-remove" className="radio-label">
-                    REMOVE
-                  </label>
-                </div>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ul>
         </div>
 
         <div className="flex flex-col">
@@ -131,41 +126,26 @@ const PalletEditor = () => {
             </div>
             <div className="custom-input-layout-1">
               <label>Plant Type</label>
-              <ul className="custom-radio-1 grid-cols-1">
-                <li className="radio-item">
-                  <div className="radio-button-1">
-                    <input
-                      id="plant-type-radio-engine"
-                      type="radio"
-                      value="Engine"
-                      name="plant-type-radio"
-                      onChange={() => setPlantType("Engine")}
-                    />
-                    <label
-                      htmlFor="plant-type-radio-engine"
-                      className="radio-label"
-                    >
-                      Engine
-                    </label>
-                  </div>
-                </li>
-                <li className="radio-item">
-                  <div className="radio-button-1">
-                    <input
-                      id="plant-type-radio-casting"
-                      type="radio"
-                      value="Casting"
-                      name="plant-type-radio"
-                      onChange={() => setPlantType("Casting")}
-                    />
-                    <label
-                      htmlFor="plant-type-radio-casting"
-                      className="radio-label"
-                    >
-                      Casting
-                    </label>
-                  </div>
-                </li>
+              <ul className="custom-text-input-1-radio">
+                {radioOptionsPlantType.map((radio) => (
+                  <li key={radio.value}>
+                    <div className="radio-button-1">
+                      <input
+                        id={`plant-type-radio-${radio.value}`}
+                        type="radio"
+                        defaultChecked={radio.value === "Engine"}
+                        name="plant-type-radio"
+                        onChange={() => setPlantType(radio.value)}
+                      />
+                      <label
+                        htmlFor={`plant-type-radio-${radio.value}`}
+                        className="radio-label"
+                      >
+                        {radio.label}
+                      </label>
+                    </div>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -196,8 +176,11 @@ const PalletEditor = () => {
             type="button"
             size="large"
             className="custom-button-1-green"
-            disabled={palletMode === "REMOVE"}
             onClick={submitCreate}
+            disabled={
+              palletMode === "REMOVE" ||
+              (palletName.length < 5 && maxCapacity < 1)
+            }
           >
             CREATE
           </button>
@@ -216,14 +199,14 @@ const PalletEditor = () => {
           )}
         </div>
       </div>
-      {/* <div className="custom-box-2">
+      <div className="custom-box-2">
         <h1 className="custom-box-title-1">INPUT</h1>
         <h1>Mode: {palletMode}</h1>
         <h1>Plant Type: {plantType}</h1>
         <h1>Plant Number: {plantNumber}</h1>
         <h1>Pallet Name: {palletName}</h1>
         <h1>Max Capacity: {maxCapacity}</h1>
-      </div> */}
+      </div>
     </div>
   );
 };
