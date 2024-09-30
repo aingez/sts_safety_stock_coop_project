@@ -272,7 +272,7 @@ export default function PackPage() {
       layer.length > 0 &&
       palletName.length >= 5 &&
       plantType.length > 0 &&
-      plantId.length > 0
+      plantId !== 0
     ) {
       fetchPositionStatus();
     }
@@ -296,20 +296,7 @@ export default function PackPage() {
     }
   }, [apiPalletData, apiPartData]);
 
-  // const formatDate = (date) => {
-  //   const options = {
-  //     day: "2-digit",
-  //     month: "short",
-  //     year: "numeric",
-  //     hour: "2-digit",
-  //     minute: "2-digit",
-  //     hour12: false,
-  //   };
-  //   return new Date(date).toLocaleString("en-GB", options);
-  // };
-
   return (
-    // <div className="flex min-h-screen flex-col space-y-10 md:flex-row md:space-x-10 md:space-y-0">
     <div
       className={`flex min-h-screen pb-20 ${isMobile ? "flex-col space-x-0" : "w-full flex-row space-x-10"}`}
     >

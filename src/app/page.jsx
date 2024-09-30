@@ -8,20 +8,20 @@ import LayoutDisplay from "../components/warehouseDisp";
 function HomePage() {
   const [isMobile, setIsMobile] = useState(false);
   const [layoutApiData, setLayoutApiData] = useState("");
-  const [plantType, setPlantType] = useState(() => {
+  const [plantType, setPlantType] = useState("Engine");
+  const [plantId, setPlantId] = useState(1);
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
     // Initialize from localStorage if available, otherwise use default
     if (typeof window !== "undefined") {
-      return localStorage.getItem("plantType") || "Engine";
+      const storedPlantType = localStorage.getItem("plantType") || "Engine";
+      const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
+      setPlantType(storedPlantType);
+      setPlantId(storedPlantId);
     }
-    return "Engine";
-  });
-  const [plantId, setPlantId] = useState(() => {
-    // Initialize from localStorage if available, otherwise use default
-    if (typeof window !== "undefined") {
-      return Number(localStorage.getItem("plantId")) || 1;
-    }
-    return 1;
-  });
+    setIsInitialized(true);
+  }, []);
 
   const fetchLayoutData = async () => {
     try {
@@ -45,8 +45,10 @@ function HomePage() {
   };
 
   useEffect(() => {
-    fetchLayoutData();
-  }, [plantType, plantId]);
+    if (isInitialized) {
+      fetchLayoutData();
+    }
+  }, [isInitialized, plantType, plantId]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -57,6 +59,10 @@ function HomePage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  if (!isInitialized) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen pb-20">

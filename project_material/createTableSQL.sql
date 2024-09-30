@@ -20,8 +20,8 @@ CREATE TABLE part_list (
     id SERIAL PRIMARY KEY,
     type part_type NOT NULL,
     model part_model NOT NULL,
-    in_production BOOLEAN NOT NULL
-    prefix JSON NOT NULL,
+    in_production BOOLEAN NOT NULL,
+    prefix JSON NOT NULL
 );
 
 CREATE TABLE staff (
@@ -205,3 +205,19 @@ CREATE TRIGGER trigger_update_pallet_position_layer_2_status
 AFTER UPDATE OF position ON pallet_status
 FOR EACH ROW
 EXECUTE FUNCTION update_pallet_position_layer_2_status();
+
+
+-- Default Part list and model in production
+INSERT INTO part_list (id, type, model, in_production, prefix) VALUES
+(DEFAULT, 'Block', 'CONV', true, '{"prefix":["AN","NR"]}'),
+(DEFAULT, 'Block', 'HV', true, '{"prefix":["NH"]}'),
+(DEFAULT, 'Head', 'CONV/HV', true, '{"prefix":["HA"]}'),
+(DEFAULT, 'Crankshaft', '1NR', true, '{"prefix":["16"]}'),
+(DEFAULT, 'Crankshaft', '2NR', true, '{"prefix":["26"]}'),
+(DEFAULT, 'Crankshaft', '3NR', true, '{"prefix":["36"]}'),
+(DEFAULT, 'Camshaft', '889F-IN', true, '{"prefix":["I6"]}'),
+(DEFAULT, 'Camshaft', '889F-EX', true, '{"prefix":["E6"]}'),
+(DEFAULT, 'Camshaft', '926F-EX', true, '{"prefix":["X6"]}'),
+(DEFAULT, 'Camshaft', '926F-IN', true, '{"prefix":["N6"]}'),
+(DEFAULT, 'Camshaft', 'D13E-IN', true, '{"prefix":["T6"]}'),
+(DEFAULT, 'Camshaft', 'D13E-EX', true, '{"prefix":["H6"]}');
