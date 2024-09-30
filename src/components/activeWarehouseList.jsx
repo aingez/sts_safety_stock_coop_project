@@ -11,9 +11,7 @@ const ActiveWarehouseList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/list`,
-        );
+        const response = await fetch(`http://localhost:8000/warehouse/list`);
         const result = await response.json();
         setData(result);
       } catch (error) {

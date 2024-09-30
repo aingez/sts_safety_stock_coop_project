@@ -186,9 +186,9 @@ const WarehouseLayoutEditor = () => {
 
   return (
     <div className="flex flex-row gap-8 p-4">
-      {/* <div className="custom-box-2">
+      <div className="custom-box-2">
         <WarehouseList key={refreshWarehouseList} />
-      </div> */}
+      </div>
       <div className="custom-box-2 flex-none">
         <h2 className="custom-box-title-1">Warehouse Layout Creator</h2>
         <div className="flex flex-row space-x-2">

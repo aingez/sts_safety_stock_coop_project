@@ -47,50 +47,90 @@ function PartSearchTable({ partSerial }) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+      <table className="hidden min-w-full text-left text-sm text-gray-500 lg:table rtl:text-right dark:text-gray-400">
         <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
           <tr>
-            <th className="px-4 py-4 sm:px-6">Part Type</th>
-            <th className="px-4 py-4 sm:px-6">Model</th>
-            <th className="px-4 py-4 sm:px-6">Serial Number</th>
-            <th className="px-4 py-4 sm:px-6">Pallet Number</th>
-            <th className="px-4 py-4 sm:px-6">Plant Type</th>
-            <th className="px-4 py-4 sm:px-6">Plant Code</th>
-            <th className="px-4 py-4 sm:px-6">Row</th>
-            <th className="px-4 py-4 sm:px-6">Lane</th>
-            <th className="px-4 py-4 sm:px-6">Pile</th>
-            <th className="px-4 py-4 sm:px-6">Layer</th>
-            <th className="px-4 py-4 sm:px-6">Packing Date</th>
-            <th className="px-4 py-4 sm:px-6">Packer</th>
-            <th className="px-4 py-4 sm:px-6">Un-Pack Date</th>
-            <th className="px-4 py-4 sm:px-6">Un-Packer</th>
+            {[
+              "Type : Model",
+              "Serial Number",
+              "Pallet",
+              "Plant",
+              "Row : Lane : Pile : Layer",
+              "Packing Date",
+              "Packer",
+              "Un-Pack Date",
+              "Un-Packer",
+            ].map((header) => (
+              <th key={header} className="whitespace-nowrap px-4 py-4 sm:px-6">
+                {header}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {apiData && (
             <tr className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-700">
-              <td className="px-4 py-4 sm:px-6">{apiData.type}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.model}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.serial}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.pallet_name}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.plant_type}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.plant_id}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.row}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.lane}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.pile}</td>
-              <td className="px-4 py-4 sm:px-6">{apiData.layer}</td>
-              <td className="px-4 py-4 sm:px-6">
-                {apiData.pack_date_formatted}
-              </td>
-              <td className="px-4 py-4 sm:px-6">{apiData.packer_name}</td>
-              <td className="px-4 py-4 sm:px-6">
-                {apiData.unpack_date_formatted}
-              </td>
-              <td className="px-4 py-4 sm:px-6">{apiData.unpacker_name}</td>
+              {[
+                `${apiData.type} : ${apiData.model}`,
+                apiData.serial,
+                apiData.pallet_name,
+                `${apiData.plant_type} ${apiData.plant_id}`,
+                `${apiData.row} : ${apiData.lane} : ${apiData.pile} : ${apiData.layer}`,
+                apiData.pack_date_formatted,
+                apiData.packer_name,
+                apiData.unpack_date_formatted || "-",
+                apiData.unpacker_name || "-",
+              ].map((value, index) => (
+                <td
+                  key={index}
+                  className="whitespace-nowrap px-4 py-4 text-center sm:px-6"
+                >
+                  {value}
+                </td>
+              ))}
             </tr>
           )}
         </tbody>
       </table>
+      <div className="block lg:hidden">
+        {apiData && (
+          <div className="rounded-lg bg-white p-4 shadow dark:bg-neutral-700">
+            {[
+              {
+                label: "Type : Model",
+                value: `${apiData.type} : ${apiData.model}`,
+              },
+              { label: "Serial Number", value: apiData.serial },
+              { label: "Pallet", value: apiData.pallet_name },
+              {
+                label: "Plant",
+                value: `${apiData.plant_type} ${apiData.plant_id}`,
+              },
+              {
+                label: "Row : Lane : Pile : Layer",
+                value: `${apiData.row} : ${apiData.lane} : ${apiData.pile} : ${apiData.layer}`,
+              },
+              { label: "Packing Date", value: apiData.pack_date_formatted },
+              { label: "Packer", value: apiData.packer_name },
+              {
+                label: "Un-Pack Date",
+                value: apiData.unpack_date_formatted || "-",
+              },
+              { label: "Un-Packer", value: apiData.unpacker_name || "-" },
+            ].map((item, index) => (
+              <tr
+                key={index}
+                className={
+                  index % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
+                }
+              >
+                <td className="px-4 py-2 font-semibold">{item.label}</td>
+                <td className="px-4 py-2">{item.value}</td>
+              </tr>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

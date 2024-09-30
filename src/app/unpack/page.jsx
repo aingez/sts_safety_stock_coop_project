@@ -44,7 +44,6 @@ export default function UnPackPage() {
 
   useEffect(() => {
     if (apiPalletData && apiPalletData.data) {
-      console.log("apiPalletData");
       const maxCapacity = apiPalletData.data.max_capacity || 0;
       const serialNumbersArray = Array.from(
         { length: maxCapacity },
@@ -61,10 +60,9 @@ export default function UnPackPage() {
 
   useEffect(() => {
     const fetchPalletData = async () => {
-      console.log("fetchPalletData");
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet_info/user/${palletName}/${plantType}/${plantId}`,
+          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -76,14 +74,7 @@ export default function UnPackPage() {
         toast.error(err.message);
       }
     };
-
-    console.log(palletName, plantType, plantId);
-    console.log(
-      palletName.length >= 5,
-      plantType.length > 0,
-      plantId.length != "",
-    );
-    if (palletName.length >= 5 && plantType.length > 0 && plantId.length > 0) {
+    if (palletName.length >= 5 && plantType.length > 0 && plantId.length != 0) {
       fetchPalletData();
     }
   }, [palletName, plantType, plantId]);
@@ -91,10 +82,9 @@ export default function UnPackPage() {
   useEffect(() => {
     setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
-      console.log("fetchPartonPallet");
       try {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/${plantType}/${plantId}/${palletName}`,
+          `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -112,7 +102,7 @@ export default function UnPackPage() {
       apiPalletData.data?.is_pack &&
       palletName.length >= 5 &&
       plantType.length > 0 &&
-      plantId.length > 0
+      plantId != 0
     ) {
       fetchPartonPallet();
     }
@@ -125,7 +115,6 @@ export default function UnPackPage() {
     );
     // if found, check the checkbox
     if (serialNumberIndex !== -1) {
-      console.log("found", serialNumberIndex);
       const checkbox = document.getElementById(`checkbox-${serialNumberIndex}`);
       checkbox.click();
       setSerialInput("");
@@ -165,24 +154,32 @@ export default function UnPackPage() {
       serialNumber: serialNumbers[index].serialNumber,
       unpackDateTime: unpackDateTimes[index],
     }));
-    fetch(
-      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}0/part/unpack/bundle`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          packer_id: employeeId,
-          packer_name: employeeName,
-          pallet_name: palletName,
-          plant_type: plantType,
-          plant_id: plantId,
-          unpack_part: unpackedSerialNumbersList,
-        }),
+    console.log(
+      JSON.stringify({
+        packer_id: employeeId,
+        packer_name: employeeName,
+        pallet_name: palletName,
+        plant_type: plantType,
+        plant_id: plantId,
+        unpack_part: unpackedSerialNumbersList,
+      }),
+    );
+
+    fetch(`http://localhost:8000/part/unpack/bundle`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
-    )
+      body: JSON.stringify({
+        packer_id: employeeId,
+        packer_name: employeeName,
+        pallet_name: palletName,
+        plant_type: plantType,
+        plant_id: plantId,
+        unpack_part: unpackedSerialNumbersList,
+      }),
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
