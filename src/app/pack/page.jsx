@@ -100,25 +100,28 @@ export default function PackPage() {
 
     const newSerialList = getNewSerialNumbersWithPackDates();
     // pass data to api
-    fetch(`http://localhost:8000/part/pack/bundle`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+    fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          packer_id: employeeId,
+          packer_name: employeeName,
+          pallet_name: palletName,
+          plant_type: plantType,
+          plant_id: parseInt(plantId, 10),
+          row: parseInt(row, 10),
+          lane: parseInt(lane, 10),
+          pile: parseInt(pile, 10),
+          layer: parseInt(layer, 10),
+          new_part: newSerialList,
+        }),
       },
-      body: JSON.stringify({
-        packer_id: employeeId,
-        packer_name: employeeName,
-        pallet_name: palletName,
-        plant_type: plantType,
-        plant_id: parseInt(plantId, 10),
-        row: parseInt(row, 10),
-        lane: parseInt(lane, 10),
-        pile: parseInt(pile, 10),
-        layer: parseInt(layer, 10),
-        new_part: newSerialList,
-      }),
-    })
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -149,7 +152,7 @@ export default function PackPage() {
       const fetchLayoutData = async () => {
         try {
           const res = await fetch(
-            `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
+            `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantId}`,
           );
           if (!res.ok) {
             throw new Error("Network response was not ok");
@@ -171,7 +174,7 @@ export default function PackPage() {
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet_info/user/${palletName}/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -195,7 +198,7 @@ export default function PackPage() {
     const fetchLayoutData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/warehouse/layout/${plantType}/${plantId}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -220,7 +223,7 @@ export default function PackPage() {
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/${plantType}/${plantId}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -244,7 +247,7 @@ export default function PackPage() {
     const fetchPositionStatus = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/warehouse/is_occupied/${plantType}/${plantId}/${row}/${lane}/${pile}/${layer}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/is_occupied/${plantType}/${plantId}/${row}/${lane}/${pile}/${layer}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
