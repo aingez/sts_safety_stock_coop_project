@@ -118,15 +118,15 @@ function PartSearchTable({ partSerial }) {
               },
               { label: "Un-Packer", value: apiData.unpacker_name || "-" },
             ].map((item, index) => (
-              <tr
+              <div
                 key={index}
                 className={
                   index % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
                 }
               >
-                <td className="px-4 py-2 font-semibold">{item.label}</td>
-                <td className="px-4 py-2">{item.value}</td>
-              </tr>
+                <div className="px-4 py-2 font-semibold">{item.label}</div>
+                <div className="px-4 py-2">{item.value}</div>
+              </div>
             ))}
           </div>
         )}
