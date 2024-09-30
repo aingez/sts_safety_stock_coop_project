@@ -53,10 +53,10 @@ function Nav() {
 
   const NavItem = ({ href, icon: Icon, label }) => (
     <li
-      className={`mx-2 text-white transition-all hover:opacity-50 ${pathname === href ? "font-bold text-yellow-500" : ""}`}
+      className={`mx-2 transform text-white transition-all transition-transform duration-300 hover:scale-110 hover:opacity-50 ${pathname === href ? "font-bold text-yellow-500" : ""}`}
     >
       <Link href={href} className="flex flex-row space-x-5">
-        <Icon size={30} />
+        <Icon size={40} />
         <div>{label}</div>
       </Link>
     </li>
@@ -93,7 +93,7 @@ function Nav() {
               height="0"
               sizes="2vw"
               style={{ width: "100%", height: "auto" }}
-              className="mx-2 hover:opacity-50"
+              className="mx-2 transition transition-all transition-transform duration-300 hover:scale-110 hover:opacity-50"
             />
           </Link>
           <NavItem href="/pack" icon={Package} />
@@ -106,9 +106,9 @@ function Nav() {
             onMouseLeave={handleMouseLeave}
           >
             <span
-              className={`cursor-pointer ${pathname === "/editor" || pathname === "/manage" ? "font-bold text-yellow-500" : ""}`}
+              className={`cursor-pointer transition transition-all transition-transform duration-300 hover:scale-110`}
             >
-              <Settings size={30} />
+              <Settings size={40} />
             </span>
             <ul
               className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
