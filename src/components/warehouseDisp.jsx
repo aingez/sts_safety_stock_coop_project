@@ -166,7 +166,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
                         const data = await fetchModalData(
                           plantType,
                           plantNumber,
-                          pallet_name,
+                          pallet.pallet_name,
                         );
                         setModalData(data);
                         setEnableModal(true);
