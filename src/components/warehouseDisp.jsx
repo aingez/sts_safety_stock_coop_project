@@ -25,14 +25,85 @@ const laneColors = {
   green: "bg-lime-200 dark:bg-emerald-600",
 };
 
-const GenerateUnpositionedTable = ({ pallet_name, pallet_color }) => {
+const GenerateUnpositionedTable = ({
+  pallet_name,
+  pallet_color,
+  plantType,
+  plantNumber,
+}) => {
+  const [enableModal, setEnableModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const fetchModalData = async (plantType, plantNumber, palletName) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
+      );
+      const data = await response.json();
+      setModalData(data);
+      setEnableModal(true);
+    } catch (error) {
+      console.error("Error fetching modal data:", error);
+    }
+  };
   return (
-    <button
-      className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
-      title={pallet_name}
-    >
-      <div className="-rotate-45 transform">{pallet_name}</div>
-    </button>
+    <div>
+      <button
+        className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
+        title={pallet_name}
+        onClick={() => fetchModalData(plantType, plantNumber, pallet_name)}
+      >
+        <div className="-rotate-45 transform">{pallet_name}</div>
+      </button>
+      <div>
+        {enableModal && modalData && (
+          <ModalComponent onClose={() => setEnableModal(false)}>
+            <div className="p-5">
+              <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
+              <table>
+                <thead className="custom-table-2">
+                  <tr>
+                    {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
+                      (header) => (
+                        <th
+                          key={header}
+                          className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                        >
+                          {header}
+                        </th>
+                      ),
+                    )}
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-neutral-200">
+                  {modalData.data.map(
+                    (
+                      { serial, type, model, formatted_pack_date, age_days },
+                      index,
+                    ) => (
+                      <tr key={index}>
+                        {[
+                          serial,
+                          `${type}: ${model}`,
+                          formatted_pack_date,
+                          age_days,
+                        ].map((value, i) => (
+                          <td
+                            key={i}
+                            className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
+                          >
+                            {value}
+                          </td>
+                        ))}
+                      </tr>
+                    ),
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </ModalComponent>
+        )}
+      </div>
+    </div>
   );
 };
 
@@ -132,37 +203,41 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
             <table>
               <thead className="custom-table-2">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Serial
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Type: Model
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Pack Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
-                    Age (days)
-                  </th>
+                  {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
+                    (header) => (
+                      <th
+                        key={header}
+                        className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    ),
+                  )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-neutral-200">
-                {modalData.data.map((item, index) => (
-                  <tr key={index}>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.serial}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.type}: {item.model}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.formatted_pack_date}
-                    </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500">
-                      {item.age_days}
-                    </td>
-                  </tr>
-                ))}
+                {modalData.data.map(
+                  (
+                    { serial, type, model, formatted_pack_date, age_days },
+                    index,
+                  ) => (
+                    <tr key={index}>
+                      {[
+                        serial,
+                        `${type}: ${model}`,
+                        formatted_pack_date,
+                        age_days,
+                      ].map((value, i) => (
+                        <td
+                          key={i}
+                          className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
+                        >
+                          {value}
+                        </td>
+                      ))}
+                    </tr>
+                  ),
+                )}
               </tbody>
             </table>
           </div>
@@ -279,6 +354,8 @@ const LayoutDisplayTest = ({ inputData }) => {
                 key={pallet_name}
                 pallet_name={pallet_name}
                 pallet_color={color}
+                plantType={plant_type}
+                plantNumber={plant_number}
               />
             ))}
           </div>
