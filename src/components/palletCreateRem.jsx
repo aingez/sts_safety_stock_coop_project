@@ -13,9 +13,17 @@ const PalletEditor = () => {
   const [palletName, setPalletName] = React.useState("");
   const [maxCapacity, setMaxCapacity] = React.useState(0);
 
+  const radioMode = [
+    { value: "CREATE", label: "Engine" },
+    { value: "REMOVE", label: "Casting" },
+  ];
+
+  const radioOptionsPlantType = [
+    { value: "Engine", label: "Engine" },
+    { value: "Casting", label: "Casting" },
+  ];
+
   const handleClear = () => {
-    setPalletMode("CREATE");
-    setPlantType("engine");
     setPlantNumber(0);
     setPalletName("");
     setMaxCapacity(0);
@@ -25,8 +33,6 @@ const PalletEditor = () => {
     document.getElementById("mode-radio-remove").checked = false;
     document.getElementById("plant-type-radio-engine").checked = false;
     document.getElementById("plant-type-radio-casting").checked = false;
-
-    // set input to default
   };
 
   const submitCreate = async () => {
@@ -119,6 +125,7 @@ const PalletEditor = () => {
                 onChange={(e) => setMaxCapacity(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="Pallet Capacity"
+                min={1}
                 required
               />
             </div>
@@ -209,15 +216,14 @@ const PalletEditor = () => {
           )}
         </div>
       </div>
-      <div className="custom-box-2">
-        {/* display select data */}
+      {/* <div className="custom-box-2">
         <h1 className="custom-box-title-1">INPUT</h1>
         <h1>Mode: {palletMode}</h1>
         <h1>Plant Type: {plantType}</h1>
         <h1>Plant Number: {plantNumber}</h1>
         <h1>Pallet Name: {palletName}</h1>
         <h1>Max Capacity: {maxCapacity}</h1>
-      </div>
+      </div> */}
     </div>
   );
 };
