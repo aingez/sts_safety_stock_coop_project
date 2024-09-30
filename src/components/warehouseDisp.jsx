@@ -210,7 +210,7 @@ const generateColorLUT = (layout) => {
   return result;
 };
 
-const LayoutDisplayTest = ({ inputData }) => {
+const WarehouseLayoutDisplay = ({ inputData }) => {
   const {
     plant_type,
     plant_number,
@@ -330,4 +330,4 @@ const LayoutDisplayTest = ({ inputData }) => {
   );
 };
 
-export default LayoutDisplayTest;
+export default WarehouseLayoutDisplay;
