@@ -65,6 +65,18 @@ const ModalContent = ({ data }) => (
   </div>
 );
 
+const fetchModalData = async (plantType, plantNumber, palletName) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching modal data:", error);
+  }
+};
+
 const GenerateUnpositionedTable = ({
   pallet_name,
   pallet_color,
@@ -73,24 +85,20 @@ const GenerateUnpositionedTable = ({
 }) => {
   const [enableModal, setEnableModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const fetchModalData = async (plantType, plantNumber, palletName) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
-      );
-      const data = await response.json();
-      setModalData(data);
-      setEnableModal(true);
-    } catch (error) {
-      console.error("Error fetching modal data:", error);
-    }
-  };
   return (
     <div>
       <button
         className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
         title={pallet_name}
-        onClick={() => fetchModalData(plantType, plantNumber, pallet_name)}
+        onClick={async () => {
+          const data = await fetchModalData(
+            plantType,
+            plantNumber,
+            pallet_name,
+          );
+          setModalData(data);
+          setEnableModal(true);
+        }}
       >
         <div className="-rotate-45 transform">{pallet_name}</div>
       </button>
@@ -120,20 +128,6 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
   const { max_pile, max_layer, current_pallet } = laneData;
   const [enableModal, setEnableModal] = useState(false);
   const [modalData, setModalData] = useState(null);
-
-  const fetchModalData = async (plantType, plantNumber, palletName) => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
-      );
-      const data = await response.json();
-      setModalData(data);
-      setEnableModal(true);
-    } catch (error) {
-      console.error("Error fetching modal data:", error);
-    }
-  };
-
   const table = Array.from({ length: max_layer }, () =>
     Array(max_pile).fill(null),
   );
@@ -168,13 +162,15 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
                     <button
                       className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
                       title={pallet.pallet_name}
-                      onClick={() =>
-                        fetchModalData(
+                      onClick={async () => {
+                        const data = await fetchModalData(
                           plantType,
                           plantNumber,
-                          pallet.pallet_name,
-                        )
-                      }
+                          pallet_name,
+                        );
+                        setModalData(data);
+                        setEnableModal(true);
+                      }}
                     >
                       <div style={{ transform: "rotate(-45deg)" }}>
                         {pallet.pallet_name}
