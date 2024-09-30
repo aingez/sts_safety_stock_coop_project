@@ -62,7 +62,7 @@ export default function UnPackPage() {
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/pallet_info/user/${palletName}/${plantType}/${plantId}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet_info/user/${palletName}/${plantType}/${plantId}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -84,7 +84,7 @@ export default function UnPackPage() {
     const fetchPartonPallet = async () => {
       try {
         const res = await fetch(
-          `http://localhost:8000/part/pack/${plantType}/${plantId}/${palletName}`,
+          `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/${plantType}/${plantId}/${palletName}`,
         );
         if (!res.ok) {
           throw new Error("Network response was not ok");
@@ -165,21 +165,24 @@ export default function UnPackPage() {
       }),
     );
 
-    fetch(`http://localhost:8000/part/unpack/bundle`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+    fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/unpack/bundle`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          packer_id: employeeId,
+          packer_name: employeeName,
+          pallet_name: palletName,
+          plant_type: plantType,
+          plant_id: plantId,
+          unpack_part: unpackedSerialNumbersList,
+        }),
       },
-      body: JSON.stringify({
-        packer_id: employeeId,
-        packer_name: employeeName,
-        pallet_name: palletName,
-        plant_type: plantType,
-        plant_id: plantId,
-        unpack_part: unpackedSerialNumbersList,
-      }),
-    })
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
