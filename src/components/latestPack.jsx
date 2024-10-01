@@ -41,7 +41,8 @@ function page() {
 
   return (
     <div className="custom-box-2">
-      <h1 className="mb-4 text-2xl font-bold">Latest Pack Parts</h1>
+      <h1 className="text-2xl">Latest Pack Parts</h1>
+      <h1 className="mb-4 text-xs text-amber-500">Top 20 Previously Packed</h1>
       <div className="sticky top-0 z-10 bg-neutral-500">
         <table className="min-w-full">
           <thead>
@@ -50,7 +51,7 @@ function page() {
                 (header) => (
                   <th
                     key={header}
-                    className="border-b border-gray-800 px-4 py-2"
+                    className="border-b border-gray-800 px-4 py-2 text-xs"
                   >
                     {header}
                   </th>
@@ -73,7 +74,7 @@ function page() {
                 ].map((value, index) => (
                   <td
                     key={index}
-                    className="border-b border-gray-800 px-4 py-2"
+                    className="border-b border-gray-800 px-4 py-2 text-xs"
                   >
                     {value}
                   </td>
