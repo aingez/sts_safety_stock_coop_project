@@ -12,12 +12,17 @@ Table history {
   id serial [pk]
   type int [ref: > part_list.id]
   serial varchar(255) [unique, not null]
-  pack_location int [not null]
   pack_date timestamp [not null]
   packer_id integer [not null]
   unpack_date timestamp [not null]
   unpacker_id integer [not null]
   pallet_id integer
+  plant_type integer
+  plant_id integer
+  row integer
+  lane integer
+  pile integer
+  layer integer
 }
 
 Table pallet_status {
@@ -76,7 +81,6 @@ Ref: current_part.pallet_id > pallet_status.id
 Ref: history.packer_id > staff.id
 Ref: history.unpacker_id > staff.id
 Ref: pallet_status.plant_key > warehouse_list.plant_key
-Ref: history.pack_location > pallet_position_layer_2.id
 Ref: pallet_status.position - pallet_position_layer_2.id
 Ref: pallet_position_layer_1.plant_key > warehouse_list.plant_key
 Ref: pallet_position_layer_1.id < pallet_position_layer_2.layer1_id
