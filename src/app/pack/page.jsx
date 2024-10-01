@@ -11,8 +11,21 @@ export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
-  const [employeeId, setEmployeeId] = useState("");
-  const [employeeName, setEmployeeName] = useState("");
+  // const [employeeId, setEmployeeId] = useState("");
+  // const [employeeName, setEmployeeName] = useState("");
+  const [employeeId, setEmployeeId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userId") || "";
+    }
+    return "";
+  });
+
+  const [employeeName, setEmployeeName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("userEmail") || "";
+    }
+    return "";
+  });
 
   const [palletName, setPalletName] = useState("");
 
@@ -308,6 +321,7 @@ export default function PackPage() {
               <label>Employee ID</label>
               <input
                 type="number"
+                value={employeeId}
                 onChange={(e) => setEmployeeId(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XXXXXXXXX"
@@ -318,6 +332,7 @@ export default function PackPage() {
               <label>Name - Surname</label>
               <input
                 type="text"
+                value={employeeName}
                 onChange={(e) => setEmployeeName(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="Sprinter Trueno"

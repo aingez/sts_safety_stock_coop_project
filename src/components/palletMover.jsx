@@ -2,7 +2,7 @@
 // Component: Pallet Move, This component is used to move the pallet to the desired location within the warehouse.
 
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import TestLayoutDisplay from "./warehouseDisp";
 
@@ -30,6 +30,15 @@ function PalletMover() {
     setApiData("");
     setLayoutApiData("");
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedPlantType = localStorage.getItem("plantType") || "Engine";
+      const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
+      setPlantType(storedPlantType);
+      setPlantNumber(storedPlantId);
+    }
+  }, []);
 
   const fetchLayoutData = async () => {
     try {

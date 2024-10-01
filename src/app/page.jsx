@@ -34,6 +34,18 @@ const login = async () => {
     const jsonData = await userResponse.json();
     localStorage.setItem("userEmail", jsonData.Email);
     localStorage.setItem("userId", jsonData.UserName);
+    const welcomeApiUrl = `http://127.0.0.1:8000/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
+    const welcomeResponse = await fetch(welcomeApiUrl, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    if (!welcomeResponse.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const welcomeData = await welcomeResponse.json();
+    console.log("Welcome data:", welcomeData);
   } catch (error) {
     console.error("There was a problem with the fetch operation:", error);
   }
@@ -116,7 +128,7 @@ function HomePage() {
               {plantType} Plant No. {plantId}
             </p>
           </h2>
-          <ReusableTable pageSize={5} />
+          <ReusableTable pageSize={3} />
         </div>
       </div>
       <div className="custom-box-2">
