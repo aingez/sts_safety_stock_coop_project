@@ -3,6 +3,8 @@
 
 "use client";
 
+import { User } from "lucide-react";
+
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,11 +20,33 @@ import {
   X,
 } from "lucide-react";
 
+const UserProfileCard = ({ userEmail, userId }) => (
+  <div className="flex flex-row items-center space-x-2 rounded-lg bg-neutral-300 px-2 py-1 text-xs dark:bg-neutral-700">
+    <div className="rounded-full bg-neutral-400 p-2 dark:bg-neutral-500">
+      <User size={30} className="text-white dark:text-white" />
+    </div>
+    <div className="text-black dark:text-white">
+      <div className="flex gap-2">
+        Email:<div className="font-light">{userEmail}</div>
+      </div>
+      <div className="flex gap-2">
+        ID:<div className="font-light">{userId}</div>
+      </div>
+    </div>
+  </div>
+);
+
 function Nav() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [userEmail, setUserEmail] = useState(
+    localStorage.getItem("userEmail") || "ToyotaSprinter@Trueno.com",
+  );
+  const [userId, setUserId] = useState(
+    localStorage.getItem("userId") || "$AGE20V",
+  );
 
   let timeoutId;
 
@@ -82,9 +106,8 @@ function Nav() {
             />
           )}
         </button>
-
         {/* Menu for larger screens */}
-        <ul className="hidden items-center space-x-4 text-[25px] md:flex">
+        <ul className="mr-5 hidden items-center space-x-4 text-[25px] md:flex">
           <Link href="/" className="mr-5">
             <Image
               src={"/images/dx_logo.png"}
@@ -125,11 +148,13 @@ function Nav() {
             </ul>
           </li>
         </ul>
+        <UserProfileCard userEmail={userEmail} userId={userId} />
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
         <ul className="mt-4 flex flex-col items-start space-y-4 text-[20px] md:hidden">
+          <UserProfileCard userEmail={userEmail} userId={userId} />
           <NavItem href="/" icon={House} label="Home" />
           <NavItem href="/pack" icon={Package} label="Pack" />
           <NavItem href="/unpack" icon={PackageOpen} label="Unpack" />

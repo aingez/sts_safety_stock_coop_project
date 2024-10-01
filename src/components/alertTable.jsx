@@ -172,7 +172,7 @@ function AlertTable({ pageSize = 10 }) {
                     <td
                       className={`font-ligth min-w-4 p-2 text-center text-lg text-neutral-900 ${
                         item.color_status === "red"
-                          ? "bg-[#FF1700] shadow-inner shadow-rose-800"
+                          ? "bg-[#FF1700] shadow-inner"
                           : item.color_status === "green"
                             ? "bg-[#84cc16]"
                             : "bg-[#f59e0b]"
