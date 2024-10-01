@@ -62,7 +62,7 @@ function HomePage() {
   }, []);
 
   if (!isInitialized) {
-    return <div>Loading...</div>;
+    return <div className="min-h-screen pb-20">Loading...</div>;
   }
 
   return (
