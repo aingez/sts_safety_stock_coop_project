@@ -68,11 +68,6 @@ function AlertTable({ pageSize = 10 }) {
   };
 
   useEffect(() => {
-    // get data from local storage
-    // setPlantType(localStorage.getItem("plantType") || "Engine");
-    // setPlantId(localStorage.getItem("plantId") || "1");
-    // console.log("plantType", plantType);
-    // console.log("plantId", plantId);
     fetchData();
     const intervalId = setInterval(() => {
       fetchData();
@@ -122,7 +117,7 @@ function AlertTable({ pageSize = 10 }) {
       {loading && <div className="my-20 text-center">Loading . . .</div>}
       {error && (
         <div
-          className="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+          className="relative rounded border border-red-400 bg-red-100 text-red-700"
           role="alert"
         >
           <strong className="font-bold">Error: </strong>
@@ -132,57 +127,36 @@ function AlertTable({ pageSize = 10 }) {
       {!loading && !error && (
         <>
           <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
-            <thead className="bg-gray-100 uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+            <thead className="text-md bg-gray-100 py-4 text-center uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
               <tr>
-                <th scope="col" className="px-4 py-3 sm:px-6">
-                  Status
+                <th scope="col" className="px-2 py-3 sm:px-2">
+                  Day
                 </th>
-                <th scope="col" className="px-4 py-3 sm:px-6">
-                  Part Type
+                <th scope="col" className="">
+                  Type
                 </th>
-                <th scope="col" className="px-4 py-3 sm:px-6">
-                  Pallet Number
+                <th scope="col" className="">
+                  Pallet
                 </th>
-                <th scope="col" className="px-4 py-3 sm:px-6">
-                  Packing Date
+                <th scope="col" className="">
+                  Pack Date
                 </th>
-                <th scope="col" className="px-4 py-3 sm:px-6">
-                  Age Days
-                </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Plant
                 </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Lane
                 </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Row
                 </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Pile
                 </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Layer
                 </th>
-                <th
-                  scope="col"
-                  className="hidden px-4 py-3 sm:table-cell sm:px-6"
-                >
+                <th scope="col" className="hidden sm:table-cell">
                   Packer
                 </th>
               </tr>
@@ -195,39 +169,41 @@ function AlertTable({ pageSize = 10 }) {
                     key={`${item.pallet_id}-${index}`}
                     className="border-b bg-white hover:bg-gray-100 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:bg-gray-600 dark:hover:text-white"
                   >
-                    <td className="px-8 py-4">
-                      <span
-                        className={`inline-block h-8 w-8 rounded-full shadow-inner shadow-neutral-900 ${
-                          item.color_status === "red"
-                            ? "animate-pulse bg-[#FF1700]"
-                            : item.color_status === "green"
-                              ? "bg-[#84cc16]"
-                              : "bg-[#f59e0b]"
-                        }`}
-                      ></span>
+                    <td
+                      className={`font-ligth min-w-4 p-2 text-center text-lg text-neutral-900 ${
+                        item.color_status === "red"
+                          ? "bg-[#FF1700] shadow-inner shadow-rose-800"
+                          : item.color_status === "green"
+                            ? "bg-[#84cc16]"
+                            : "bg-[#f59e0b]"
+                      }`}
+                    >
+                      {item.age_days}
                     </td>
-                    <td className="px-4 py-4 sm:px-6">{item.type}</td>
-                    <td className="px-4 py-4 sm:px-6">{item.pallet_name}</td>
-                    <td className="px-4 py-4 sm:px-6">
+                    <td className="px-4 py-4 text-center">{item.type}</td>
+                    <td className="px-4 py-4 text-center">
+                      {item.pallet_name}
+                    </td>
+                    <td className="px-4 py-4 text-center">
                       {item.pack_date_formatted}
                     </td>
-                    <td className="px-4 py-4 sm:px-6">{item.age_days}</td>
-                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
-                      {item.plant_type} No.{item.plant_id}
+
+                    <td className="hidden px-4 py-4 text-center sm:table-cell">
+                      {item.plant_type} {item.plant_id}
                     </td>
-                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                    <td className="py-4text-center hidden px-4 sm:table-cell">
                       {item.lane || "Dock"}
                     </td>
-                    <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
+                    <td className="hidden px-4 py-4 text-left sm:table-cell">
                       {item.row || "Dock"}
                     </td>
-                    <td className="hidden px-4 py-4 text-left sm:table-cell sm:px-6">
+                    <td className="hidden px-4 py-4 text-left sm:table-cell">
                       {item.pile || "Dock"}
                     </td>
-                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                    <td className="hidden px-4 py-4 sm:table-cell">
                       {item.layer || "Dock"}
                     </td>
-                    <td className="hidden px-4 py-4 sm:table-cell sm:px-6">
+                    <td className="hidden px-4 py-4 text-center sm:table-cell">
                       {item.name}
                     </td>
                   </tr>
