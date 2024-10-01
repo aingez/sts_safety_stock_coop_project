@@ -42,8 +42,8 @@ function page() {
   return (
     <div className="custom-box-2">
       <h1 className="mb-4 text-2xl font-bold">Latest Pack Parts</h1>
-      <div className="max-h-96 overflow-y-auto">
-        <table className="min-w-full bg-neutral-700">
+      <div className="sticky top-0 z-10 bg-neutral-500">
+        <table className="min-w-full">
           <thead>
             <tr>
               {["Serial", "Type and Model", "Pallet Name", "Pack Date"].map(
@@ -58,6 +58,10 @@ function page() {
               )}
             </tr>
           </thead>
+        </table>
+      </div>
+      <div className="max-h-96 overflow-y-auto">
+        <table className="min-w-full bg-neutral-700">
           <tbody>
             {data.slice(0, 10).map((item, rowIndex) => (
               <tr key={rowIndex}>
