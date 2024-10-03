@@ -48,25 +48,27 @@ const QuantityDisplay = () => {
   }
 
   return (
-    <div className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}>
+    // <div className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}>
+    <div
+      className={`mt-5 flex gap-2 ${isMobile ? "flex-row overflow-scroll" : "flex-col"}`}
+    >
       {Object.keys(summary).map((key) => (
         <div
           key={key}
           className="rounded-lg border-neutral-900 bg-neutral-300 p-4 shadow-inner dark:border-neutral-200 dark:bg-neutral-700 dark:shadow-lg"
-          style={{ width: "fit-content" }}
         >
-          <div className="mb-2 text-lg font-semibold">
-            <div className="rounded-md bg-gradient-to-r from-yellow-400 to-yellow-500 p-2 text-neutral-800">
-              {key} : {summary[key]}
-            </div>
+          <div className="mb-2 flex flex-row justify-between gap-5 whitespace-nowrap rounded-md bg-gradient-to-r from-yellow-400 to-yellow-500 px-3 py-2 text-lg font-semibold text-neutral-800 shadow-inner shadow-amber-200">
+            <div className="uppercase text-red-600">{key}</div>
+            {summary[key]}
           </div>
           <div className="space-y-2">
             {components[key].map((model) => (
               <div
                 key={model.model}
-                className="rounded-md bg-gradient-to-r from-rose-400 to-yellow-500 px-5 py-1 text-center text-neutral-600"
+                className="flex flex-row justify-between rounded-md bg-yellow-600 px-3 py-1 text-center text-neutral-800"
               >
-                {model.model} : {model.qty}
+                <div className="uppercase">{model.model}</div>
+                {model.qty}
               </div>
             ))}
           </div>
