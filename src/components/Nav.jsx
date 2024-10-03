@@ -21,7 +21,7 @@ import {
 const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
   <div className="flex flex-row items-center space-x-2 rounded-lg bg-neutral-300 px-2 py-2 text-xs dark:bg-neutral-700">
     <div className="rounded-full bg-neutral-400 p-2 dark:bg-neutral-500">
-      <User size={25} className="text-white dark:text-white" />
+      <User size={40} className="text-white dark:text-white" />
     </div>
     {userEmail === null ? (
       <Link legacyBehavior href="https://devstm-euc.siamtoyota.co.th/scs/#/l">
@@ -33,8 +33,8 @@ const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
       <div className="content-center text-black dark:text-white">
         <div className="flex gap-2">Email: {userEmail}</div>
         <div className="flex gap-2">ID: {userId}</div>
-        <div className="flex gap-2 font-bold text-amber-600 dark:text-amber-400">
-          {plantType} No. {plantId}
+        <div className="flex gap-2 text-lg font-bold text-amber-600 dark:text-amber-400">
+          {plantType} Plant No. {plantId}
         </div>
       </div>
     )}
