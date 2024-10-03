@@ -383,7 +383,7 @@ export default function PackPage() {
               />
             </div>
             <div className="custom-input-layout-1">
-              <label>Name - Surname</label>
+              <label>Employee Email</label>
               <input
                 type="text"
                 value={employeeName}
