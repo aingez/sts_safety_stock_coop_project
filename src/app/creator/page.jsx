@@ -10,7 +10,7 @@ import PartList from "../../components/activePartModelList";
 
 const WarehouseEditor = () => {
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen px-10 pb-20">
       <h1 className="custom-title-1">Create Master</h1>
       <h2 className="custom-subtitle-2">Pallet Creator</h2>
       <div className="custom-box-3 py-4">

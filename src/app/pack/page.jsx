@@ -364,7 +364,7 @@ export default function PackPage() {
 
   return (
     <div
-      className={`flex min-h-screen pb-20 ${isMobile ? "flex-col space-x-0" : "w-full flex-row space-x-10"}`}
+      className={`flex min-h-screen ${isMobile ? "flex-col space-x-0 px-5 pb-5" : "w-full flex-row space-x-10 px-20 pb-20"}`}
     >
       <form className={`custom-box-2 ${isMobile ? "w-full" : "w-1/2"}`}>
         <div className="flex flex-col p-4 md:p-10">

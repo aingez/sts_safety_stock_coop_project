@@ -4,7 +4,7 @@ import SwitchTheme from "../../components/themeSwitch";
 
 function optionPage() {
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen px-10 pb-20">
       <h1 className="custom-title-1">Option Setting</h1>
       <div className="flex flex-row gap-4">
         <PlantSetting />

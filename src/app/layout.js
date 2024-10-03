@@ -24,10 +24,8 @@ export default function RootLayout({ children }) {
             enableSystem
             transition={false}
           >
-            <div className="md:mx-20 sm:mx-10 mx-5">
-              <Toaster position="bottom-center" />
-              {children}
-            </div>
+            <Toaster position="bottom-center" />
+            {children}
           </ThemeProvider>
         </div>
         <Footer />

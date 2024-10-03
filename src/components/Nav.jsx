@@ -86,7 +86,7 @@ function Nav() {
   const handleMouseLeave = () => {
     timeoutId = setTimeout(() => {
       setDropdownVisible(false);
-    }, 300);
+    }, 1000);
   };
 
   const NavItem = ({ href, icon: Icon, label }) => (

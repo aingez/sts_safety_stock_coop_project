@@ -6,7 +6,7 @@ import PalletMover from "../../components/palletMover";
 
 function PalletManage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen px-10">
       <h1 className="custom-title-1">Pallet Management</h1>
       <div className="custom-box-2">
         <PalletMover />
