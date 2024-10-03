@@ -3,7 +3,7 @@
 
 "use client";
 
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -31,9 +31,6 @@ const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
         </a>
       </Link>
     ) : (
-      // <Link legacyBehavior href="/logout">
-      //   <a className="text-black dark:text-white">Logout</a>
-      // </Link>
       <div className="content-center text-black dark:text-white">
         <div className="flex gap-2">Email: {userEmail}</div>
         <div className="flex gap-2">ID: {userId}</div>
@@ -50,18 +47,11 @@ function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [userEmail, setUserEmail] = useState(
-    sessionStorage.getItem("userEmail") || null,
-  );
-  const [userId, setUserId] = useState(
-    sessionStorage.getItem("userId") || null,
-  );
-  const [plantType, setPlantType] = useState(
-    localStorage.getItem("plantType") || "Engine",
-  );
-  const [plantId, setPlantId] = useState(
-    Number(localStorage.getItem("plantId")) || 1,
-  );
+  const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [plantType, setPlantType] = useState("Engine");
+  const [plantId, setPlantId] = useState(1);
 
   let timeoutId;
 
@@ -73,6 +63,16 @@ function Nav() {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setUserEmail(sessionStorage.getItem("userEmail") || null);
+      setUserId(sessionStorage.getItem("userId") || null);
+      setPlantType(localStorage.getItem("plantType") || "Engine");
+      setPlantId(Number(localStorage.getItem("plantId")) || 1);
+      setLoading(false);
+    }
   }, []);
 
   const toggleMenu = () => {
@@ -100,6 +100,10 @@ function Nav() {
       </Link>
     </li>
   );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <nav className="mb-10 bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
@@ -134,7 +138,6 @@ function Nav() {
               className="mx-2 transition transition-all transition-transform duration-300 hover:scale-110 hover:opacity-50"
             />
           </Link>
-          <NavItem href="/pack" icon={Package} />
           <NavItem href="/unpack" icon={PackageOpen} />
           <NavItem href="/alert" icon={ClockAlert} />
           <NavItem href="/search" icon={Search} />
@@ -145,22 +148,27 @@ function Nav() {
           >
             <span
               className={`cursor-pointer transition transition-all transition-transform duration-300 hover:scale-110`}
+              onMouseLeave={handleMouseLeave}
             >
-              <Settings size={40} />
+              <span
+                className={`cursor-pointer transition transition-all transition-transform duration-300 hover:scale-110`}
+              >
+                <Settings size={40} />
+              </span>
+              <ul
+                className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
+              >
+                <li className="px-4 py-2 hover:bg-neutral-700">
+                  <Link href="/manage">Manage</Link>
+                </li>
+                <li className="px-4 py-2 hover:bg-neutral-700">
+                  <Link href="/creator">Create</Link>
+                </li>
+                <li className="px-4 py-2 hover:bg-neutral-700">
+                  <Link href="/option">Option</Link>
+                </li>
+              </ul>
             </span>
-            <ul
-              className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
-            >
-              <li className="px-4 py-2 hover:bg-neutral-700">
-                <Link href="/manage">Manage</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-neutral-700">
-                <Link href="/creator">Create</Link>
-              </li>
-              <li className="px-4 py-2 hover:bg-neutral-700">
-                <Link href="/option">Option</Link>
-              </li>
-            </ul>
           </li>
         </ul>
         {/* UserProfileCard moved to the right */}
