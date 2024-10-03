@@ -16,7 +16,6 @@ import {
   User,
   House,
   X,
-  Factory,
 } from "lucide-react";
 
 const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
@@ -101,10 +100,6 @@ function Nav() {
     </li>
   );
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <nav className="mb-10 bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
       <div
@@ -138,6 +133,7 @@ function Nav() {
               className="mx-2 transition transition-all transition-transform duration-300 hover:scale-110 hover:opacity-50"
             />
           </Link>
+          <NavItem href="/pack" icon={Package} />
           <NavItem href="/unpack" icon={PackageOpen} />
           <NavItem href="/alert" icon={ClockAlert} />
           <NavItem href="/search" icon={Search} />
@@ -172,14 +168,21 @@ function Nav() {
           </li>
         </ul>
         {/* UserProfileCard moved to the right */}
-        <div className="hidden md:block">
-          <UserProfileCard
-            userEmail={userEmail}
-            userId={userId}
-            plantType={plantType}
-            plantId={plantId}
-          />
-        </div>
+        {loading && (
+          <div className="hidden md:block">
+            <Settings size={20} className="animate-spin" />
+          </div>
+        )}
+        {!loading && (
+          <div className="hidden md:block">
+            <UserProfileCard
+              userEmail={userEmail}
+              userId={userId}
+              plantType={plantType}
+              plantId={plantId}
+            />
+          </div>
+        )}
       </div>
 
       {/* Mobile Menu */}
