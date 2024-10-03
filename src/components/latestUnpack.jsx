@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-function page() {
+function LatestUnpackPage() {
   const [plantType, setPlantType] = useState("Engine");
   const [plantId, setPlantId] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -38,6 +38,16 @@ function page() {
         });
     }
   }, [isInitialized, plantType, plantId]);
+
+  // if (data.length === 0) {
+  //   return (
+  //     <div className="custom-box-2">
+  //       <h1 className="text-2xl">Latest Pack Parts</h1>
+  //       <h1 className="mb-4 text-xs text-amber-500">Top 5 Previously Packed</h1>
+  //       <p>No Data</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="custom-box-2">
@@ -93,4 +103,4 @@ function page() {
   );
 }
 
-export default page;
+export default LatestUnpackPage;
