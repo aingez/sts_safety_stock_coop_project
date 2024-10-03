@@ -87,7 +87,7 @@ function AlertTable({ pageSize = 10 }) {
   );
 
   return (
-    <div className="overflow-x-auto">
+    <div className="">
       {!loading && !error && (
         <div>
           <div className="mb-2 flex flex-row space-x-2">
@@ -128,7 +128,7 @@ function AlertTable({ pageSize = 10 }) {
         </div>
       )}
       {!loading && !error && (
-        <>
+        <div className="max-h-96 overflow-auto">
           <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead className="text-md bg-gray-100 py-4 text-center uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
               <tr>
@@ -212,7 +212,7 @@ function AlertTable({ pageSize = 10 }) {
                 ))}
             </tbody>
           </table>
-        </>
+        </div>
       )}
       {/* Pagination Controls */}
       <div className="mt-4 flex flex-col items-center justify-between space-y-2 sm:flex-row sm:space-y-0">
