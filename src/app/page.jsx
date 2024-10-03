@@ -35,9 +35,10 @@ const login = async () => {
         throw new Error("Network response was not ok");
       }
       const jsonData = await userResponse.json();
+      // console.log("User data:", jsonData);
       sessionStorage.setItem("userEmail", jsonData.Email);
       sessionStorage.setItem("userId", jsonData.UserName);
-      const welcomeApiUrl = `http://127.0.0.1:8000/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
+      const welcomeApiUrl = `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
       const welcomeResponse = await fetch(welcomeApiUrl, {
         method: "GET",
         headers: {
@@ -48,9 +49,12 @@ const login = async () => {
         throw new Error("Network response was not ok");
       }
       const welcomeData = await welcomeResponse.json();
-      console.log("Welcome data:", welcomeData);
+      // console.log("Welcome data:", welcomeData);
     } catch (error) {
-      console.error("There was a problem with the fetch operation:", error);
+      console.error(
+        "There was a problem with processing user operation:",
+        error,
+      );
     }
   }
 };
@@ -119,7 +123,7 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className={`min-h-screen ${isMobile ? "px-5 pb-5" : "px-20 pb-20"}`}>
       <div
         className={`flex ${isMobile ? "flex-col space-x-0" : "flex-row space-x-5"}`}
       >
@@ -130,7 +134,7 @@ function HomePage() {
           </div>
         </div>
         <div className="custom-box-3 flex w-full flex-col overflow-scroll">
-          <h2 className="custom-title-2">Reminder :</h2>
+          <h2 className="custom-title-2">FIFO Reminder :</h2>
           <ReusableTable pageSize={5} />
         </div>
       </div>
