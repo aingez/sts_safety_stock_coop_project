@@ -54,7 +54,7 @@ function LatestPackPage() {
     <div className="custom-box-2">
       <h1 className="text-2xl">Latest Pack Parts</h1>
       <h1 className="mb-4 text-xs text-amber-500">Top 5 Previously Packed</h1>
-      <div className="sticky top-0 z-10 bg-neutral-500">
+      <div className="sticky top-0 z-10 bg-neutral-300 dark:bg-neutral-500">
         <table className="min-w-full">
           <thead>
             <tr>
@@ -73,7 +73,7 @@ function LatestPackPage() {
         </table>
       </div>
       <div className="max-h-96 overflow-y-auto">
-        <table className="min-w-full bg-neutral-700">
+        <table className="min-w-full bg-neutral-200 dark:bg-neutral-700">
           <tbody>
             {data.slice(0, 10).map((item, rowIndex) => (
               <tr key={rowIndex}>
