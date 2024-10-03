@@ -96,7 +96,7 @@ export default function PackPage() {
     return result;
   };
 
-  const handleUpdate = () => {
+  const handlePackLocate = () => {
     const employeeIdInput = document.querySelector(
       'input[placeholder="XXXXXXXXX"]',
     );
@@ -131,6 +131,59 @@ export default function PackPage() {
           lane: parseInt(lane, 10),
           pile: parseInt(pile, 10),
           layer: parseInt(layer, 10),
+          new_part: newSerialList,
+        }),
+      },
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        toast.success("Data updated successfully");
+        setLayoutUpdated(true);
+        handleReset();
+      })
+      .catch((error) => {});
+  };
+
+  const handlePack = () => {
+    const employeeIdInput = document.querySelector(
+      'input[placeholder="XXXXXXXXX"]',
+    );
+    const employeeNameInput = document.querySelector(
+      'input[placeholder="Sprinter Trueno"]',
+    );
+
+    const updatedEmployeeId = employeeIdInput
+      ? employeeIdInput.value
+      : employeeId;
+    const updatedEmployeeName = employeeNameInput
+      ? employeeNameInput.value
+      : employeeName;
+
+    const newSerialList = getNewSerialNumbersWithPackDates();
+    // pass data to api
+    fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          packer_id: employeeId,
+          packer_name: employeeName,
+          pallet_name: palletName,
+          plant_type: plantType,
+          plant_id: parseInt(plantId, 10),
+          row: null,
+          lane: null,
+          pile: null,
+          layer: null,
           new_part: newSerialList,
         }),
       },
@@ -450,16 +503,28 @@ export default function PackPage() {
             <button
               className="custom-button-1-green"
               type="submit"
+              // disabled={getNewSerialNumbersWithPackDates().length === 0}
+              disabled
+              onClick={(e) => {
+                e.preventDefault();
+                handlePack();
+              }}
+            >
+              Pack
+            </button>
+            <button
+              className="custom-button-1-green"
+              type="submit"
               disabled={
                 !availablePositions ||
                 getNewSerialNumbersWithPackDates().length === 0
               }
               onClick={(e) => {
                 e.preventDefault();
-                handleUpdate();
+                handlePackLocate();
               }}
             >
-              Update
+              Pack & Locate
             </button>
           </div>
           {loadingTable && <div className="animate-pulse">Loading . . .</div>}
