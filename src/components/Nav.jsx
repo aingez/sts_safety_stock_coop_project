@@ -37,7 +37,7 @@ const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
       <div className="content-center text-black dark:text-white">
         <div className="flex gap-2">Email: {userEmail}</div>
         <div className="flex gap-2">ID: {userId}</div>
-        <div className="flex gap-2 font-bold text-amber-400">
+        <div className="flex gap-2 font-bold text-amber-600 dark:text-amber-400">
           {plantType} No. {plantId}
         </div>
       </div>
