@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Settings } from "lucide-react";
 
 function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
@@ -87,34 +88,36 @@ function AlertTable({ pageSize = 10 }) {
 
   return (
     <div className="overflow-x-auto">
-      <div className="mb-2 flex flex-row space-x-2">
-        {!loading && !error && (
-          <div className="custom-input-layout-1">
-            <label htmlFor="filter">Filter Part Type</label>
-            <select
-              id="filter"
-              name="filter"
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="custom-text-input-1"
-            >
-              <option value="">All</option>
-              {Array.from(new Set(apiData.map((item) => item.type))).map(
-                (type) => (
-                  <option key={type} value={type}>
-                    {type}
-                  </option>
-                ),
-              )}
-            </select>
+      {!loading && !error && (
+        <div>
+          <div className="mb-2 flex flex-row space-x-2">
+            <div className="custom-input-layout-1">
+              <label htmlFor="filter">Filter Part Type</label>
+              <select
+                id="filter"
+                name="filter"
+                value={filter}
+                onChange={(e) => setFilter(e.target.value)}
+                className="custom-text-input-1"
+              >
+                <option value="">All</option>
+                {Array.from(new Set(apiData.map((item) => item.type))).map(
+                  (type) => (
+                    <option key={type} value={type}>
+                      {type}
+                    </option>
+                  ),
+                )}
+              </select>
+            </div>
           </div>
-        )}
-      </div>
-      <p className="mb-1 text-xs font-light opacity-50">
-        Listing from earliest packed part age from each pallet.
-      </p>
+          <p className="mb-1 text-xs font-light opacity-50">
+            Listing from earliest packed part age from each pallet.
+          </p>
+        </div>
+      )}
 
-      {loading && <div className="my-20 text-center">Loading . . .</div>}
+      {loading && <Settings size={30} className="animate-spin" />}
       {error && (
         <div
           className="relative rounded border border-red-400 bg-red-100 text-red-700"
