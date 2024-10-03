@@ -118,14 +118,14 @@ function HomePage() {
         className={`flex ${isMobile ? "flex-col space-x-0" : "flex-row space-x-5"}`}
       >
         <div className={`custom-box-3`}>
-          <h2 className="custom-title-2">Overview</h2>
-          <div className="flex-none overflow-scroll">
+          <h2 className="custom-title-2 whitespace-nowrap">Overview :</h2>
+          <div className="w-full flex-none">
             <QuantityDisplay />
           </div>
         </div>
         <div className="custom-box-3 flex w-full flex-col overflow-scroll">
           <h2 className="custom-title-2">Reminder :</h2>
-          <ReusableTable pageSize={3} />
+          <ReusableTable pageSize={5} />
         </div>
       </div>
       <div className="custom-box-2">
