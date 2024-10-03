@@ -3,8 +3,6 @@
 
 "use client";
 
-import { User } from "lucide-react";
-
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -15,22 +13,22 @@ import {
   PackageOpen,
   ClockAlert,
   Search,
-  Menu,
+  User,
   House,
   X,
+  Factory,
 } from "lucide-react";
 
-const UserProfileCard = ({ userEmail, userId }) => (
-  <div className="flex flex-row items-center space-x-2 rounded-lg bg-neutral-300 px-2 py-1 text-xs dark:bg-neutral-700">
+const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
+  <div className="flex flex-row items-center space-x-2 rounded-lg bg-neutral-300 px-2 py-2 text-xs dark:bg-neutral-700">
     <div className="rounded-full bg-neutral-400 p-2 dark:bg-neutral-500">
-      <User size={30} className="text-white dark:text-white" />
+      <User size={25} className="text-white dark:text-white" />
     </div>
-    <div className="text-black dark:text-white">
-      <div className="flex gap-2">
-        Email:<div className="font-light">{userEmail}</div>
-      </div>
-      <div className="flex gap-2">
-        ID:<div className="font-light">{userId}</div>
+    <div className="content-center text-black dark:text-white">
+      <div className="flex gap-2">Email: {userEmail}</div>
+      <div className="flex gap-2">ID: {userId}</div>
+      <div className="flex gap-2 font-bold text-amber-400">
+        {plantType} No. {plantId}
       </div>
     </div>
   </div>
@@ -42,10 +40,16 @@ function Nav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [userEmail, setUserEmail] = useState(
-    localStorage.getItem("userEmail") || "ToyotaSprinter@Trueno.com",
+    sessionStorage.getItem("userEmail") || "ToyotaSprinter@Trueno.com",
   );
   const [userId, setUserId] = useState(
-    localStorage.getItem("userId") || "$AGE20V",
+    sessionStorage.getItem("userId") || "$AGE20V",
+  );
+  const [plantType, setPlantType] = useState(
+    localStorage.getItem("plantType") || "Engine",
+  );
+  const [plantId, setPlantId] = useState(
+    Number(localStorage.getItem("plantId")) || 1,
   );
 
   let timeoutId;
@@ -89,7 +93,7 @@ function Nav() {
   return (
     <nav className="mb-10 bg-neutral-600 p-3 shadow-xl dark:bg-neutral-800">
       <div
-        className={`flex items-center ${isMobile ? "justify-between" : "justify-start"}`}
+        className={`flex items-center justify-between ${isMobile ? "" : ""}`}
       >
         <button className="text-white md:hidden" onClick={toggleMenu}>
           {isOpen ? (
@@ -107,7 +111,7 @@ function Nav() {
           )}
         </button>
         {/* Menu for larger screens */}
-        <ul className="mr-5 hidden items-center space-x-4 text-[25px] md:flex">
+        <ul className="hidden items-center space-x-4 text-[25px] md:flex md:flex-grow">
           <Link href="/" className="mr-5">
             <Image
               src={"/images/dx_logo.png"}
@@ -148,13 +152,26 @@ function Nav() {
             </ul>
           </li>
         </ul>
-        <UserProfileCard userEmail={userEmail} userId={userId} />
+        {/* UserProfileCard moved to the right */}
+        <div className="hidden md:block">
+          <UserProfileCard
+            userEmail={userEmail}
+            userId={userId}
+            plantType={plantType}
+            plantId={plantId}
+          />
+        </div>
       </div>
 
       {/* Mobile Menu */}
       {isOpen && (
         <ul className="mt-4 flex flex-col items-start space-y-4 text-[20px] md:hidden">
-          <UserProfileCard userEmail={userEmail} userId={userId} />
+          <UserProfileCard
+            userEmail={userEmail}
+            userId={userId}
+            plantType={plantType}
+            plantId={plantId}
+          />
           <NavItem href="/" icon={House} label="Home" />
           <NavItem href="/pack" icon={Package} label="Pack" />
           <NavItem href="/unpack" icon={PackageOpen} label="Unpack" />

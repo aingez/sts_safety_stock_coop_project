@@ -138,12 +138,12 @@ function AlertTable({ pageSize = 10 }) {
                 <th scope="col" className="">
                   Pallet
                 </th>
-                <th scope="col" className="">
+                <th scope="col" className="whitespace-nowrap">
                   Pack Date
                 </th>
-                <th scope="col" className="hidden sm:table-cell">
+                {/* <th scope="col" className="hidden sm:table-cell">
                   Plant
-                </th>
+                </th> */}
                 <th scope="col" className="hidden sm:table-cell">
                   Lane
                 </th>
@@ -184,13 +184,12 @@ function AlertTable({ pageSize = 10 }) {
                     <td className="px-4 py-4 text-center">
                       {item.pallet_name}
                     </td>
-                    <td className="px-4 py-4 text-center">
+                    <td className="whitespace-nowrap px-4 py-4 text-center">
                       {item.pack_date_formatted}
                     </td>
-
-                    <td className="hidden px-4 py-4 text-center sm:table-cell">
+                    {/* <td className="hidden px-4 py-4 text-center sm:table-cell">
                       {item.plant_type} {item.plant_id}
-                    </td>
+                    </td> */}
                     <td className="py-4text-center hidden px-4 sm:table-cell">
                       {item.lane || "Dock"}
                     </td>

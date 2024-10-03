@@ -225,17 +225,14 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
 
   return (
     <div className="flex flex-col gap-2 p-4 md:p-10">
-      <div className="flex flex-row space-x-5">
-        <div className="flex flex-col">
-          <h1 className="custom-box-title-2">Safety Stock :</h1>
-          <p className="custom-box-title-4">
-            {plant_type} Plant No.{plant_number}
-          </p>
-          <div className="mt-6 flex flex-wrap gap-4">
-            <LegendItem color={laneColors.blue} label="BLOCK" />
-            <LegendItem color={laneColors.yellow} label="HEAD" />
-            <LegendItem color={laneColors.green} label="CRANK" />
-          </div>
+      <div className="flex flex-col gap-4">
+        <h1 className="custom-box-title-4">
+          {plant_type} Plant No.{plant_number}
+        </h1>
+        <div className="flex flex-wrap gap-4">
+          <LegendItem color={laneColors.blue} label="BLOCK" />
+          <LegendItem color={laneColors.yellow} label="HEAD" />
+          <LegendItem color={laneColors.green} label="CRANK" />
         </div>
       </div>
 
