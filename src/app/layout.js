@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import Footer from "../components/Footer";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "./ThemeProviders";
-// import SwitchTheme from "../components/themeSwitch";
 
 const inter = Inter({ subsets: ["latin"], display: 'swap' });
 
@@ -25,9 +24,6 @@ export default function RootLayout({ children }) {
             enableSystem
             transition={false}
           >
-            {/* <div className="fixed bottom-4 right-4">
-              <SwitchTheme />
-            </div> */}
             <div className="md:mx-20 sm:mx-10 mx-5">
               <Toaster position="bottom-center" />
               {children}

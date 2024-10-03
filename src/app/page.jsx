@@ -12,42 +12,44 @@ const login = async () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const k = urlParams.get("k");
-  const apiUrl =
-    "https://devstm-euc.siamtoyota.co.th/GATEWAYLOCAL/api/v1/ssys/SSS010/VerifySubSystem?k=" +
-    k;
+  if (k != null) {
+    const apiUrl =
+      "https://devstm-euc.siamtoyota.co.th/GATEWAYLOCAL/api/v1/ssys/SSS010/VerifySubSystem?k=" +
+      k;
 
-  try {
-    // call api to get json data
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+    try {
+      // call api to get json data
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const jsonSSData = await response.json();
+      const postData = { Id: jsonSSData.Id, Email: "", Password: "" };
+      const apiUrlUserInfo =
+        "https://devstm-euc.siamtoyota.co.th/GATEWAYLOCAL/api/v1/auth/SSS010/GetUserInfoById?Id=" +
+        jsonSSData.Id;
+      const userResponse = await fetch(apiUrlUserInfo);
+      if (!userResponse.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const jsonData = await userResponse.json();
+      sessionStorage.setItem("userEmail", jsonData.Email);
+      sessionStorage.setItem("userId", jsonData.UserName);
+      const welcomeApiUrl = `http://127.0.0.1:8000/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
+      const welcomeResponse = await fetch(welcomeApiUrl, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      });
+      if (!welcomeResponse.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const welcomeData = await welcomeResponse.json();
+      console.log("Welcome data:", welcomeData);
+    } catch (error) {
+      console.error("There was a problem with the fetch operation:", error);
     }
-    const jsonSSData = await response.json();
-    const postData = { Id: jsonSSData.Id, Email: "", Password: "" };
-    const apiUrlUserInfo =
-      "https://devstm-euc.siamtoyota.co.th/GATEWAYLOCAL/api/v1/auth/SSS010/GetUserInfoById?Id=" +
-      jsonSSData.Id;
-    const userResponse = await fetch(apiUrlUserInfo);
-    if (!userResponse.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const jsonData = await userResponse.json();
-    sessionStorage.setItem("userEmail", jsonData.Email);
-    sessionStorage.setItem("userId", jsonData.UserName);
-    const welcomeApiUrl = `http://127.0.0.1:8000/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
-    const welcomeResponse = await fetch(welcomeApiUrl, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    if (!welcomeResponse.ok) {
-      throw new Error("Network response was not ok");
-    }
-    const welcomeData = await welcomeResponse.json();
-    console.log("Welcome data:", welcomeData);
-  } catch (error) {
-    console.error("There was a problem with the fetch operation:", error);
   }
 };
 

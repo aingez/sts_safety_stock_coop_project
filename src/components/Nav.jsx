@@ -3,7 +3,7 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -24,13 +24,24 @@ const UserProfileCard = ({ userEmail, userId, plantType, plantId }) => (
     <div className="rounded-full bg-neutral-400 p-2 dark:bg-neutral-500">
       <User size={25} className="text-white dark:text-white" />
     </div>
-    <div className="content-center text-black dark:text-white">
-      <div className="flex gap-2">Email: {userEmail}</div>
-      <div className="flex gap-2">ID: {userId}</div>
-      <div className="flex gap-2 font-bold text-amber-400">
-        {plantType} No. {plantId}
+    {userEmail === null ? (
+      <Link legacyBehavior href="https://devstm-euc.siamtoyota.co.th/scs/#/l">
+        <a className="custom-box-title-3 transition-all duration-300 hover:scale-110">
+          Login
+        </a>
+      </Link>
+    ) : (
+      // <Link legacyBehavior href="/logout">
+      //   <a className="text-black dark:text-white">Logout</a>
+      // </Link>
+      <div className="content-center text-black dark:text-white">
+        <div className="flex gap-2">Email: {userEmail}</div>
+        <div className="flex gap-2">ID: {userId}</div>
+        <div className="flex gap-2 font-bold text-amber-400">
+          {plantType} No. {plantId}
+        </div>
       </div>
-    </div>
+    )}
   </div>
 );
 
@@ -40,10 +51,10 @@ function Nav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [userEmail, setUserEmail] = useState(
-    sessionStorage.getItem("userEmail") || "ToyotaSprinter@Trueno.com",
+    sessionStorage.getItem("userEmail") || null,
   );
   const [userId, setUserId] = useState(
-    sessionStorage.getItem("userId") || "$AGE20V",
+    sessionStorage.getItem("userId") || null,
   );
   const [plantType, setPlantType] = useState(
     localStorage.getItem("plantType") || "Engine",

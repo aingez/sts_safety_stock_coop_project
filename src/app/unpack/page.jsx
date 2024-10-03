@@ -226,6 +226,7 @@ export default function UnPackPage() {
                 className="custom-text-input-1"
                 placeholder="XXXXXXXXX"
                 required
+                disabled
               ></input>
             </div>
             <div className="custom-input-layout-1">
@@ -237,6 +238,7 @@ export default function UnPackPage() {
                 className="custom-text-input-1"
                 placeholder="Sprinter Levin"
                 required
+                disabled
               ></input>
             </div>
           </div>

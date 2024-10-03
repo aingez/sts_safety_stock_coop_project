@@ -326,6 +326,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XXXXXXXXX"
                 required
+                disabled
               />
             </div>
             <div className="custom-input-layout-1">
@@ -337,6 +338,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="Sprinter Trueno"
                 required
+                disabled
               />
             </div>
           </div>
