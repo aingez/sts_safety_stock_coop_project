@@ -7,6 +7,8 @@ import LayoutDisplay from "../components/warehouseDisp";
 import LatestUnpack from "../components/latestUnpack";
 import LatestPack from "../components/latestPack";
 
+import { Settings } from "lucide-react";
+
 const login = async () => {
   // get variable k from current url, append to api url
   const queryString = window.location.search;
@@ -109,7 +111,11 @@ function HomePage() {
   }, []);
 
   if (!isInitialized) {
-    return <div className="min-h-screen pb-20">Loading...</div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Settings size={80} className="animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -142,7 +148,7 @@ function HomePage() {
             {JSON.stringify(layoutApiData)} */}
           </div>
         ) : (
-          <div className="flex-none">Loading . . .</div>
+          <Settings size={30} className="animate-spin" />
         )}
       </div>
       <div
