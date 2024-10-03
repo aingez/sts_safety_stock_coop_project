@@ -15,14 +15,14 @@ export default function PackPage() {
   // const [employeeName, setEmployeeName] = useState("");
   const [employeeId, setEmployeeId] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("userId") || "";
+      return sessionStorage.getItem("userId") || "";
     }
     return "";
   });
 
   const [employeeName, setEmployeeName] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("userEmail") || "";
+      return sessionStorage.getItem("userEmail") || "";
     }
     return "";
   });

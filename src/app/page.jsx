@@ -32,8 +32,8 @@ const login = async () => {
       throw new Error("Network response was not ok");
     }
     const jsonData = await userResponse.json();
-    localStorage.setItem("userEmail", jsonData.Email);
-    localStorage.setItem("userId", jsonData.UserName);
+    sessionStorage.setItem("userEmail", jsonData.Email);
+    sessionStorage.setItem("userId", jsonData.UserName);
     const welcomeApiUrl = `http://127.0.0.1:8000/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
     const welcomeResponse = await fetch(welcomeApiUrl, {
       method: "GET",
@@ -122,12 +122,7 @@ function HomePage() {
           </div>
         </div>
         <div className="custom-box-3 flex w-full flex-col overflow-scroll">
-          <h2 className="custom-title-2">
-            Reminder :
-            <p className="custom-box-title-2">
-              {plantType} Plant No. {plantId}
-            </p>
-          </h2>
+          <h2 className="custom-title-2">Reminder :</h2>
           <ReusableTable pageSize={3} />
         </div>
       </div>
