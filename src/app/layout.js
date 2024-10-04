@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <div className="bg-gray-200 dark:bg-neutral-700">
+        <div className="bg-neutral-400 dark:bg-neutral-500">
           <Nav />
           <ThemeProvider
             attribute="class"
