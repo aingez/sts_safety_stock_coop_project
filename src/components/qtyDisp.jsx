@@ -48,14 +48,13 @@ const QuantityDisplay = () => {
   }
 
   return (
-    // <div className={`mt-5 flex gap-4 ${isMobile ? "flex-row" : "flex-col"}`}>
     <div
       className={`mt-5 flex gap-2 ${isMobile ? "flex-row overflow-scroll" : "flex-col"}`}
     >
       {Object.keys(summary).map((key) => (
         <div
           key={key}
-          className="rounded-lg border-neutral-900 bg-neutral-300 p-4 shadow-inner dark:border-neutral-200 dark:bg-neutral-700 dark:shadow-lg"
+          className="rounded-lg border-neutral-900 bg-neutral-300 p-4 shadow-inner dark:border-neutral-200 dark:bg-neutral-800 dark:shadow-inner"
         >
           <div className="mb-2 flex flex-row justify-between gap-5 whitespace-nowrap rounded-md bg-gradient-to-r from-yellow-400 to-yellow-500 px-3 py-2 text-lg font-semibold text-neutral-800 shadow-inner shadow-amber-200">
             <div className="uppercase text-red-600">{key}</div>
