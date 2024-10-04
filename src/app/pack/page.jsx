@@ -442,7 +442,7 @@ export default function PackPage() {
               />
             </div>
           </div>
-          <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
+          <div className="grid gap-2 md:grid-cols-1 md:grid-cols-4 md:gap-2">
             <div className="custom-input-layout-1">
               <label>Row</label>
               <input
