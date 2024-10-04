@@ -20,8 +20,6 @@ function PalletMover() {
 
   const handleClear = () => {
     setPalletName("");
-    setPlantType("Engine");
-    setPlantNumber("");
     setRow("");
     setLane("");
     setPile("");
@@ -109,7 +107,7 @@ function PalletMover() {
 
     console.log("Payload:", payload);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/update/position`,
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/update/position/mgmt`,
       {
         method: "PUT",
         headers: {
@@ -125,7 +123,9 @@ function PalletMover() {
       handleClear();
     } else {
       console.error("Failed to update pallet position");
-      toast.error("Failed to update pallet position");
+      const errorData = await response.json();
+      toast.error(`${errorData.detail}`);
+      handleClear();
     }
   };
 
