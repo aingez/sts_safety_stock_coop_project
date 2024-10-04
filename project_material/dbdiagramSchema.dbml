@@ -1,4 +1,4 @@
-// visualize on www.dbdiagram.io
+// visualize on https://www.dbdiagram.io
 
 Table current_part {
   serial varchar(255) [pk]
