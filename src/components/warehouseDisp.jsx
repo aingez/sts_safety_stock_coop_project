@@ -2,17 +2,6 @@ import React, { useState } from "react";
 import ModalComponent from "../components/Modal";
 import { PackageOpen } from "lucide-react";
 
-const LegendItem = ({ color, label }) => {
-  return (
-    <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
-      <div
-        className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
-      ></div>
-      <span className="text-sm text-gray-700 dark:text-white">{label}</span>
-    </div>
-  );
-};
-
 const statusColors = {
   green: "bg-[#84cc16]",
   yellow: "bg-[#f59e0b]",
@@ -25,25 +14,36 @@ const laneColors = {
   green: "bg-lime-200 dark:bg-emerald-600",
 };
 
-const ModalContent = ({ data }) => (
+const LegendItem = ({ color, label }) => {
+  return (
+    <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
+      <div
+        className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
+      ></div>
+      <span className="text-sm text-gray-700 dark:text-white">{label}</span>
+    </div>
+  );
+};
+
+const ModalContent = ({ data, palletName }) => (
   <div className="p-5">
-    <h2 className="mb-2 text-xl font-semibold">Pallet</h2>
+    <h2 className="mb-2 text-xl font-bold text-neutral-800">
+      Pallet: {palletName}
+    </h2>
     <table>
       <thead className="custom-table-2">
         <tr>
-          {["Serial", "Type: Model", "Pack Date", "Age (days)"].map(
-            (header) => (
-              <th
-                key={header}
-                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-              >
-                {header}
-              </th>
-            ),
-          )}
+          {["Serial", "Type: Model", "Pack Date", "Day"].map((header) => (
+            <th
+              key={header}
+              className="bg-neutral-500 px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-neutral-200"
+            >
+              {header}
+            </th>
+          ))}
         </tr>
       </thead>
-      <tbody className="divide-y divide-gray-200 bg-neutral-200">
+      <tbody className="divide-y divide-gray-400 bg-neutral-300">
         {data?.map(
           ({ serial, type, model, formatted_pack_date, age_days }, index) => (
             <tr key={index}>
@@ -51,7 +51,7 @@ const ModalContent = ({ data }) => (
                 (value, i) => (
                   <td
                     key={i}
-                    className="whitespace-nowrap px-6 py-4 text-sm text-gray-500"
+                    className="whitespace-nowrap px-6 py-4 text-sm text-gray-900"
                   >
                     {value}
                   </td>
@@ -105,7 +105,7 @@ const GenerateUnpositionedTable = ({
       <div>
         {enableModal && modalData && (
           <ModalComponent onClose={() => setEnableModal(false)}>
-            <ModalContent data={modalData.data} />
+            <ModalContent data={modalData.data} palletName={pallet_name} />
           </ModalComponent>
         )}
       </div>
@@ -192,7 +192,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
       </table>
       {enableModal && modalData && (
         <ModalComponent onClose={() => setEnableModal(false)}>
-          <ModalContent data={modalData.data} />
+          <ModalContent data={modalData.data} palletName={modalData.pallet} />
         </ModalComponent>
       )}
     </>
