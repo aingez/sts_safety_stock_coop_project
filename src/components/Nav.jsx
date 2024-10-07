@@ -144,27 +144,23 @@ function Nav() {
           >
             <span
               className={`cursor-pointer transition transition-all transition-transform duration-300 hover:scale-110`}
-              onMouseLeave={handleMouseLeave}
+              onClick={() => setDropdownVisible(!dropdownVisible)}
             >
-              <span
-                className={`cursor-pointer transition transition-all transition-transform duration-300 hover:scale-110`}
-              >
-                <Settings size={40} />
-              </span>
-              <ul
-                className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
-              >
-                <li className="px-4 py-2 hover:bg-neutral-700">
-                  <Link href="/manage">Manage</Link>
-                </li>
-                <li className="px-4 py-2 hover:bg-neutral-700">
-                  <Link href="/creator">Create</Link>
-                </li>
-                <li className="px-4 py-2 hover:bg-neutral-700">
-                  <Link href="/option">Option</Link>
-                </li>
-              </ul>
+              <Settings size={40} />
             </span>
+            <ul
+              className={`absolute left-0 mt-2 w-48 bg-neutral-600 shadow-lg ${dropdownVisible ? "block" : "hidden"}`}
+            >
+              <li className="px-4 py-2 hover:bg-neutral-700">
+                <Link href="/manage">Manage</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-neutral-700">
+                <Link href="/creator">Create</Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-neutral-700">
+                <Link href="/option">Option</Link>
+              </li>
+            </ul>
           </li>
         </ul>
         {/* UserProfileCard moved to the right */}
