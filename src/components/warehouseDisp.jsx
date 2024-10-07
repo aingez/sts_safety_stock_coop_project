@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import ModalComponent from "../components/Modal";
 import { PackageOpen } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 const statusColors = {
   green: "bg-[#84cc16]",
@@ -98,13 +99,19 @@ const GenerateUnpositionedTable = ({
           );
           setModalData(data);
           setEnableModal(true);
+          sessionStorage.setItem("palletName", pallet_name);
         }}
       >
         <div className="-rotate-45 transform">{pallet_name}</div>
       </button>
       <div>
         {enableModal && modalData && (
-          <ModalComponent onClose={() => setEnableModal(false)}>
+          <ModalComponent
+            onClose={() => {
+              setEnableModal(false);
+              sessionStorage.removeItem("palletName");
+            }}
+          >
             <ModalContent data={modalData.data} palletName={pallet_name} />
           </ModalComponent>
         )}
@@ -124,7 +131,7 @@ const GenerateEmptyPallet = ({ pallet_name }) => {
   );
 };
 
-const GenerateTable = ({ laneData, plantType, plantNumber }) => {
+const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
   const { max_pile, max_layer, current_pallet } = laneData;
   const [enableModal, setEnableModal] = useState(false);
   const [modalData, setModalData] = useState(null);
@@ -133,9 +140,15 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
   );
 
   if (Array.isArray(current_pallet)) {
-    current_pallet.forEach(({ pile, layer, pallet_name, color }) => {
-      table[max_layer - layer][pile - 1] = { pallet_name, color };
-    });
+    current_pallet.forEach(
+      ({ pile, layer, pallet_name, color, current_model }) => {
+        table[max_layer - layer][pile - 1] = {
+          pallet_name,
+          color,
+          current_model,
+        };
+      },
+    );
   }
 
   return (
@@ -160,7 +173,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
                 <td key={colIndex} className="text-left">
                   {pallet ? (
                     <button
-                      className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
+                      className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-neutral-800 shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
                       title={pallet.pallet_name}
                       onClick={async () => {
                         const data = await fetchModalData(
@@ -170,16 +183,32 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
                         );
                         setModalData(data);
                         setEnableModal(true);
+                        sessionStorage.setItem(
+                          "palletName",
+                          pallet.pallet_name,
+                        );
                       }}
                     >
-                      <div style={{ transform: "rotate(-45deg)" }}>
+                      <div
+                        // style={{ transform: "rotate(-45deg)" }}
+                        className="flex flex-col"
+                      >
+                        <div className="overflow-auto rounded-lg bg-neutral-200 font-normal text-neutral-800 shadow-inner shadow-neutral-500">
+                          {pallet.current_model}
+                        </div>
                         {pallet.pallet_name}
                       </div>
                     </button>
                   ) : (
                     <button
-                      disabled
-                      className={`h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-60 shadow-xl dark:bg-neutral-300 dark:opacity-20`}
+                      // disabled
+                      className={`disable:dark:opacity-20 h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-30 shadow-xl hover:opacity-60 active:opacity-20 dark:bg-neutral-300`}
+                      onClick={() => {
+                        sessionStorage.setItem("mtRow", Row + 1);
+                        sessionStorage.setItem("mtLane", Lane + 1);
+                        sessionStorage.setItem("mtPile", colIndex + 1);
+                        sessionStorage.setItem("mtLayer", max_layer - rowIndex);
+                      }}
                     >
                       <div style={{ transform: "rotate(-45deg)" }}>MT</div>
                     </button>
@@ -191,7 +220,12 @@ const GenerateTable = ({ laneData, plantType, plantNumber }) => {
         </tbody>
       </table>
       {enableModal && modalData && (
-        <ModalComponent onClose={() => setEnableModal(false)}>
+        <ModalComponent
+          onClose={() => {
+            setEnableModal(false);
+            sessionStorage.removeItem("palletName");
+          }}
+        >
           <ModalContent data={modalData.data} palletName={modalData.pallet} />
         </ModalComponent>
       )}
@@ -277,6 +311,8 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
                           laneData={lane}
                           plantType={plant_type}
                           plantNumber={plant_number}
+                          Row={rowIndex}
+                          Lane={laneIndex}
                         />
                       ) : (
                         <div className="flex h-full items-end px-2 py-1 italic text-gray-400 opacity-20 dark:text-gray-500">
