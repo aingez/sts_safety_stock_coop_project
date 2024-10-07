@@ -5,6 +5,7 @@
 
 import React, { useState } from "react";
 import ReusableTable from "../../components/partSearchTable";
+import RangeTable from "../../components/partSearchRange";
 import { ArrowBigRight, ArrowBigDown } from "lucide-react";
 
 function SearchPage() {
@@ -13,6 +14,19 @@ function SearchPage() {
   const [tableKey, setTableKey] = useState(0);
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [showTable, setShowTable] = useState(false);
+  const [showRangeTable, setShowRangeTable] = useState(false);
+  const [plantType, setPlantType] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
+    }
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
 
   const handleSerialChange = (e) => {
     setSerialInput(e.target.value);
@@ -25,9 +39,14 @@ function SearchPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSendSerial(serialInput);
-    setTableKey((prevKey) => prevKey + 1);
-    setShowTable(true);
+    setShowTable(false);
+    if (serialInput.length > 1 && !dateRange.start && !dateRange.end) {
+      setSendSerial(serialInput);
+      setTableKey((prevKey) => prevKey + 1);
+      setShowTable(true);
+    } else if (dateRange.start && dateRange.end && !serialInput) {
+      setShowRangeTable(true);
+    }
   };
 
   const handleReset = (e) => {
@@ -36,6 +55,7 @@ function SearchPage() {
     setDateRange({ start: "", end: "" });
     setTableKey(0);
     setShowTable(false);
+    setShowRangeTable(false);
   };
 
   return (
@@ -55,7 +75,7 @@ function SearchPage() {
               required
             />
           </div>
-          {/* <div className="custom-input-layout-1">
+          <div className="custom-input-layout-1">
             <label>Search Date Range</label>
             <div className="flex flex-col md:flex-row">
               <div className="flex flex-col space-y-2 md:flex-row md:space-x-2 md:space-y-0">
@@ -84,7 +104,7 @@ function SearchPage() {
                 />
               </div>
             </div>
-          </div> */}
+          </div>
           <div className="my-2 space-x-2">
             <button type="submit" className="custom-button-1-green">
               SEARCH
@@ -97,13 +117,24 @@ function SearchPage() {
               CLEAR
             </button>
           </div>
-          {/* {serialInput.length < 1 && !dateRange.start && !dateRange.end && (
+          {serialInput.length < 1 && !dateRange.start && !dateRange.end && (
             <h2 className="custom-box-title-2">
               Input the serial number or search by date range to find the part
             </h2>
-          )} */}
+          )}
         </form>
       </div>
+      {showRangeTable && (
+        <div className="custom-box-2">
+          <h3 className="custom-box-title-1">Results</h3>
+          <RangeTable
+            plantType={plantType}
+            plantId={plantId}
+            startDate={dateRange.start}
+            endDate={dateRange.end}
+          />
+        </div>
+      )}
       {showTable && (
         <div className="custom-box-2">
           <h3 className="custom-box-title-1">Results</h3>
