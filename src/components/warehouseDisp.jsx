@@ -83,13 +83,14 @@ const GenerateUnpositionedTable = ({
   pallet_color,
   plantType,
   plantNumber,
+  model,
 }) => {
   const [enableModal, setEnableModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   return (
     <div>
       <button
-        className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
+        className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-neutral-800 shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
         title={pallet_name}
         onClick={async () => {
           const data = await fetchModalData(
@@ -102,7 +103,10 @@ const GenerateUnpositionedTable = ({
           sessionStorage.setItem("palletName", pallet_name);
         }}
       >
-        <div className="-rotate-45 transform">{pallet_name}</div>
+        <div className="overflow-auto rounded-lg bg-neutral-200 font-normal text-neutral-800 shadow-inner shadow-neutral-500">
+          {model}
+        </div>
+        {pallet_name}
       </button>
       <div>
         {enableModal && modalData && (
@@ -124,9 +128,14 @@ const GenerateEmptyPallet = ({ pallet_name }) => {
   return (
     <button
       disabled
-      className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200 shadow-inner shadow-neutral-700`}
+      // className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200 shadow-inner shadow-neutral-700`}
+      className={`h-12 w-14 rounded-lg bg-neutral-600 p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 active:opacity-50 active:shadow-sm`}
     >
-      <div className="-rotate-45 transform">{pallet_name}</div>
+      {/* <div className="-rotate-45 transform">{pallet_name}</div> */}
+      <div className="overflow-auto rounded-lg bg-neutral-500 font-normal text-neutral-600 shadow-inner shadow-neutral-400">
+        MT
+      </div>
+      {pallet_name}
     </button>
   );
 };
@@ -189,10 +198,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
                         );
                       }}
                     >
-                      <div
-                        // style={{ transform: "rotate(-45deg)" }}
-                        className="flex flex-col"
-                      >
+                      <div className="flex flex-col">
                         <div className="overflow-auto rounded-lg bg-neutral-200 font-normal text-neutral-800 shadow-inner shadow-neutral-500">
                           {pallet.current_model}
                         </div>
@@ -334,13 +340,14 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
             <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
           </div>
           <div className="flex flex-row gap-2">
-            {wander_pallet.map(({ pallet_name, color }) => (
+            {wander_pallet.map(({ pallet_name, color, current_model }) => (
               <GenerateUnpositionedTable
                 key={pallet_name}
                 pallet_name={pallet_name}
                 pallet_color={color}
                 plantType={plant_type}
                 plantNumber={plant_number}
+                model={current_model}
               />
             ))}
           </div>
