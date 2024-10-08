@@ -3,76 +3,70 @@
 
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import LayoutDisplay from "../../components/warehouseDisp";
+
+const getStorageValue = (key, defaultValue, storageType = "session") => {
+  if (typeof window !== "undefined") {
+    const storage = storageType === "local" ? localStorage : sessionStorage;
+    return storage.getItem(key) || defaultValue;
+  }
+  return defaultValue;
+};
 
 export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
-  const [employeeId, setEmployeeId] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("userId") || "";
-    }
-    return "";
-  });
-
-  const [employeeName, setEmployeeName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("userEmail") || "";
-    }
-    return "";
-  });
-
-  const [palletName, setPalletName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("palletName") || "";
-    }
-    return "";
-  });
-
-  const [plantType, setPlantType] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("plantType") || "Engine";
-    }
-    return "Engine";
-  });
-  const [plantId, setPlantId] = useState(() => {
-    if (typeof window !== "undefined") {
-      return Number(localStorage.getItem("plantId")) || 1;
-    }
-    return 1;
-  });
   const [isMobile, setIsMobile] = useState(false);
-  const [lane, setLane] = useState("");
-  const [row, setRow] = useState("");
-  const [pile, setPile] = useState("");
-  const [layer, setLayer] = useState("");
 
+  const [employeeId, setEmployeeId] = useState(() =>
+    getStorageValue("userId", ""),
+  );
+  const [employeeName, setEmployeeName] = useState(() =>
+    getStorageValue("userEmail", ""),
+  );
+  const [palletName, setPalletName] = useState(() =>
+    getStorageValue("palletName", ""),
+  );
+  const [plantType, setPlantType] = useState(() =>
+    getStorageValue("plantType", "Engine", "local"),
+  );
+  const [plantId, setPlantId] = useState(() =>
+    Number(getStorageValue("plantId", 1, "local")),
+  );
+  const [row, setRow] = useState(() => getStorageValue("mtRow", ""));
+  const [lane, setLane] = useState(() => getStorageValue("mtLane", ""));
+  const [pile, setPile] = useState(() => getStorageValue("mtPile", ""));
+  const [layer, setLayer] = useState(() => getStorageValue("mtLayer", ""));
+  const radioOptionsPlantType = [
+    { value: "Engine", label: "Engine" },
+    { value: "Casting", label: "Casting" },
+  ];
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [layoutApiData, setLayoutApiData] = useState("");
   const [availablePositions, setAvailablePositions] = useState(false);
 
-  const [loadingTable, setLoadingTable] = useState(false);
-  const [layoutUpdated, setLayoutUpdated] = useState(false);
-
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
+    sessionStorage.removeItem("palletName");
+    sessionStorage.removeItem("mtRow");
+    sessionStorage.removeItem("mtLane");
+    sessionStorage.removeItem("mtPile");
+    sessionStorage.removeItem("mtLayer");
+    setPalletName("");
+    setRow("");
+    setLane("");
+    setPile("");
+    setLayer("");
     setSerialNumbers([]);
     setOriginalSerialNumbers([]);
     setDateTimeValues({});
-    setPalletName("");
-    setLane("");
-    setRow("");
-    setPile("");
-    setLayer("");
     setApiPalletData("");
     setApiPartData({ data: [] });
     setAvailablePositions(false);
-    setLoadingTable(false);
-    sessionStorage.removeItem("palletName");
-  };
+  }, []);
 
   const handleSerialNumberChange = (e, index) => {
     const newDateTime = new Date().toLocaleString(); // Get current date and time
@@ -81,11 +75,6 @@ export default function PackPage() {
       [index]: newDateTime,
     }));
   };
-
-  const radioOptionsPlantType = [
-    { value: "Engine", label: "Engine" },
-    { value: "Casting", label: "Casting" },
-  ];
 
   const getNewSerialNumbersWithPackDates = () => {
     const result = serialNumbers
@@ -101,33 +90,7 @@ export default function PackPage() {
   };
 
   const handlePackLocate = () => {
-    const employeeIdInput = document.querySelector(
-      'input[placeholder="XXXXXXXXX"]',
-    );
-    const employeeNameInput = document.querySelector(
-      'input[placeholder="Sprinter Trueno"]',
-    );
-
-    const updatedEmployeeId = employeeIdInput
-      ? employeeIdInput.value
-      : employeeId;
-    const updatedEmployeeName = employeeNameInput
-      ? employeeNameInput.value
-      : employeeName;
-
     const newSerialList = getNewSerialNumbersWithPackDates();
-    console.log({
-      packer_id: updatedEmployeeId,
-      packer_name: updatedEmployeeName,
-      pallet_name: palletName,
-      plant_type: plantType,
-      plant_id: parseInt(plantId, 10),
-      row: parseInt(row, 10),
-      lane: parseInt(lane, 10),
-      pile: parseInt(pile, 10),
-      layer: parseInt(layer, 10),
-      new_part: newSerialList,
-    });
     // pass data to api
     fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
@@ -159,12 +122,50 @@ export default function PackPage() {
       })
       .then((data) => {
         toast.success("Data updated successfully");
-        setLayoutUpdated(true);
+        console.log(data);
         handleReset();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
   };
 
+  useEffect(() => {
+    let previousValues = {
+      row: sessionStorage.getItem("mtRow"),
+      lane: sessionStorage.getItem("mtLane"),
+      pile: sessionStorage.getItem("mtPile"),
+      layer: sessionStorage.getItem("mtLayer"),
+      palletName: sessionStorage.getItem("palletName"),
+    };
+
+    const handleStorageChange = () => {
+      const currentValues = {
+        row: sessionStorage.getItem("mtRow") || "",
+        lane: sessionStorage.getItem("mtLane") || "",
+        pile: sessionStorage.getItem("mtPile") || "",
+        layer: sessionStorage.getItem("mtLayer") || "",
+        palletName: sessionStorage.getItem("palletName") || "",
+      };
+
+      if (JSON.stringify(currentValues) !== JSON.stringify(previousValues)) {
+        setRow(currentValues.row);
+        setLane(currentValues.lane);
+        setPile(currentValues.pile);
+        setLayer(currentValues.layer);
+        setPalletName(currentValues.palletName);
+
+        previousValues = currentValues; // Update previous values
+      }
+    };
+
+    const intervalId = setInterval(handleStorageChange, 500); // Check every 500ms
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval when component unmounts
+    };
+  }, []);
+  // Get the current window size
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -174,32 +175,8 @@ export default function PackPage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
+  // Fetch pallet data
   useEffect(() => {
-    if (layoutUpdated) {
-      // Fetch the updated layout data after an update
-      const fetchLayoutData = async () => {
-        try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantId}`,
-          );
-          if (!res.ok) {
-            throw new Error("Network response was not ok");
-          }
-          const data = await res.json();
-          setLayoutApiData(data["data"]);
-        } catch (err) {
-          raiseError(err.message);
-        }
-      };
-
-      fetchLayoutData();
-      setLayoutUpdated(false);
-    }
-  }, [layoutUpdated, plantType, plantId]);
-
-  useEffect(() => {
-    setLoadingTable(true);
     const fetchPalletData = async () => {
       try {
         const res = await fetch(
@@ -219,11 +196,9 @@ export default function PackPage() {
     if (palletName.length >= 5 && plantType.length > 0 && plantId != 0) {
       fetchPalletData();
     }
-    setLoadingTable(false);
   }, [palletName, plantType, plantId]);
-
+  // Fetch layout data
   useEffect(() => {
-    setLoadingTable(true);
     const fetchLayoutData = async () => {
       try {
         const res = await fetch(
@@ -236,18 +211,15 @@ export default function PackPage() {
         setLayoutApiData(data["data"]);
         // toast.success("Layout data fetched successfully");
       } catch (err) {
-        // toast.error(err.message);
+        console.log(err.message);
       }
     };
-
     if (plantType.length > 0 && plantId != 0) {
       fetchLayoutData();
     }
-    setLoadingTable(false);
   }, [plantType, plantId]);
-
+  // Fetch part on pallet data
   useEffect(() => {
-    setLoadingTable(true);
     setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
       try {
@@ -268,11 +240,9 @@ export default function PackPage() {
     if (apiPalletData && apiPalletData.data?.is_pack) {
       fetchPartonPallet();
     }
-    setLoadingTable(false);
   }, [apiPalletData, plantType, plantId, palletName]);
-
+  // fetch position status
   useEffect(() => {
-    setLoadingTable(true);
     const fetchPositionStatus = async () => {
       try {
         const res = await fetch(
@@ -305,9 +275,8 @@ export default function PackPage() {
     ) {
       fetchPositionStatus();
     }
-    setLoadingTable(false);
   }, [palletName, plantType, plantId, lane, row, pile, layer]);
-
+  // Set serial numbers
   useEffect(() => {
     if (apiPalletData && apiPalletData.data) {
       const maxCapacity = apiPalletData.data.max_capacity || 0;
@@ -319,12 +288,10 @@ export default function PackPage() {
           packDate: apiPartData.data[index]?.pack_date || "",
         }),
       );
-
       setSerialNumbers(serialNumbersArray);
       setOriginalSerialNumbers(serialNumbersArray);
     }
   }, [apiPalletData, apiPartData]);
-
   return (
     <div
       className={`flex min-h-screen ${isMobile ? "flex-col space-x-0 px-5 pb-5" : "w-full flex-row space-x-10 px-20 pb-20"}`}
@@ -341,7 +308,6 @@ export default function PackPage() {
                 onChange={(e) => setEmployeeId(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XXXXXXXXX"
-                required
                 disabled
               />
             </div>
@@ -353,7 +319,6 @@ export default function PackPage() {
                 onChange={(e) => setEmployeeName(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="Sprinter Trueno"
-                required
                 disabled
               />
             </div>
@@ -364,10 +329,15 @@ export default function PackPage() {
               <input
                 type="text"
                 value={palletName}
-                onChange={(e) => setPalletName(e.target.value.toUpperCase())}
+                onChange={(e) => {
+                  setPalletName(e.target.value.toUpperCase());
+                  sessionStorage.setItem(
+                    "palletName",
+                    e.target.value.toUpperCase(),
+                  );
+                }}
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
-                required
               />
             </div>
             <div className="custom-input-layout-1">
@@ -377,6 +347,7 @@ export default function PackPage() {
                   <li key={option.value}>
                     <div className="radio-button-1">
                       <input
+                        disabled
                         id={`plant-type-${option.value}`}
                         type="radio"
                         defaultChecked={plantType === option.value}
@@ -401,7 +372,7 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 min="1"
-                required
+                disabled
               />
             </div>
           </div>
@@ -415,7 +386,6 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 min="1"
-                required
               />
             </div>
             <div className="custom-input-layout-1">
@@ -427,7 +397,6 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 min="1"
-                required
               />
             </div>
             <div className="custom-input-layout-1">
@@ -439,7 +408,6 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 min="1"
-                required
               />
             </div>
             <div className="custom-input-layout-1">
@@ -451,7 +419,6 @@ export default function PackPage() {
                 className="custom-text-input-1"
                 placeholder="XX"
                 min="1"
-                required
               />
             </div>
           </div>
@@ -490,7 +457,6 @@ export default function PackPage() {
               Pack & Locate
             </button>
           </div>
-          {loadingTable && <div className="animate-pulse">Loading . . .</div>}
           {layoutApiData != "" && <LayoutDisplay inputData={layoutApiData} />}
         </div>
       </form>

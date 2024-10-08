@@ -16,7 +16,6 @@ export default function UnPackPage() {
     }
     return "";
   });
-
   const [employeeName, setEmployeeName] = useState(() => {
     if (typeof window !== "undefined") {
       return sessionStorage.getItem("userEmail") || "";
@@ -41,11 +40,14 @@ export default function UnPackPage() {
     }
     return 1;
   });
+  const radioOptionsPlantType = [
+    { value: "Engine", label: "Engine" },
+    { value: "Casting", label: "Casting" },
+  ];
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
   const [unpackDateTimes, setUnpackDateTimes] = useState({});
-
   const [serialInput, setSerialInput] = useState("");
 
   const handleReset = () => {
@@ -58,14 +60,13 @@ export default function UnPackPage() {
     setSerialInput("");
     sessionStorage.removeItem("palletName");
   };
-
+  // set serialNumbers from apiPalletData and apiPartData
   useEffect(() => {
     if (apiPalletData && apiPalletData.data) {
       const maxCapacity = apiPalletData.data.max_capacity || 0;
       const serialNumbersArray = Array.from(
         { length: maxCapacity },
         (_, index) => ({
-          // Use existing if available
           serialNumber: apiPartData.data[index]?.serial || "",
           packDate: apiPartData.data[index]?.pack_date || "",
         }),
@@ -74,7 +75,7 @@ export default function UnPackPage() {
       setSerialNumbers(serialNumbersArray);
     }
   }, [apiPalletData, apiPartData]);
-
+  // fetch pallet data
   useEffect(() => {
     const fetchPalletData = async () => {
       try {
@@ -95,7 +96,7 @@ export default function UnPackPage() {
       fetchPalletData();
     }
   }, [palletName, plantType, plantId]);
-
+  // fetch part data
   useEffect(() => {
     setApiPartData({ data: [] });
     const fetchPartonPallet = async () => {
@@ -124,20 +125,18 @@ export default function UnPackPage() {
       fetchPartonPallet();
     }
   }, [apiPalletData, plantType, plantId, palletName]);
-
+  // check if serialInput in serialNumbers
   useEffect(() => {
-    // check if serialInput in serialNumbers
     const serialNumberIndex = serialNumbers.findIndex(
       (serial) => serial.serialNumber === serialInput,
     );
-    // if found, check the checkbox
     if (serialNumberIndex !== -1) {
       const checkbox = document.getElementById(`checkbox-${serialNumberIndex}`);
       checkbox.click();
       setSerialInput("");
     }
-  }, [serialInput]);
-
+  }, [serialInput, serialNumbers]);
+  // check window size
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -147,11 +146,6 @@ export default function UnPackPage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const radioOptionsPlantType = [
-    { value: "Engine", label: "Engine" },
-    { value: "Casting", label: "Casting" },
-  ];
 
   const formatDate = (date) => {
     const options = {
@@ -171,17 +165,6 @@ export default function UnPackPage() {
       serialNumber: serialNumbers[index].serialNumber,
       unpackDateTime: unpackDateTimes[index],
     }));
-    console.log(
-      JSON.stringify({
-        packer_id: employeeId,
-        packer_name: employeeName,
-        pallet_name: palletName,
-        plant_type: plantType,
-        plant_id: plantId,
-        unpack_part: unpackedSerialNumbersList,
-      }),
-    );
-
     fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/unpack/bundle`,
       {
@@ -267,6 +250,7 @@ export default function UnPackPage() {
                   <li key={option.value}>
                     <div className="radio-button-1">
                       <input
+                        disabled
                         id={`plant-type-${option.value}`}
                         type="radio"
                         defaultChecked={plantType === option.value}
@@ -294,6 +278,7 @@ export default function UnPackPage() {
                 placeholder="XX"
                 min="1"
                 required
+                disabled
               />
             </div>
           </div>
