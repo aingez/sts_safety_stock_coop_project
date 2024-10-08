@@ -60,8 +60,11 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
 
   return (
     <div className="overflow-x-auto">
+      <h2 className="custom-box-title-2">
+        Pallet to unpack during {startDate} to {endDate}
+      </h2>
       <table className="hidden min-w-full text-left text-sm text-gray-500 lg:table rtl:text-right dark:text-gray-400">
-        <thead className="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
+        <thead className="bg-gray-100 text-lg uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
           <tr>
             {[
               "Pallet",
@@ -69,8 +72,7 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
               "Lane",
               "Pile",
               "Layer",
-              "Age Start",
-              "Age End",
+              "Age",
               "Current Type",
               "Current Model",
             ].map((header) => (
@@ -85,7 +87,7 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
             apiData.map((item, index) => (
               <tr
                 key={index}
-                className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-700"
+                className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-800"
               >
                 {[
                   item.pallet_name,
@@ -93,14 +95,13 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
                   item.lane || "-",
                   item.pile || "-",
                   item.layer || "-",
-                  item.age_start,
-                  item.age_end,
+                  item.age_start + " - " + item.age_end,
                   item.current_type,
                   item.current_model,
                 ].map((value, idx) => (
                   <td
                     key={idx}
-                    className="whitespace-nowrap px-4 py-4 text-center sm:px-6"
+                    className="whitespace-nowrap px-4 py-4 text-left text-lg sm:px-6"
                   >
                     {value}
                   </td>
@@ -122,8 +123,7 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
                 { label: "Lane", value: item.lane || "-" },
                 { label: "Pile", value: item.pile || "-" },
                 { label: "Layer", value: item.layer || "-" },
-                { label: "Age Start", value: item.age_start },
-                { label: "Age End", value: item.age_end },
+                { label: "Age", value: item.age_start + " - " + item.age_end },
                 { label: "Current Type", value: item.current_type },
                 { label: "Current Model", value: item.current_model },
               ].map((field, idx) => (

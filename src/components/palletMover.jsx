@@ -11,14 +11,63 @@ function PalletMover() {
   const [palletName, setPalletName] = useState("");
   const [plantType, setPlantType] = useState("Engine");
   const [plantNumber, setPlantNumber] = useState("");
-  const [row, setRow] = useState("");
-  const [lane, setLane] = useState("");
-  const [pile, setPile] = useState("");
-  const [layer, setLayer] = useState("");
   const [showMove, setShowMove] = useState(false);
   const [apiData, setApiData] = useState("");
+  const [row, setRow] = useState(() => sessionStorage.getItem("mtRow") || "");
+  const [lane, setLane] = useState(
+    () => sessionStorage.getItem("mtLane") || "",
+  );
+  const [pile, setPile] = useState(
+    () => sessionStorage.getItem("mtPile") || "",
+  );
+  const [layer, setLayer] = useState(
+    () => sessionStorage.getItem("mtLayer") || "",
+  );
+
+  useEffect(() => {
+    let previousValues = {
+      row: sessionStorage.getItem("mtRow"),
+      lane: sessionStorage.getItem("mtLane"),
+      pile: sessionStorage.getItem("mtPile"),
+      layer: sessionStorage.getItem("mtLayer"),
+    };
+
+    const handleStorageChange = () => {
+      const currentValues = {
+        row: sessionStorage.getItem("mtRow") || "",
+        lane: sessionStorage.getItem("mtLane") || "",
+        pile: sessionStorage.getItem("mtPile") || "",
+        layer: sessionStorage.getItem("mtLayer") || "",
+      };
+
+      if (
+        currentValues.row !== previousValues.row ||
+        currentValues.lane !== previousValues.lane ||
+        currentValues.pile !== previousValues.pile ||
+        currentValues.layer !== previousValues.layer
+      ) {
+        setRow(currentValues.row || "");
+        setLane(currentValues.lane || "");
+        setPile(currentValues.pile || "");
+        setLayer(currentValues.layer || "");
+
+        previousValues = currentValues; // Update previous values
+      }
+    };
+
+    const intervalId = setInterval(handleStorageChange, 500); // Check every 500ms
+
+    return () => {
+      clearInterval(intervalId); // Cleanup interval when component unmounts
+    };
+  }, []);
 
   const handleClear = () => {
+    sessionStorage.removeItem("palletName");
+    sessionStorage.removeItem("mtRow");
+    sessionStorage.removeItem("mtLane");
+    sessionStorage.removeItem("mtPile");
+    sessionStorage.removeItem("mtLayer");
     setPalletName("");
     setRow("");
     setLane("");
@@ -33,8 +82,10 @@ function PalletMover() {
     if (typeof window !== "undefined") {
       const storedPlantType = localStorage.getItem("plantType") || "Engine";
       const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
+      const storedPalletName = sessionStorage.getItem("palletName") || "";
       setPlantType(storedPlantType);
       setPlantNumber(storedPlantId);
+      setPalletName(storedPalletName);
     }
   }, []);
 
@@ -53,7 +104,6 @@ function PalletMover() {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      // console.log("Fetched Data:", data);
       setLayoutApiData(data["data"]);
     } catch (error) {
       console.error("Error fetching layout data:", error);
@@ -70,14 +120,12 @@ function PalletMover() {
         },
       },
     );
-
     if (!plantKeyResponse.ok) {
       console.error("Failed to fetch plant key");
       toast.error("Failed to fetch plant key");
       return;
     }
     const plantKeyData = await plantKeyResponse.json();
-
     const palletIdResponse = await fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/id/${palletName}/${plantKeyData["id"]}`,
       {
@@ -87,15 +135,12 @@ function PalletMover() {
         },
       },
     );
-
     if (!palletIdResponse.ok) {
       console.error("Failed to fetch pallet");
       toast.error("Failed to fetch pallet");
       return;
     }
-
     const palletIdData = await palletIdResponse.json();
-
     const payload = {
       plant_key: plantKeyData["id"],
       row: parseInt(row),
@@ -104,8 +149,6 @@ function PalletMover() {
       layer: parseInt(layer),
       pallet_id: palletIdData["id"],
     };
-
-    console.log("Payload:", payload);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/update/position/mgmt`,
       {
@@ -117,12 +160,35 @@ function PalletMover() {
         body: JSON.stringify(payload),
       },
     );
-
     if (response.ok) {
       toast.success("Pallet position updated successfully");
       handleClear();
+      fetchLayoutData();
     } else {
       console.error("Failed to update pallet position");
+      const errorData = await response.json();
+      toast.error(`${errorData.detail}`);
+      handleClear();
+    }
+  };
+
+  const handleDislocate = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/dislocate/user/${plantType}/${plantNumber}/${palletName}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+        },
+      },
+    );
+
+    if (response.ok) {
+      toast.success("Pallet dislocated successfully");
+      handleClear();
+      fetchLayoutData();
+    } else {
+      console.error("Failed to dislocate pallet");
       const errorData = await response.json();
       toast.error(`${errorData.detail}`);
       handleClear();
@@ -178,6 +244,7 @@ function PalletMover() {
                   className="custom-text-input-1"
                   value={plantType}
                   onChange={(e) => setPlantType(e.target.value)}
+                  disabled
                 >
                   <option value="Engine">Engine</option>
                   <option value="Casting">Casting</option>
@@ -190,6 +257,7 @@ function PalletMover() {
                   className="custom-text-input-1"
                   placeholder="Plant Number"
                   value={plantNumber}
+                  disabled
                   onChange={(e) => {
                     const value = e.target.value;
                     if (value === "" || Number(value) > 0) {
@@ -385,6 +453,14 @@ function PalletMover() {
                   disabled={!row || !lane || !pile || !layer}
                 >
                   M.O.V.E
+                </button>
+                <button
+                  type="primary"
+                  size="large"
+                  className="custom-button-1-green mt-2 w-full"
+                  onClick={handleDislocate}
+                >
+                  DISLOCATE
                 </button>
               </div>
             </div>

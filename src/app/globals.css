@@ -108,5 +108,4 @@
 
 .radio-button-1 {
     @apply flex flex-row space-x-2 dark:text-white bg-neutral-200 p-2 rounded-lg dark:bg-neutral-800;
-    /* @apply inline-flex items-center space-x-2 border-2 border-neutral-200 rounded-lg py-2 px-4 bg-transparent bg-white font-normal leading-relaxed text-gray-800 focus:outline-none disabled:bg-neutral-200 dark:disabled:border-neutral-500 dark:disabled:bg-neutral-200 dark:bg-neutral-800 dark:border-neutral-700 dark:text-white ; */
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ModalComponent from "../components/Modal";
 import { PackageOpen } from "lucide-react";
-import { toast } from "react-hot-toast";
+import Link from "next/link";
 
 const statusColors = {
   green: "bg-[#84cc16]",
@@ -15,19 +15,40 @@ const laneColors = {
   green: "bg-lime-200 dark:bg-emerald-600",
 };
 
-const LegendItem = ({ color, label }) => {
-  return (
-    <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
-      <div
-        className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
-      ></div>
-      <span className="text-sm text-gray-700 dark:text-white">{label}</span>
-    </div>
-  );
+const LegendItem = ({ color, label }) => (
+  <div className="flex items-center space-x-2 rounded-lg bg-white p-2 shadow-xl dark:bg-neutral-500">
+    <div
+      className={`h-6 w-6 rounded-full border-solid shadow-inner ${color}`}
+    ></div>
+    <span className="text-sm text-gray-700 dark:text-white">{label}</span>
+  </div>
+);
+
+const fetchModalData = async (plantType, plantNumber, palletName) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
+    );
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching modal data:", error);
+  }
 };
 
+const GenerateEmptyPallet = ({ pallet_name }) => (
+  <button
+    disabled
+    className="h-12 w-14 rounded-lg bg-neutral-600 p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 active:opacity-50 active:shadow-sm"
+  >
+    <div className="overflow-auto rounded-lg bg-neutral-500 font-normal text-neutral-600 shadow-inner shadow-neutral-400">
+      MT
+    </div>
+    {pallet_name}
+  </button>
+);
+
 const ModalContent = ({ data, palletName }) => (
-  <div className="p-5">
+  <div className="p-5 text-left">
     <h2 className="mb-2 text-xl font-bold text-neutral-800">
       Pallet: {palletName}
     </h2>
@@ -63,20 +84,13 @@ const ModalContent = ({ data, palletName }) => (
         )}
       </tbody>
     </table>
+    <div className="pt-5">
+      <Link href="/manage" className="custom-button-1-green">
+        MOVE
+      </Link>
+    </div>
   </div>
 );
-
-const fetchModalData = async (plantType, plantNumber, palletName) => {
-  try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/pallet/part_list/${plantType}/${plantNumber}/${palletName}`,
-    );
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching modal data:", error);
-  }
-};
 
 const GenerateUnpositionedTable = ({
   pallet_name,
@@ -84,59 +98,49 @@ const GenerateUnpositionedTable = ({
   plantType,
   plantNumber,
   model,
+  full,
 }) => {
   const [enableModal, setEnableModal] = useState(false);
   const [modalData, setModalData] = useState(null);
+
+  const handleClick = async () => {
+    const data = await fetchModalData(plantType, plantNumber, pallet_name);
+    setModalData(data);
+    setEnableModal(true);
+    sessionStorage.setItem("palletName", pallet_name);
+  };
+
   return (
     <div>
       <button
         className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-neutral-800 shadow-xl hover:opacity-70 ${statusColors[pallet_color]} active:opacity-50 active:shadow-sm`}
         title={pallet_name}
-        onClick={async () => {
-          const data = await fetchModalData(
-            plantType,
-            plantNumber,
-            pallet_name,
-          );
-          setModalData(data);
-          setEnableModal(true);
-          sessionStorage.setItem("palletName", pallet_name);
-        }}
+        onClick={handleClick}
       >
-        <div className="overflow-auto rounded-lg bg-neutral-200 font-normal text-neutral-800 shadow-inner shadow-neutral-500">
-          {model}
-        </div>
-        {pallet_name}
-      </button>
-      <div>
-        {enableModal && modalData && (
-          <ModalComponent
-            onClose={() => {
-              setEnableModal(false);
-              sessionStorage.removeItem("palletName");
-            }}
+        <div className="flex flex-col">
+          <div
+            className={`overflow-auto rounded-lg ${
+              full === "true"
+                ? `${statusColors[pallet_color]} text-neutral-600`
+                : "bg-rose-400 text-neutral-600 shadow-inner shadow-neutral-500"
+            } font-normal`}
           >
-            <ModalContent data={modalData.data} palletName={pallet_name} />
-          </ModalComponent>
-        )}
-      </div>
+            {model}
+          </div>
+          {pallet_name}
+        </div>
+      </button>
+      {enableModal && modalData && (
+        <ModalComponent
+          onClose={() => {
+            setEnableModal(false);
+            sessionStorage.removeItem("palletName");
+          }}
+        >
+          <ModalContent data={modalData.data} palletName={pallet_name} />
+        </ModalComponent>
+      )}
     </div>
-  );
-};
-
-const GenerateEmptyPallet = ({ pallet_name }) => {
-  return (
-    <button
-      disabled
-      // className={`h-12 w-14 rounded-lg bg-neutral-600 text-neutral-200 shadow-inner shadow-neutral-700`}
-      className={`h-12 w-14 rounded-lg bg-neutral-600 p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 active:opacity-50 active:shadow-sm`}
-    >
-      {/* <div className="-rotate-45 transform">{pallet_name}</div> */}
-      <div className="overflow-auto rounded-lg bg-neutral-500 font-normal text-neutral-600 shadow-inner shadow-neutral-400">
-        MT
-      </div>
-      {pallet_name}
-    </button>
   );
 };
 
@@ -150,15 +154,27 @@ const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
 
   if (Array.isArray(current_pallet)) {
     current_pallet.forEach(
-      ({ pile, layer, pallet_name, color, current_model }) => {
+      ({ pile, layer, pallet_name, color, current_model, is_full }) => {
         table[max_layer - layer][pile - 1] = {
           pallet_name,
           color,
           current_model,
+          is_full,
         };
       },
     );
   }
+
+  const handleClick = async (pallet) => {
+    const data = await fetchModalData(
+      plantType,
+      plantNumber,
+      pallet.pallet_name,
+    );
+    setModalData(data);
+    setEnableModal(true);
+    sessionStorage.setItem("palletName", pallet.pallet_name);
+  };
 
   return (
     <>
@@ -168,9 +184,9 @@ const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
             {Array.from({ length: max_pile }).map((_, pileIndex) => (
               <th
                 key={pileIndex}
-                className="text-center font-light text-neutral-800 opacity-30 dark:text-gray-100"
+                className="text-left font-light text-neutral-800 opacity-30 dark:text-gray-100"
               >
-                {pileIndex + 1}
+                P{pileIndex + 1}
               </th>
             ))}
           </tr>
@@ -184,22 +200,16 @@ const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
                     <button
                       className={`h-12 w-14 rounded-lg p-1 text-sm font-bold text-neutral-800 shadow-xl hover:opacity-70 ${statusColors[pallet.color]} active:opacity-50 active:shadow-sm`}
                       title={pallet.pallet_name}
-                      onClick={async () => {
-                        const data = await fetchModalData(
-                          plantType,
-                          plantNumber,
-                          pallet.pallet_name,
-                        );
-                        setModalData(data);
-                        setEnableModal(true);
-                        sessionStorage.setItem(
-                          "palletName",
-                          pallet.pallet_name,
-                        );
-                      }}
+                      onClick={() => handleClick(pallet)}
                     >
                       <div className="flex flex-col">
-                        <div className="overflow-auto rounded-lg bg-neutral-200 font-normal text-neutral-800 shadow-inner shadow-neutral-500">
+                        <div
+                          className={`overflow-auto rounded-lg ${
+                            pallet.is_full === "true"
+                              ? `${statusColors[pallet.color]} text-neutral-600`
+                              : "bg-rose-400 text-neutral-600 shadow-inner shadow-neutral-500"
+                          } font-normal`}
+                        >
                           {pallet.current_model}
                         </div>
                         {pallet.pallet_name}
@@ -207,8 +217,7 @@ const GenerateTable = ({ laneData, plantType, plantNumber, Row, Lane }) => {
                     </button>
                   ) : (
                     <button
-                      // disabled
-                      className={`disable:dark:opacity-20 h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-30 shadow-xl hover:opacity-60 active:opacity-20 dark:bg-neutral-300`}
+                      className="disable:dark:opacity-20 h-12 w-14 rounded-lg bg-neutral-200 p-1 text-sm font-bold text-white opacity-30 shadow-xl hover:opacity-60 active:opacity-20 dark:bg-neutral-300"
                       onClick={() => {
                         sessionStorage.setItem("mtRow", Row + 1);
                         sessionStorage.setItem("mtLane", Lane + 1);
@@ -280,15 +289,13 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
         <table className="min-w-full p-2">
           <thead>
             <tr>
-              <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300">
-                {/* Row */}
-              </th>
+              <th className="p-3 text-left font-light text-gray-700 dark:text-gray-300"></th>
               {[...Array(max_lane)].map((_, index) => (
                 <th
                   key={index}
                   className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300"
                 >
-                  Lane {index + 1}
+                  La.{index + 1}
                 </th>
               ))}
             </tr>
@@ -298,7 +305,7 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
             {Array.from({ length: max_row }).map((_, rowIndex) => (
               <tr key={rowIndex}>
                 <td className="border-none p-3 text-center font-light text-gray-700 dark:text-gray-300">
-                  {rowIndex + 1}
+                  Rw.{rowIndex + 1}
                 </td>
                 {[...Array(max_lane)].map((_, laneIndex) => {
                   const lane = layer_1.find(
@@ -340,16 +347,19 @@ const WarehouseLayoutDisplay = ({ inputData }) => {
             <h2 className="pb-2 text-left text-lg font-bold">Dock</h2>
           </div>
           <div className="flex flex-row gap-2">
-            {wander_pallet.map(({ pallet_name, color, current_model }) => (
-              <GenerateUnpositionedTable
-                key={pallet_name}
-                pallet_name={pallet_name}
-                pallet_color={color}
-                plantType={plant_type}
-                plantNumber={plant_number}
-                model={current_model}
-              />
-            ))}
+            {wander_pallet.map(
+              ({ pallet_name, color, current_model, is_full }) => (
+                <GenerateUnpositionedTable
+                  key={pallet_name}
+                  pallet_name={pallet_name}
+                  pallet_color={color}
+                  plantType={plant_type}
+                  plantNumber={plant_number}
+                  model={current_model}
+                  full={is_full}
+                />
+              ),
+            )}
           </div>
         </div>
       )}

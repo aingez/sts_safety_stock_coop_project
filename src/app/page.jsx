@@ -49,7 +49,7 @@ const login = async () => {
         throw new Error("Network response was not ok");
       }
       const welcomeData = await welcomeResponse.json();
-      // console.log("Welcome data:", welcomeData);
+      console.log("Welcome data:", welcomeData);
     } catch (error) {
       console.error(
         "There was a problem with processing user operation:",
