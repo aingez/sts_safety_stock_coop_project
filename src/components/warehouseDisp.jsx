@@ -49,8 +49,8 @@ const GenerateEmptyPallet = ({ pallet_name }) => (
 
 const ModalContent = ({ data, palletName }) => (
   <div className="p-5 text-left">
-    <h2 className="mb-2 text-xl font-bold text-neutral-800">
-      Pallet: {palletName}
+    <h2 className="mb-2 text-xl font-bold text-neutral-800 dark:text-neutral-200">
+      Pallet : {palletName}
     </h2>
     <table>
       <thead className="custom-table-2">
@@ -84,9 +84,15 @@ const ModalContent = ({ data, palletName }) => (
         )}
       </tbody>
     </table>
-    <div className="pt-5">
+    <div className="space-x-2 pt-5">
       <Link href="/manage" className="custom-button-1-green">
         MOVE
+      </Link>
+      <Link href="/pack" className="custom-button-1-green">
+        PACK
+      </Link>
+      <Link href="/unpack" className="custom-button-1-green">
+        UNPACK
       </Link>
     </div>
   </div>
