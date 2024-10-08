@@ -468,13 +468,11 @@ function PalletMover() {
         </div>
       </div>
       {layoutApiData && (
-        <div>
-          <div className="custom-box-2 ml-3">
-            <TestLayoutDisplay
-              key={JSON.stringify(layoutApiData)}
-              inputData={layoutApiData}
-            />
-          </div>
+        <div className="custom-box-2 ml-3">
+          <TestLayoutDisplay
+            key={JSON.stringify(layoutApiData)}
+            inputData={layoutApiData}
+          />
         </div>
       )}
     </div>
