@@ -23,7 +23,12 @@ export default function UnPackPage() {
     }
     return "";
   });
-  const [palletName, setPalletName] = useState("");
+  const [palletName, setPalletName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("palletName") || "";
+    }
+    return "";
+  });
   const [plantType, setPlantType] = useState(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("plantType") || "Engine";
@@ -51,6 +56,7 @@ export default function UnPackPage() {
     setCheckedSerialNumbers([]);
     setUnpackDateTimes({});
     setSerialInput("");
+    sessionStorage.removeItem("palletName");
   };
 
   useEffect(() => {
@@ -79,7 +85,7 @@ export default function UnPackPage() {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        toast.success("Pallet data fetched successfully");
+        console.log("Pallet data fetched successfully");
         setApiPalletData(data);
       } catch (err) {
         toast.error(err.message);
@@ -102,7 +108,7 @@ export default function UnPackPage() {
         }
         const data = await res.json();
         setApiPartData(data);
-        toast.success("Part data fetched successfully");
+        console.log("Part data fetched successfully");
       } catch (err) {
         toast.error(err.message);
       }
@@ -247,6 +253,7 @@ export default function UnPackPage() {
               <label>Pallet Name</label>
               <input
                 type="text"
+                value={palletName}
                 onChange={(e) => setPalletName(e.target.value)}
                 className="custom-text-input-1"
                 placeholder="XX-00-X"
@@ -307,7 +314,8 @@ export default function UnPackPage() {
                 plantType.length === 0 ||
                 plantId.length === 0 ||
                 apiPalletData.length === 0 ||
-                apiPartData.length === 0
+                apiPartData.length === 0 ||
+                checkedSerialNumbers.length === 0
               }
             >
               Unpack

@@ -11,8 +11,6 @@ export default function PackPage() {
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
-  // const [employeeId, setEmployeeId] = useState("");
-  // const [employeeName, setEmployeeName] = useState("");
   const [employeeId, setEmployeeId] = useState(() => {
     if (typeof window !== "undefined") {
       return sessionStorage.getItem("userId") || "";
@@ -27,7 +25,12 @@ export default function PackPage() {
     return "";
   });
 
-  const [palletName, setPalletName] = useState("");
+  const [palletName, setPalletName] = useState(() => {
+    if (typeof window !== "undefined") {
+      return sessionStorage.getItem("palletName") || "";
+    }
+    return "";
+  });
 
   const [plantType, setPlantType] = useState(() => {
     if (typeof window !== "undefined") {
@@ -68,6 +71,7 @@ export default function PackPage() {
     setApiPartData({ data: [] });
     setAvailablePositions(false);
     setLoadingTable(false);
+    sessionStorage.removeItem("palletName");
   };
 
   const handleSerialNumberChange = (e, index) => {
@@ -112,6 +116,18 @@ export default function PackPage() {
       : employeeName;
 
     const newSerialList = getNewSerialNumbersWithPackDates();
+    console.log({
+      packer_id: updatedEmployeeId,
+      packer_name: updatedEmployeeName,
+      pallet_name: palletName,
+      plant_type: plantType,
+      plant_id: parseInt(plantId, 10),
+      row: parseInt(row, 10),
+      lane: parseInt(lane, 10),
+      pile: parseInt(pile, 10),
+      layer: parseInt(layer, 10),
+      new_part: newSerialList,
+    });
     // pass data to api
     fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
@@ -127,63 +143,10 @@ export default function PackPage() {
           pallet_name: palletName,
           plant_type: plantType,
           plant_id: parseInt(plantId, 10),
-          row: parseInt(row, 10),
-          lane: parseInt(lane, 10),
-          pile: parseInt(pile, 10),
-          layer: parseInt(layer, 10),
-          new_part: newSerialList,
-        }),
-      },
-    )
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        toast.success("Data updated successfully");
-        setLayoutUpdated(true);
-        handleReset();
-      })
-      .catch((error) => {});
-  };
-
-  const handlePack = () => {
-    const employeeIdInput = document.querySelector(
-      'input[placeholder="XXXXXXXXX"]',
-    );
-    const employeeNameInput = document.querySelector(
-      'input[placeholder="Sprinter Trueno"]',
-    );
-
-    const updatedEmployeeId = employeeIdInput
-      ? employeeIdInput.value
-      : employeeId;
-    const updatedEmployeeName = employeeNameInput
-      ? employeeNameInput.value
-      : employeeName;
-
-    const newSerialList = getNewSerialNumbersWithPackDates();
-    // pass data to api
-    fetch(
-      `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          packer_id: employeeId,
-          packer_name: employeeName,
-          pallet_name: palletName,
-          plant_type: plantType,
-          plant_id: parseInt(plantId, 10),
-          row: null,
-          lane: null,
-          pile: null,
-          layer: null,
+          row: row === "" ? 0 : parseInt(row, 10),
+          lane: lane === "" ? 0 : parseInt(lane, 10),
+          pile: pile === "" ? 0 : parseInt(pile, 10),
+          layer: layer === "" ? 0 : parseInt(layer, 10),
           new_part: newSerialList,
         }),
       },
@@ -246,7 +209,7 @@ export default function PackPage() {
           throw new Error("Network response was not ok");
         }
         const data = await res.json();
-        toast.success("Pallet data fetched successfully");
+        console.log("Pallet data fetched successfully");
         setApiPalletData(data);
       } catch (err) {
         // toast.error(err.message);
@@ -296,7 +259,7 @@ export default function PackPage() {
         }
         const data = await res.json();
         setApiPartData(data);
-        toast.success("Part data fetched successfully");
+        console.log("Part data fetched successfully");
       } catch (err) {
         toast.error(err.message);
       }
@@ -507,7 +470,7 @@ export default function PackPage() {
               disabled
               onClick={(e) => {
                 e.preventDefault();
-                handlePack();
+                handlePackLocate();
               }}
             >
               Pack
