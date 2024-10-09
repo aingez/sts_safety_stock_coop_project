@@ -6,11 +6,13 @@ import ReusableTable from "../components/alertTable";
 import LayoutDisplay from "../components/warehouseDisp";
 import LatestUnpack from "../components/latestUnpack";
 import LatestPack from "../components/latestPack";
-
 import { Settings } from "lucide-react";
 
+// Import custom hooks
+import useLayoutData from "../hooks/useLayoutData";
+import useMobileView from "../hooks/useMobileView";
+
 const login = async () => {
-  // get variable k from current url, append to api url
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const k = urlParams.get("k");
@@ -20,7 +22,6 @@ const login = async () => {
       k;
 
     try {
-      // call api to get json data
       const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -35,7 +36,6 @@ const login = async () => {
         throw new Error("Network response was not ok");
       }
       const jsonData = await userResponse.json();
-      // console.log("User data:", jsonData);
       sessionStorage.setItem("userEmail", jsonData.Email);
       sessionStorage.setItem("userId", jsonData.UserName);
       const welcomeApiUrl = `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/staff/welcome?id=${jsonData.UserName}&name=${jsonData.Email}`;
@@ -60,11 +60,12 @@ const login = async () => {
 };
 
 function HomePage() {
-  const [isMobile, setIsMobile] = useState(false);
-  const [layoutApiData, setLayoutApiData] = useState("");
   const [plantType, setPlantType] = useState("Engine");
   const [plantId, setPlantId] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
+
+  const isMobile = useMobileView();
+  const layoutApiData = useLayoutData(plantType, plantId, isInitialized);
 
   useEffect(() => {
     login();
@@ -75,43 +76,6 @@ function HomePage() {
       setPlantId(storedPlantId);
     }
     setIsInitialized(true);
-  }, []);
-
-  const fetchLayoutData = async () => {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/layout/${plantType}/${plantId}`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-          },
-        },
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setLayoutApiData(data["data"]);
-    } catch (error) {
-      console.error("Error fetching layout data:", error);
-    }
-  };
-
-  useEffect(() => {
-    if (isInitialized) {
-      fetchLayoutData();
-    }
-  }, [isInitialized, plantType, plantId]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1440);
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   if (!isInitialized) {
@@ -148,8 +112,6 @@ function HomePage() {
                 inputData={layoutApiData}
               />
             </div>
-            {/* <div className="custom-box-title-1">for debug</div>
-            {JSON.stringify(layoutApiData)} */}
           </div>
         ) : (
           <Settings size={30} className="animate-spin" />
