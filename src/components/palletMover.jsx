@@ -6,23 +6,27 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import TestLayoutDisplay from "./warehouseDisp";
 
+const getStorageValue = (key, defaultValue, storageType = "session") => {
+  if (typeof window !== "undefined") {
+    const storage = storageType === "local" ? localStorage : sessionStorage;
+    return storage.getItem(key) || defaultValue;
+  }
+  return defaultValue;
+};
+
 function PalletMover() {
   const [layoutApiData, setLayoutApiData] = useState("");
-  const [palletName, setPalletName] = useState("");
+  const [palletName, setPalletName] = useState(() =>
+    getStorageValue("palletName", ""),
+  );
   const [plantType, setPlantType] = useState("Engine");
   const [plantNumber, setPlantNumber] = useState("");
   const [showMove, setShowMove] = useState(false);
   const [apiData, setApiData] = useState("");
-  const [row, setRow] = useState(() => sessionStorage.getItem("mtRow") || "");
-  const [lane, setLane] = useState(
-    () => sessionStorage.getItem("mtLane") || "",
-  );
-  const [pile, setPile] = useState(
-    () => sessionStorage.getItem("mtPile") || "",
-  );
-  const [layer, setLayer] = useState(
-    () => sessionStorage.getItem("mtLayer") || "",
-  );
+  const [row, setRow] = useState(() => getStorageValue("mtRow", ""));
+  const [lane, setLane] = useState(() => getStorageValue("mtLane", ""));
+  const [pile, setPile] = useState(() => getStorageValue("mtPile", ""));
+  const [layer, setLayer] = useState(() => getStorageValue("mtLayer", ""));
 
   useEffect(() => {
     let previousValues = {
@@ -73,8 +77,6 @@ function PalletMover() {
     setLane("");
     setPile("");
     setLayer("");
-    setShowMove(false);
-    setApiData("");
     setLayoutApiData("");
   };
 
@@ -82,10 +84,8 @@ function PalletMover() {
     if (typeof window !== "undefined") {
       const storedPlantType = localStorage.getItem("plantType") || "Engine";
       const storedPlantId = Number(localStorage.getItem("plantId")) || 1;
-      const storedPalletName = sessionStorage.getItem("palletName") || "";
       setPlantType(storedPlantType);
       setPlantNumber(storedPlantId);
-      setPalletName(storedPalletName);
     }
   }, []);
 
@@ -208,7 +208,6 @@ function PalletMover() {
 
     if (response.ok) {
       const data = await response.json();
-      console.log("Fetched Data:", data);
       setApiData(data);
 
       fetchLayoutData();
@@ -282,7 +281,11 @@ function PalletMover() {
               type="primary"
               size="large"
               className="custom-button-1-pink w-full"
-              onClick={handleClear}
+              onClick={() => {
+                handleClear();
+                setShowMove(false);
+                setApiData("");
+              }}
             >
               CLEAR
             </button>
