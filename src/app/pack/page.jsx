@@ -20,7 +20,6 @@ export default function PackPage() {
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-
   const [employeeId, setEmployeeId] = useState(() =>
     getStorageValue("userId", ""),
   );
@@ -433,8 +432,7 @@ export default function PackPage() {
             <button
               className="custom-button-1-green"
               type="submit"
-              // disabled={getNewSerialNumbersWithPackDates().length === 0}
-              disabled
+              disabled={getNewSerialNumbersWithPackDates().length === 0}
               onClick={(e) => {
                 e.preventDefault();
                 handlePackLocate();
