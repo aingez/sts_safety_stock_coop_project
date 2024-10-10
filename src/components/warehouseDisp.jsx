@@ -13,6 +13,7 @@ const laneColors = {
   blue: "bg-sky-200 dark:bg-sky-600",
   yellow: "bg-amber-200 dark:bg-yellow-600",
   green: "bg-lime-200 dark:bg-emerald-600",
+  purple: "bg-purple-200 dark:bg-purple-600",
 };
 
 const LegendItem = ({ color, label }) => (
@@ -36,10 +37,7 @@ const fetchModalData = async (plantType, plantNumber, palletName) => {
 };
 
 const GenerateEmptyPallet = ({ pallet_name }) => (
-  <button
-    disabled
-    className="h-12 w-14 rounded-lg bg-neutral-600 p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 active:opacity-50 active:shadow-sm"
-  >
+  <button className="h-12 w-14 rounded-lg bg-neutral-600 p-1 text-sm font-bold text-white shadow-xl hover:opacity-70 active:opacity-50 active:shadow-sm">
     <div className="overflow-auto rounded-lg bg-neutral-500 font-normal text-neutral-600 shadow-inner shadow-neutral-400">
       MT
     </div>
