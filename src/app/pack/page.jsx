@@ -20,11 +20,9 @@ export default function PackPage() {
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-  const [employeeId, setEmployeeId] = useState(
-    getStorageValue("employeeId", ""),
-  );
+  const [employeeId, setEmployeeId] = useState(getStorageValue("userId", ""));
   const [employeeName, setEmployeeName] = useState(
-    getStorageValue("employeeName", ""),
+    getStorageValue("userEmail", ""),
   );
   const [palletName, setPalletName] = useState(
     getStorageValue("palletName", "", "local"),
@@ -87,6 +85,19 @@ export default function PackPage() {
   const handlePackLocate = () => {
     const newSerialList = getNewSerialNumbersWithPackDates();
     // pass data to api
+    // console log body
+    console.log({
+      packer_id: employeeId,
+      packer_name: employeeName,
+      pallet_name: palletName,
+      plant_type: plantType,
+      plant_id: parseInt(plantId, 10),
+      row: row === "" ? 0 : parseInt(row, 10),
+      lane: lane === "" ? 0 : parseInt(lane, 10),
+      pile: pile === "" ? 0 : parseInt(pile, 10),
+      layer: layer === "" ? 0 : parseInt(layer, 10),
+      new_part: newSerialList,
+    });
     fetch(
       `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/part/pack/bundle`,
       {

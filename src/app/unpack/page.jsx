@@ -18,11 +18,9 @@ export default function UnPackPage() {
   useCheckUser();
   const [isMobile, setIsMobile] = useState(false);
   const [serialNumbers, setSerialNumbers] = useState([]);
-  const [employeeId, setEmployeeId] = useState(
-    getStorageValue("employeeId", ""),
-  );
+  const [employeeId, setEmployeeId] = useState(getStorageValue("userId", ""));
   const [employeeName, setEmployeeName] = useState(
-    getStorageValue("employeeName", ""),
+    getStorageValue("userEmail", ""),
   );
   const [palletName, setPalletName] = useState(
     getStorageValue("palletName", ""),
