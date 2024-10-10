@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Settings } from "lucide-react";
+import { getStorageValue } from "../utils/storageHelpers";
 
 function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
@@ -8,18 +9,12 @@ function AlertTable({ pageSize = 10 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [plantKey, setPlantKey] = useState(null);
   const [filter, setFilter] = useState("");
-  const [plantType, setPlantType] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("plantType") || "Engine";
-    }
-    return "Engine";
-  });
-  const [plantId, setPlantId] = useState(() => {
-    if (typeof window !== "undefined") {
-      return Number(localStorage.getItem("plantId")) || 1;
-    }
-    return 1;
-  });
+  const [plantType, setPlantType] = useState(
+    getStorageValue("plantType", "", "local"),
+  );
+  const [plantId, setPlantId] = useState(
+    getStorageValue("plantId", 0, "local"),
+  );
 
   const fetchPlantKey = async () => {
     try {
