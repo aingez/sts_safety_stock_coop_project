@@ -7,45 +7,32 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { ScanQrCode } from "lucide-react";
 import useCheckUser from "../../hooks/useCheckUser";
+import { getStorageValue } from "../../utils/storageHelpers";
+
+const radioOptionsPlantType = [
+  { value: "Engine", label: "Engine" },
+  { value: "Casting", label: "Casting" },
+];
 
 export default function UnPackPage() {
   useCheckUser();
   const [isMobile, setIsMobile] = useState(false);
   const [serialNumbers, setSerialNumbers] = useState([]);
-  const [employeeId, setEmployeeId] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("userId") || "";
-    }
-    return "";
-  });
-  const [employeeName, setEmployeeName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("userEmail") || "";
-    }
-    return "";
-  });
-  const [palletName, setPalletName] = useState(() => {
-    if (typeof window !== "undefined") {
-      return sessionStorage.getItem("palletName") || "";
-    }
-    return "";
-  });
-  const [plantType, setPlantType] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("plantType") || "Engine";
-    }
-    return "Engine";
-  });
-  const [plantId, setPlantId] = useState(() => {
-    if (typeof window !== "undefined") {
-      return Number(localStorage.getItem("plantId")) || 1;
-    }
-    return 1;
-  });
-  const radioOptionsPlantType = [
-    { value: "Engine", label: "Engine" },
-    { value: "Casting", label: "Casting" },
-  ];
+  const [employeeId, setEmployeeId] = useState(
+    getStorageValue("employeeId", ""),
+  );
+  const [employeeName, setEmployeeName] = useState(
+    getStorageValue("employeeName", ""),
+  );
+  const [palletName, setPalletName] = useState(
+    getStorageValue("palletName", ""),
+  );
+  const [plantType, setPlantType] = useState(
+    getStorageValue("plantType", "", "local"),
+  );
+  const [plantId, setPlantId] = useState(
+    getStorageValue("plantId", 0, "local"),
+  );
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [checkedSerialNumbers, setCheckedSerialNumbers] = useState([]);
