@@ -72,7 +72,7 @@ function SearchPage() {
               value={serialInput}
               onChange={handleSerialChange}
               className="custom-text-input-1"
-              placeholder="XXXXXXXXXX"
+              placeholder="Input Serial Number (Min. 4 characters)"
               disabled={dateRange.start || dateRange.end}
               required
             />
@@ -108,7 +108,16 @@ function SearchPage() {
             </div>
           </div>
           <div className="my-2 space-x-2">
-            <button type="submit" className="custom-button-1-green">
+            <button
+              type="submit"
+              className="custom-button-1-green"
+              disabled={
+                serialInput.length < 4 &&
+                (!dateRange.start ||
+                  (dateRange.end && dateRange.end < dateRange.start) ||
+                  new Date(dateRange.start) < new Date())
+              }
+            >
               SEARCH
             </button>
             <button
@@ -119,6 +128,14 @@ function SearchPage() {
               CLEAR
             </button>
           </div>
+          {dateRange.end < dateRange.start && (
+            <p className="text-xs text-rose-500">Invalid date range.</p>
+          )}
+          {new Date(dateRange.start) < new Date() && (
+            <p className="text-xs text-rose-500">
+              Start date cannot less than today.
+            </p>
+          )}
           {serialInput.length < 1 && !dateRange.start && !dateRange.end && (
             <h2 className="custom-box-title-2">
               Input the serial number or search by date range to find the part

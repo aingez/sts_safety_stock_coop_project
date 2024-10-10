@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 
 function PartSearchTable({ partSerial }) {
-  const [apiData, setApiData] = useState(null);
+  const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -68,18 +68,21 @@ function PartSearchTable({ partSerial }) {
           </tr>
         </thead>
         <tbody>
-          {apiData && (
-            <tr className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-700">
+          {apiData.map((item, index) => (
+            <tr
+              key={index}
+              className="border-b bg-white dark:border-neutral-500 dark:bg-neutral-700"
+            >
               {[
-                `${apiData.type} : ${apiData.model}`,
-                apiData.serial,
-                apiData.pallet_name,
-                `${apiData.plant_type} ${apiData.plant_id}`,
-                `${apiData.row} : ${apiData.lane} : ${apiData.pile} : ${apiData.layer}`,
-                apiData.pack_date_formatted,
-                apiData.packer_name,
-                apiData.unpack_date_formatted || "-",
-                apiData.unpacker_name || "-",
+                `${item.type} : ${item.model}`,
+                item.serial,
+                item.pallet_name,
+                `${item.plant_type} ${item.plant_id}`,
+                `${item.row} : ${item.lane} : ${item.pile} : ${item.layer}`,
+                item.pack_date_formatted,
+                item.packer_name,
+                item.unpack_date_formatted || "-",
+                item.unpacker_name || "-",
               ].map((value, index) => (
                 <td
                   key={index}
@@ -89,47 +92,44 @@ function PartSearchTable({ partSerial }) {
                 </td>
               ))}
             </tr>
-          )}
+          ))}
         </tbody>
       </table>
       <div className="block lg:hidden">
-        {apiData && (
-          <div className="rounded-lg bg-white p-4 shadow dark:bg-neutral-700">
+        {apiData.map((item, index) => (
+          <div
+            key={index}
+            className="rounded-lg bg-white p-4 shadow dark:bg-neutral-700"
+          >
             {[
-              {
-                label: "Type : Model",
-                value: `${apiData.type} : ${apiData.model}`,
-              },
-              { label: "Serial Number", value: apiData.serial },
-              { label: "Pallet", value: apiData.pallet_name },
-              {
-                label: "Plant",
-                value: `${apiData.plant_type} ${apiData.plant_id}`,
-              },
+              { label: "Type : Model", value: `${item.type} : ${item.model}` },
+              { label: "Serial Number", value: item.serial },
+              { label: "Pallet", value: item.pallet_name },
+              { label: "Plant", value: `${item.plant_type} ${item.plant_id}` },
               {
                 label: "Row : Lane : Pile : Layer",
-                value: `${apiData.row} : ${apiData.lane} : ${apiData.pile} : ${apiData.layer}`,
+                value: `${item.row} : ${item.lane} : ${item.pile} : ${item.layer}`,
               },
-              { label: "Packing Date", value: apiData.pack_date_formatted },
-              { label: "Packer", value: apiData.packer_name },
+              { label: "Packing Date", value: item.pack_date_formatted },
+              { label: "Packer", value: item.packer_name },
               {
                 label: "Un-Pack Date",
-                value: apiData.unpack_date_formatted || "-",
+                value: item.unpack_date_formatted || "-",
               },
-              { label: "Un-Packer", value: apiData.unpacker_name || "-" },
-            ].map((item, index) => (
+              { label: "Un-Packer", value: item.unpacker_name || "-" },
+            ].map((field, index) => (
               <div
                 key={index}
                 className={
                   index % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
                 }
               >
-                <div className="px-4 py-2 font-semibold">{item.label}</div>
-                <div className="px-4 py-2">{item.value}</div>
+                <div className="px-4 py-2 font-semibold">{field.label}</div>
+                <div className="px-4 py-2">{field.value}</div>
               </div>
             ))}
           </div>
-        )}
+        ))}
       </div>
     </div>
   );
