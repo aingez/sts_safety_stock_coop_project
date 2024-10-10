@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Settings } from "lucide-react";
 import { getStorageValue } from "../utils/storageHelpers";
+import useFetchPlantKey from "../hooks/useFetchPlantKey";
 
 function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
@@ -15,7 +16,6 @@ function AlertTable({ pageSize = 10 }) {
   const [plantId, setPlantId] = useState(
     getStorageValue("plantId", 0, "local"),
   );
-
   const fetchPlantKey = async () => {
     try {
       const res = await fetch(
@@ -37,10 +37,6 @@ function AlertTable({ pageSize = 10 }) {
     if (apiData.length === 0) {
       setLoading(true);
     }
-    const storedPlantType = localStorage.getItem("plantType");
-    const storedPlantId = localStorage.getItem("plantId");
-    setPlantType(storedPlantType);
-    setPlantId(storedPlantId);
     try {
       let key = plantKey;
       if (!key) {
