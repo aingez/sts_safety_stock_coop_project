@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Settings } from "lucide-react";
 import { getStorageValue } from "../utils/storageHelpers";
-import useFetchPlantKey from "../hooks/useFetchPlantKey";
 
 function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
