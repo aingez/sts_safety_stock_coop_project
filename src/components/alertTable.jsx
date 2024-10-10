@@ -1,17 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { Settings } from "lucide-react";
-import { getStorageValue } from "../utils/storageHelpers";
-import fetchPlantKey from "../hooks/useFetchPlantKey";
 
 function AlertTable({ pageSize = 10 }) {
   const [apiData, setApiData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [plantKey, setPlantKey] = useState(null);
   const [filter, setFilter] = useState("");
-  const plantType = useState(getStorageValue("plantType", "", "local"));
-  const plantId = useState(getStorageValue("plantId", 0, "local"));
-  const plantKey = fetchPlantKey(plantType[0], plantId[0]).plantKey || null;
+  const [plantType, setPlantType] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("plantType") || "Engine";
+    }
+    return "Engine";
+  });
+  const [plantId, setPlantId] = useState(() => {
+    if (typeof window !== "undefined") {
+      return Number(localStorage.getItem("plantId")) || 1;
+    }
+    return 1;
+  });
+
+  const fetchPlantKey = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_STS_SAFETY_STOCK_FAST_API}/warehouse/id/${plantType}/${plantId}`,
+      );
+      if (!res.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await res.json();
+      setError(null);
+      return data.id;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
 
   const fetchData = async () => {
     if (apiData.length === 0) {
@@ -92,9 +117,7 @@ function AlertTable({ pageSize = 10 }) {
         </div>
       )}
 
-      {loading && (
-        <Settings size={30} className="my-5 animate-spin text-center" />
-      )}
+      {loading && <Settings size={30} className="animate-spin" />}
       {error && (
         <div
           className="relative rounded border border-red-400 bg-red-100 text-red-700"
