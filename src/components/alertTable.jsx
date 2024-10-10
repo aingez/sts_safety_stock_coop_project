@@ -118,7 +118,7 @@ function AlertTable({ pageSize = 10 }) {
         </div>
       )}
       {!loading && !error && (
-        <div className="max-h-96 overflow-auto">
+        <div className="max-h-screen overflow-auto">
           <table className="min-w-full text-left text-gray-500 rtl:text-right dark:text-gray-400">
             <thead className="text-md bg-gray-100 py-4 text-center uppercase text-gray-700 dark:bg-neutral-500 dark:text-neutral-200">
               <tr>
