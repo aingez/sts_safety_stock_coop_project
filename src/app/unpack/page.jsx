@@ -6,8 +6,10 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { ScanQrCode } from "lucide-react";
+import useCheckUser from "../../hooks/useCheckUser";
 
 export default function UnPackPage() {
+  useCheckUser();
   const [isMobile, setIsMobile] = useState(false);
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [employeeId, setEmployeeId] = useState(() => {

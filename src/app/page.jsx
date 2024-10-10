@@ -15,6 +15,7 @@ import useLogin from "../hooks/useLogin";
 import useCheckUser from "../hooks/useCheckUser";
 
 function HomePage() {
+  useLogin();
   const [plantType, setPlantType] = useState("Engine");
   const [plantId, setPlantId] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -22,8 +23,7 @@ function HomePage() {
   const isMobile = useMobileView();
   const layoutApiData = useLayoutData(plantType, plantId, isInitialized);
 
-  useLogin();
-  useCheckUser();
+  // useCheckUser();
 
   useEffect(() => {
     if (typeof window !== "undefined") {

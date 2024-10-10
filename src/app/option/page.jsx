@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
 import PlantSetting from "../../components/setPlant";
 import SwitchTheme from "../../components/themeSwitch";
+import useCheckUser from "../../hooks/useCheckUser";
 
-function optionPage() {
+function OptionPage() {
+  useCheckUser();
   return (
     <div className="min-h-screen px-10 pb-20">
       <h1 className="custom-title-1">Option Setting</h1>
@@ -14,4 +17,4 @@ function optionPage() {
   );
 }
 
-export default optionPage;
+export default OptionPage;

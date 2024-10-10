@@ -6,6 +6,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import LayoutDisplay from "../../components/warehouseDisp";
+import useCheckUser from "../../hooks/useCheckUser";
 
 const getStorageValue = (key, defaultValue, storageType = "session") => {
   if (typeof window !== "undefined") {
@@ -16,6 +17,7 @@ const getStorageValue = (key, defaultValue, storageType = "session") => {
 };
 
 export default function PackPage() {
+  useCheckUser();
   const [dateTimeValues, setDateTimeValues] = useState({});
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);

@@ -7,8 +7,10 @@ import React, { useState } from "react";
 import WhCreator from "../../components/warehouseCreator";
 import PalletCreateRemover from "../../components/palletCreateRem";
 import PartList from "../../components/activePartModelList";
+import useCheckUser from "../../hooks/useCheckUser";
 
 const WarehouseEditor = () => {
+  useCheckUser();
   return (
     <div className="min-h-screen px-10 pb-20">
       <h1 className="custom-title-1">Create Master</h1>

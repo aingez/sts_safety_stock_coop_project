@@ -9,7 +9,8 @@ const useAuthRedirect = () => {
       // Check if userEmail or userId is missing
       if (!userEmail || !userId) {
         // Redirect to login page
-        window.location.href = "https://devstm-euc.siamtoyota.co.th/scs/#/l";
+        window.location.href =
+          "https://devstm-euc.siamtoyota.co.th/scs/#/s/home";
       }
     }
   }, []);

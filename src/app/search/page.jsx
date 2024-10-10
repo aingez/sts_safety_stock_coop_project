@@ -7,8 +7,10 @@ import React, { useState } from "react";
 import ReusableTable from "../../components/partSearchTable";
 import RangeTable from "../../components/partSearchRange";
 import { ArrowBigRight, ArrowBigDown } from "lucide-react";
+import useCheckUser from "../../hooks/useCheckUser";
 
 function SearchPage() {
+  useCheckUser();
   const [serialInput, setSerialInput] = useState("");
   const [sendSerial, setSendSerial] = useState("");
   const [tableKey, setTableKey] = useState(0);
