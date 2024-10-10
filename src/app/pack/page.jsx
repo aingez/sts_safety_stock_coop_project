@@ -3,18 +3,16 @@
 
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, use } from "react";
 import { toast } from "react-hot-toast";
 import LayoutDisplay from "../../components/warehouseDisp";
 import useCheckUser from "../../hooks/useCheckUser";
+import { getStorageValue } from "../../utils/storageHelpers";
 
-const getStorageValue = (key, defaultValue, storageType = "session") => {
-  if (typeof window !== "undefined") {
-    const storage = storageType === "local" ? localStorage : sessionStorage;
-    return storage.getItem(key) || defaultValue;
-  }
-  return defaultValue;
-};
+const radioOptionsPlantType = [
+  { value: "Engine", label: "Engine" },
+  { value: "Casting", label: "Casting" },
+];
 
 export default function PackPage() {
   useCheckUser();
@@ -22,29 +20,25 @@ export default function PackPage() {
   const [serialNumbers, setSerialNumbers] = useState([]);
   const [originalSerialNumbers, setOriginalSerialNumbers] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-  const [employeeId, setEmployeeId] = useState(() =>
-    getStorageValue("userId", ""),
+  const [employeeId, setEmployeeId] = useState(
+    getStorageValue("employeeId", ""),
   );
-  const [employeeName, setEmployeeName] = useState(() =>
-    getStorageValue("userEmail", ""),
+  const [employeeName, setEmployeeName] = useState(
+    getStorageValue("employeeName", ""),
   );
-  const [palletName, setPalletName] = useState(() =>
-    getStorageValue("palletName", ""),
+  const [palletName, setPalletName] = useState(
+    getStorageValue("palletName", "", "local"),
   );
-  const [plantType, setPlantType] = useState(() =>
-    getStorageValue("plantType", "Engine", "local"),
+  const [row, setRow] = useState(getStorageValue("mtRow", "", "local"));
+  const [lane, setLane] = useState(getStorageValue("mtLane", "", "local"));
+  const [pile, setPile] = useState(getStorageValue("mtPile", "", "local"));
+  const [layer, setLayer] = useState(getStorageValue("mtLayer", "", "local"));
+  const [plantType, setPlantType] = useState(
+    getStorageValue("plantType", "", "local"),
   );
-  const [plantId, setPlantId] = useState(() =>
-    Number(getStorageValue("plantId", 1, "local")),
+  const [plantId, setPlantId] = useState(
+    getStorageValue("plantId", 0, "local"),
   );
-  const [row, setRow] = useState(() => getStorageValue("mtRow", ""));
-  const [lane, setLane] = useState(() => getStorageValue("mtLane", ""));
-  const [pile, setPile] = useState(() => getStorageValue("mtPile", ""));
-  const [layer, setLayer] = useState(() => getStorageValue("mtLayer", ""));
-  const radioOptionsPlantType = [
-    { value: "Engine", label: "Engine" },
-    { value: "Casting", label: "Casting" },
-  ];
   const [apiPalletData, setApiPalletData] = useState("");
   const [apiPartData, setApiPartData] = useState({ data: [] });
   const [layoutApiData, setLayoutApiData] = useState("");
