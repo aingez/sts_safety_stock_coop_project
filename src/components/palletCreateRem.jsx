@@ -131,6 +131,7 @@ const PalletEditor = () => {
                   <li key={radio.value}>
                     <div className="radio-button-1">
                       <input
+                        disabled
                         id={`plant-type-radio-${radio.value}`}
                         type="radio"
                         defaultChecked={radio.value === "Engine"}
@@ -158,6 +159,7 @@ const PalletEditor = () => {
                 className="custom-text-input-1"
                 placeholder="Plant Number"
                 required
+                disabled
               />
             </div>
           </div>
@@ -177,10 +179,7 @@ const PalletEditor = () => {
             size="large"
             className="custom-button-1-green"
             onClick={submitCreate}
-            disabled={
-              palletMode === "REMOVE" ||
-              (palletName.length < 5 && maxCapacity < 1)
-            }
+            disabled={palletName.length < 5 || maxCapacity < 1}
           >
             CREATE
           </button>
@@ -199,14 +198,14 @@ const PalletEditor = () => {
           )}
         </div>
       </div>
-      <div className="custom-box-2">
+      {/* <div className="custom-box-2">
         <h1 className="custom-box-title-1">INPUT</h1>
         <h1>Mode: {palletMode}</h1>
         <h1>Plant Type: {plantType}</h1>
         <h1>Plant Number: {plantNumber}</h1>
         <h1>Pallet Name: {palletName}</h1>
         <h1>Max Capacity: {maxCapacity}</h1>
-      </div>
+      </div> */}
     </div>
   );
 };
