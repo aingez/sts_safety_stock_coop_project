@@ -115,26 +115,24 @@ function PartSearchRange({ plantType, plantId, startDate, endDate }) {
           apiData.map((item, index) => (
             <div
               key={index}
-              className="rounded-lg bg-white p-4 shadow dark:bg-neutral-700"
+              className="mb-2 rounded-lg bg-white p-4 shadow dark:bg-neutral-700"
             >
               {[
                 { label: "Pallet", value: item.pallet_name },
-                { label: "Row", value: item.row || "-" },
-                { label: "Lane", value: item.lane || "-" },
-                { label: "Pile", value: item.pile || "-" },
-                { label: "Layer", value: item.layer || "-" },
+                {
+                  label: "Row : Lane : Pile : Layer",
+                  value: `${item.row} : ${item.lane} : ${item.pile} : ${item.layer}`,
+                },
                 { label: "Age", value: item.age_start + " - " + item.age_end },
                 { label: "Current Type", value: item.current_type },
                 { label: "Current Model", value: item.current_model },
               ].map((field, idx) => (
                 <div
                   key={idx}
-                  className={
-                    idx % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
-                  }
+                  className="inline-flex grid grid-cols-2 font-semibold"
                 >
-                  <div className="px-4 py-2 font-semibold">{field.label}</div>
-                  <div className="px-4 py-2">{field.value}</div>
+                  <span>{field.label}</span>
+                  <span className="ml-1 font-thin">{field.value}</span>
                 </div>
               ))}
             </div>

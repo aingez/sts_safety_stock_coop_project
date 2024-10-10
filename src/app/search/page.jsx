@@ -61,7 +61,7 @@ function SearchPage() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col sm:mx-0 md:mx-20">
+    <div className="flex min-h-screen flex-col sm:mx-2 md:mx-20">
       <h1 className="custom-title-1">Part Search</h1>
       <div className="custom-box-2">
         <form onSubmit={handleSubmit}>
@@ -114,8 +114,7 @@ function SearchPage() {
               disabled={
                 serialInput.length < 4 &&
                 (!dateRange.start ||
-                  (dateRange.end && dateRange.end < dateRange.start) ||
-                  new Date(dateRange.start) < new Date())
+                  (dateRange.end && dateRange.end < dateRange.start))
               }
             >
               SEARCH

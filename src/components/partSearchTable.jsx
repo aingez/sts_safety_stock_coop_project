@@ -99,7 +99,7 @@ function PartSearchTable({ partSerial }) {
         {apiData.map((item, index) => (
           <div
             key={index}
-            className="rounded-lg bg-white p-4 shadow dark:bg-neutral-700"
+            className="mb-2 overflow-scroll rounded-lg bg-white p-4 shadow dark:bg-neutral-700"
           >
             {[
               { label: "Type : Model", value: `${item.type} : ${item.model}` },
@@ -120,12 +120,14 @@ function PartSearchTable({ partSerial }) {
             ].map((field, index) => (
               <div
                 key={index}
-                className={
-                  index % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
-                }
+                // className={
+                //   index % 2 === 0 ? "bg-gray-50 dark:bg-neutral-600" : ""
+                // }
               >
-                <div className="px-4 py-2 font-semibold">{field.label}</div>
-                <div className="px-4 py-2">{field.value}</div>
+                <div className="inline-flex grid grid-cols-2 font-semibold">
+                  <span>{field.label}:</span>
+                  <span className="ml-1 font-thin">{field.value}</span>
+                </div>
               </div>
             ))}
           </div>
